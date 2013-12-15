@@ -1,0 +1,4 @@
+Pour jouer du son :
+http://odoepner.wordpress.com/2013/07/19/play-mp3-or-ogg-using-javax-sound-sampled-mp3spi-vorbisspi/
+http://www.javazoom.net/mp3spi/sources.html
+http://www.javazoom.net/index.shtml
