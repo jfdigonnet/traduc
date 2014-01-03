@@ -177,6 +177,9 @@ public class gestionBases
     	case 2: 
     		query += "order by francais";
     		break;
+    	case 3: 
+    		query += "";
+    		break;
     	}
     	ResultSet rs = statement.executeQuery( query );
     	while (rs.next()) {

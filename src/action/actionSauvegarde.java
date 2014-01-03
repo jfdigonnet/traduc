@@ -20,6 +20,8 @@ public class actionSauvegarde implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		ficheSauvegarde fs = new ficheSauvegarde(application);
 		fs.setModal(true);
+		// Centrer la fenêtre par rapport à la fenêtre principale 
+		fs.setLocationRelativeTo(application);
 		fs.setVisible(true);
 	}
 

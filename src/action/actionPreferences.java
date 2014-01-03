@@ -24,10 +24,10 @@ public class actionPreferences implements ActionListener {
 		ficheParam ficheparam = new ficheParam();
 		ficheparam.setModal(true);
 		ficheparam.setVisible(true);
-		int anctri = parametres.getInstance().getTri();
+		int anctri = parametres.getInstance().getTypeTri();
 		Boolean ancsens = parametres.getInstance().getSens();
 		application.majCheckBox();
-		if ((anctri != parametres.getInstance().getTri()) || (ancsens != parametres.getInstance().getSens())) { // OU
+		if ((anctri != parametres.getInstance().getTypeTri()) || (ancsens != parametres.getInstance().getSens())) { // OU
 			application.chargementListeID();
 			application.affichePremier();
 		}

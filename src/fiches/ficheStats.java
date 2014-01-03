@@ -30,8 +30,6 @@ public class ficheStats extends JDialog {
         this.getRootPane().setDefaultButton(okBouton);
 
         pack();
-		//setSize(540,270);
-	    setLocationRelativeTo(null);
 	}
 	private JPanel initComposants() {
         JPanel paneltot = new JPanel();

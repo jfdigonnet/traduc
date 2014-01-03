@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.SwingWorker;
+
 import utilitaires.AudioFilePlayer;
 import utilitaires.constantes;
 
@@ -13,7 +15,16 @@ import fiches.ficheAffiRecherche;
 public class actionJouer implements ActionListener {
 
 	private Component application;
+	private String fichier = null;
 	
+    class MonSwingWorker extends SwingWorker<Integer, String> {
+
+		protected Integer doInBackground() throws Exception {
+	        final AudioFilePlayer player = new AudioFilePlayer ();
+	    	player.play(constantes.getRepMP3() + fichier);
+			return 0;
+		}
+    }
 	/***********************************************************
 	 * Jouer le fichier mp3 du mot anglais
 	 ***********************************************************/
@@ -21,8 +32,6 @@ public class actionJouer implements ActionListener {
 		application = app;
 	}
 	public void actionPerformed(ActionEvent e) {
-        final AudioFilePlayer player = new AudioFilePlayer ();
-        String fichier = null;
         if (application instanceof fenetrePrincipale) {
         	fichier = (((fenetrePrincipale)application).getEtEnCours().getFichiermp3());
         }
@@ -30,6 +39,6 @@ public class actionJouer implements ActionListener {
         	fichier = ((ficheAffiRecherche)application).getEtEnCours().getFichiermp3();
         }
     	System.out.println("On joue : " + fichier);
-    	player.play(constantes.getRepMP3() + fichier);
+    	new MonSwingWorker().execute();
 	}
 }

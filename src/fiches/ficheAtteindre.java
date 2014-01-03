@@ -2,9 +2,6 @@ package fiches;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+
+import param.parametres;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -23,7 +22,7 @@ public class ficheAtteindre extends JDialog implements ActionListener {
 	private Boolean resultat = false;
 	
 	public ficheAtteindre( int max ) {
-		Integer dernier = loadParamDer();
+		Integer dernier = parametres.getInstance().loadParamDerAtteindre();
 		JPanel panel = new JPanel();
     	MigLayout layout = new MigLayout("", "[] 10 [] 10 []", "[] 10 [] 10 []");
     	panel.setLayout(layout);
@@ -76,7 +75,6 @@ public class ficheAtteindre extends JDialog implements ActionListener {
 		
 		this.add(panelFonds);
 		pack();
-		setLocationRelativeTo(null);
 		editNbCh.requestFocus();
 	}
 	public Boolean getResultat() {
@@ -87,19 +85,9 @@ public class ficheAtteindre extends JDialog implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("ok")) {
-			sauveParam();
+			parametres.getInstance().sauveParamAtteindre((Integer)editNbCh.getValue());
 			resultat = true;
 			setVisible(false);
 		}
-	}
-	private Integer loadParamDer() {
-    	Preferences prefsRoot = Preferences.userRoot();
-    	Preferences myPrefs = prefsRoot.node("traduc.preference");
-    	return myPrefs.getInt("dernier", 0);
-	}
-	private void sauveParam() {
-    	Preferences prefsRoot = Preferences.userRoot();
-    	Preferences myPrefs = prefsRoot.node("traduc.preference");
-    	myPrefs.putInt("dernier", (Integer)editNbCh.getValue());
 	}
 }

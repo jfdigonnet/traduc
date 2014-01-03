@@ -69,17 +69,19 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		JLabel label6 = new JLabel("Français");
 		panelT.add(label6, "wrap");
 
-		editGB = new JTextArea(20,40);
+		editGB = new JTextArea();
 		//editGB.setEditable(false);
 		JScrollPane editGBScrollComm = new JScrollPane(editGB);
-		//editGBScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		//editGBScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-		editF = new JTextArea(20,40);
+		editGBScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		editGBScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		editGBScrollComm.setPreferredSize(new Dimension(400, 300));
+		
+		editF = new JTextArea();
 		//editF.setEditable(false);
 		JScrollPane editFScrollComm = new JScrollPane(editF);
-		//editFScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		//editFScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		editFScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		editFScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		editFScrollComm.setPreferredSize(new Dimension(400, 300));
 
 		panelT.add(editGBScrollComm);
 		panelT.add(editFScrollComm);

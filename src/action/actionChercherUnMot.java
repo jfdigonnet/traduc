@@ -25,9 +25,11 @@ public class actionChercherUnMot implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		ficheRechercher ch = new ficheRechercher(); 
 		ch.setModal(true);
+		// Centrer la fenêtre par rapport à la fenêtre principale 
+		ch.setLocationRelativeTo(application);
 		ch.setVisible(true);
 		if (ch.getResult()) {
-			System.out.println("Lancement de la recherche");
+			//System.out.println("Lancement de la recherche");
 			String crit = ch.getEditCh();
 			Integer typeCh = ch.getComboTypeCh();
 			try {
@@ -37,6 +39,10 @@ public class actionChercherUnMot implements ActionListener {
 					ficheAffiRecherche far = new ficheAffiRecherche(listeCh);
 					far.setModal(true);
 					far.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(application, "Pas de résultat lors de la recherche pour : " + crit, 
+							"Recherche", 
+							JOptionPane.WARNING_MESSAGE);			
 				}
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(application, "Erreur lors de la recherche du mot : " + e1.getLocalizedMessage(), 

@@ -33,12 +33,9 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 	private JTextArea editF;
 	private JTextArea editGB;
 	private JTextField fichier;
-	// Dernier répertoire utilisé
-	private String lastrepert = "";
-	private parametres param;
 
 	public ficheNouvelleTraduc() {
-		lastrepert = parametres.getInstance().loadParamRep();
+		setTitle("Nouvelle traduction");
 
 		JPanel panelSup = new JPanel();
 		MigLayout layout = new MigLayout("", "[]", "[] 5 [] 5 []");
@@ -61,13 +58,13 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		editGB = new JTextArea(20,40);
 		editGB.setBounds(10, 80, 150, 20);
 		JScrollPane editGBScrollComm = new JScrollPane(editGB);
-		editGBScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		editGBScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		editGBScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		editGBScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		editF = new JTextArea(20,40);
 		JScrollPane editFScrollComm = new JScrollPane(editF);
-		editFScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		editFScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		editFScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		editFScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		panelT.add(editGBScrollComm);
 		panelT.add(editFScrollComm);
@@ -120,7 +117,6 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();
 		setSize(800,400);
-	    setLocationRelativeTo(null);
 	}
 	/**
 	 * On choisit le fichier sonore correspondant à la traduction
@@ -133,17 +129,14 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		choixfichier.setDialogTitle("Choix du fichier sonore");
 		// Empeche de pouvoir sélectionner Tous les fichiers
 		choixfichier.setAcceptAllFileFilterUsed(false);
-		choixfichier.setCurrentDirectory(new File(System.getProperty("user.dir")));
+		choixfichier.setCurrentDirectory(new File(parametres.getInstance().loadParamRep()));
 		choixfichier.setFileFilter(new filtreFichierSon());
-		if (lastrepert.length() > 0) {
-			choixfichier.setCurrentDirectory(new File(lastrepert));
-		} else {
-			choixfichier.setCurrentDirectory(new File(System.getProperty("user.dir")));
-		}
 		int returnVal = choixfichier.showOpenDialog(this);
 		if ( returnVal == 0) {
-			param.sauveParamRep(choixfichier.getSelectedFile().getParent());
-			fichier.setText( choixfichier.getSelectedFile().getAbsolutePath() ); 
+			System.out.println(returnVal);
+			System.out.println(choixfichier.getSelectedFile().getAbsolutePath());
+			parametres.getInstance().sauveParamRep(choixfichier.getSelectedFile().getParent());
+			fichier.setText( choixfichier.getSelectedFile().getAbsolutePath() );
 		}
 	}	
 	public void actionPerformed(ActionEvent e) {

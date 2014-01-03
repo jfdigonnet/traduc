@@ -16,6 +16,8 @@ public class actionImporter implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		FicheImportation ficheimport = new FicheImportation(application, "Importation", true);
+		// Centrer la fenêtre par rapport à la fenêtre principale 
+		ficheimport.setLocationRelativeTo(application);
 		ficheimport.setVisible(true);
 	}
 

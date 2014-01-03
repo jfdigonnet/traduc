@@ -27,6 +27,8 @@ public class actionAtteindre implements ActionListener  {
 
 		ficheAtteindre att = new ficheAtteindre( liste.size() );
 		att.setModal(true);
+		// Centrer la fenêtre par rapport à la fenêtre principale 
+		att.setLocationRelativeTo(application);
 		att.setVisible(true);
 		if (att.getResultat()) {
 			application.setNoTraducEnCours( att.getValeur() - 1 );

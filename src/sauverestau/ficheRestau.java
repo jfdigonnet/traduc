@@ -91,7 +91,6 @@ public class ficheRestau extends JDialog implements ActionListener {
 		add(panelSouth, BorderLayout.SOUTH);
 
 		pack();
-	    setLocationRelativeTo(null);		
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("restaurer")) {

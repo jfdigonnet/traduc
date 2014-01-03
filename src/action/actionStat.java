@@ -33,6 +33,8 @@ public class actionStat implements ActionListener {
 		}
 		ficheStats fichestats = new ficheStats(res1);
 		fichestats.setModal(true);
+		// Centrer la fenêtre par rapport à la fenêtre principale 
+		fichestats.setLocationRelativeTo(application);
 		fichestats.setVisible(true);
 	}		
 }

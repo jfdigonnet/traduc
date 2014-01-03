@@ -19,6 +19,8 @@ public class actionNouvelleTraduction implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		ficheNouvelleTraduc fnt = new ficheNouvelleTraduc();
 		fnt.setModal(true);
+		// Centrer la fenêtre par rapport à la fenêtre principale 
+		fnt.setLocationRelativeTo(application);
 		fnt.setVisible(true);
 	}
 

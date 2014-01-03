@@ -91,7 +91,7 @@ public class ficheRechercher extends JDialog implements ActionListener {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		//setSize(500,300);
 		pack();
-	    setLocationRelativeTo(null);
+	    //setLocationRelativeTo(null);
 	    editCh.requestFocus();
 	}
 	public void actionPerformed(ActionEvent e) {

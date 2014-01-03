@@ -2,15 +2,16 @@ package fiches;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
@@ -35,6 +36,7 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -93,9 +95,17 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	// Utilitaires
 	Timer timer;          // Timer affichant le mot suivant
 	   
+    class MonSwingWorker extends SwingWorker<Integer, String> {
+		protected Integer doInBackground() throws Exception {
+	        final AudioFilePlayer player = new AudioFilePlayer ();
+	    	player.play(constantes.getRepMP3() + etEnCours.getFichiermp3());
+			return 0;
+		}
+    }
 	 public fenetrePrincipale() {
 		 noTraducEnCours = parametres.getInstance().getPositionTraduction();
 		 creeInterface();
+		 ajouteIcone();
 		 //gestion = new gestionBases();
 		 if (chargementListeID()) {
 			 if (liste.size() > 0) {
@@ -107,12 +117,16 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			 setFocusable(true);
 		 }
 	}
+	 private void ajouteIcone() {
+		 Image icone = Toolkit.getDefaultToolkit().getImage("images/address-book-new-2.png");
+		 this.setIconImage(icone);
+	 }
 	/**
 	 * 
 	 */
 	public Boolean chargementListeID() {
 		try {
-			liste = chargeListeID(parametres.getInstance().getTri());
+			liste = chargeListeID(parametres.getInstance().getTypeTri());
 			return true;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,
@@ -227,23 +241,25 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		label6.setBounds(10, 60, 150, 20);
 		panelT.add(label6, "wrap");
 
-		editGB = new JTextArea(20,40);
-		editGB.setBounds(10, 80, 150, 20);
+		editGB = new JTextArea();
+		//editGB.setBounds(10, 80, 150, 20);
 		editGB.addKeyListener(this);
 		JScrollPane editGBScrollComm = new JScrollPane(editGB);
 		editGBScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		editGBScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		editGBScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		editGBScrollComm.setPreferredSize(new Dimension(400, 300));
 //		editId.setFont(police);
 		//editGB.setPreferredSize(new Dimension(60, 25));
 		//editGB.setEnabled(false);
 		panelT.add(editGBScrollComm);
 
-		editF = new JTextArea(20,40);
-		editF.setBounds(10, 80, 150, 20);
+		editF = new JTextArea();
+		//editF.setBounds(10, 80, 150, 20);
 		editF.addKeyListener(this);
 		JScrollPane editFScrollComm = new JScrollPane(editF);
 		editFScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		editFScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		editFScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		editFScrollComm.setPreferredSize(new Dimension(400, 300));
 //		editSerie.setFont(police);
 		//editF.setPreferredSize(new Dimension(300, 25));
 		panelT.add(editFScrollComm, "wrap");
@@ -449,11 +465,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			bg.add(item);
 			menu.add(item);
 		}
-
-		// L'ordre d'ajout va déterminer l'ordre d'apparition dans le menu de
-		// gauche à droite
-		// Le premier ajouté sera tout à gauche de la barre de menu et
-		// inversement pour le dernier
 		menuBar.add(menuFichier);
 		menuBar.add(menuEdition);
 		menuBar.add(menuOutils);
@@ -564,28 +575,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		int returnVal = choixfichier.showOpenDialog(this);
 		if ( returnVal == 0) {
 			parametres.getInstance().sauveParamRep(choixfichier.getSelectedFile().getParent());
-			// Ex : /home/jfd/workspacediv/traduc/anglais.csv
-		    //System.out.println( choixfichier.getSelectedFile().getAbsolutePath() );
-		    // Renvoie le répertoire
-		    //System.out.println( choixfichier.getSelectedFile().getParent() );
-		    // Renvoie le nom du fichier
-		    //System.out.println( choixfichier.getSelectedFile().getName() );
-		    // Si on avait déja une traduction
-		    // On va la supprimer
-//		    if ( etEnCours.getFichiermp3().trim().length() > 0 ) {
-//		    	File ficAnc = new File(constantes.getRepMP3() + etEnCours.getFichiermp3());  
-//				if (ficAnc.exists()) {
-//					try {
-//						ficAnc.delete();
-//				    } catch( Exception ex ) {
-//				    	JOptionPane.showMessageDialog(this, "Erreur lors de la suuppression du fichier sonore\n" + ficAnc.getName() + "\n" +
-//				    									ex.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
-//				    	return;
-//				    }
-//				}
-//			}
-		    // Si le fichier son n'est pas déja dans le dossier des sont
-		    // On le copie dedans
 		    if ( choixfichier.getSelectedFile().getParent() + File.separator !=  constantes.getRepMP3() ) { 
 			    // Copie du fichier dans le dossier des sons
 				File ficIn = new File( choixfichier.getSelectedFile().getAbsolutePath()  );
@@ -687,7 +676,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			selectionneFichierSonore();
 		}
 		/***********************************************************
-		 * L'utilisateru a coché / décoché la case connu
+		 * L'utilisateur a coché / décoché la case connu
 		 ***********************************************************/
 		if (e.getActionCommand().equals("modconnuGB")) {
 			etEnCours.setGBOk(editCheckGBOk.isSelected());
@@ -700,7 +689,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			}
 		}				
 		/***********************************************************
-		 * L'utilisateru a coché / décoché la case connu
+		 * L'utilisateur a coché / décoché la case connu
 		 ***********************************************************/
 		if (e.getActionCommand().equals("modconnuF")) {
 			etEnCours.setFOk(editCheckFOk.isSelected());
@@ -760,27 +749,34 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private void afficheSuivant() {
 		System.out.println(noTraducEnCours);
 		if (noTraducEnCours <= liste.size() - 1) {
-			if (parametres.getInstance().getAfficherTousLesMots()) {
-				noTraducEnCours++;
-				etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-				soumettreTraduction( etEnCours );
+			if (parametres.getInstance().getTypeTri() == 3) {
+					noTraducEnCours = (int)Math.random() * liste.size();
+					Random rand = new Random();
+					int nombreAleatoire = rand.nextInt(liste.size() - 1 + 1) + 1;
+					System.out.println(nombreAleatoire);
+					noTraducEnCours = nombreAleatoire;
+					etEnCours = loadTraduction( liste.get(noTraducEnCours) );
+					soumettreTraduction( etEnCours );
 			} else {
-				int ancIndex = noTraducEnCours;
-				do {
+				if (parametres.getInstance().getAfficherTousLesMots()) {
 					noTraducEnCours++;
-					if (noTraducEnCours == liste.size() - 1) {
-						etEnCours = loadTraduction( liste.get(ancIndex) );
-						soumettreTraduction( etEnCours );
-						JOptionPane.showConfirmDialog(this, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
-					} else {
-						System.out.println(liste.get(noTraducEnCours) );
-						etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-						soumettreTraduction( etEnCours );
-//						System.out.println(traducEnCours);
-//						System.out.println( liste.size());
-//						System.out.println(etEnCours.getConnu(GBVersF));
-					}
-				} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
+					etEnCours = loadTraduction( liste.get(noTraducEnCours) );
+					soumettreTraduction( etEnCours );
+				} else {
+					int ancIndex = noTraducEnCours;
+					do {
+						noTraducEnCours++;
+						if (noTraducEnCours == liste.size() - 1) {
+							etEnCours = loadTraduction( liste.get(ancIndex) );
+							soumettreTraduction( etEnCours );
+							JOptionPane.showConfirmDialog(this, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
+						} else {
+							System.out.println(liste.get(noTraducEnCours) );
+							etEnCours = loadTraduction( liste.get(noTraducEnCours) );
+							soumettreTraduction( etEnCours );
+						}
+					} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
+				}
 			}
 			boutonAffiTraduc.setEnabled(true);
 		}
@@ -791,9 +787,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			timer.cancel();
 		}
 	}
-	public void keyTyped(KeyEvent e) {
-		System.out.println(e.getExtendedKeyCode());
-	}
+	public void keyTyped(KeyEvent e) {}
 	/*
 	 * On peut faire avancer le programme avec des touches du clavier
 	 * Il faudra modifier les paramètres de l'application pour le rendre modifiable
@@ -803,6 +797,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	public void keyPressed(KeyEvent event) {
 //		 System.out.println("" + event.getKeyChar());
 //		 System.out.println("" + event.getExtendedKeyCode());
+		 System.out.println(KeyEvent.getKeyText( event.getKeyCode() ));
 		 if (event.getExtendedKeyCode() == 525) {
 			 afficheSuivant();
 		 }
@@ -835,8 +830,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		labelBas.setText(constantes.titreAppli + " : " + (noTraducEnCours + 1) + " / " + (liste.size()));
 		if (parametres.getInstance().getJoueTDS()) {
 			if (et.getFichiermp3().length() > 0) {
-		        final AudioFilePlayer player = new AudioFilePlayer ();
-		    	player.play(constantes.getRepMP3() + et.getFichiermp3());
+				new MonSwingWorker().execute();
 			}
 		}
 	}

@@ -229,8 +229,7 @@ public class ficheParam extends JDialog implements ItemListener, ActionListener 
 		else
 			comboSens.setSelectedIndex(1);
 		// Tri
-		int triloc = parametres.getInstance().getTri();
-		comboTri.setSelectedIndex(triloc);
+		comboTri.setSelectedIndex(parametres.getInstance().getTypeTri());
 		// Position
 		cb_enresPosLecture.setSelected(parametres.getInstance().getEnresPosLecteur() );
 		//
@@ -255,15 +254,13 @@ public class ficheParam extends JDialog implements ItemListener, ActionListener 
 		// Sens
 		parametres.getInstance().setSens(comboSens.getSelectedIndex());
 		// Tri
-		parametres.getInstance().setTri(comboTri.getSelectedIndex());
+		parametres.getInstance().setTypeTri(comboTri.getSelectedIndex());
 		// Position lecteur
 		parametres.getInstance().setEnresPosLecteur(cb_enresPosLecture.isSelected());
 		//
 		parametres.getInstance().setAfficherTousLesMots(cb_afficherTousLesMots.isSelected());
 		// Répertoire d'enregistrement des données
 		parametres.getInstance().setRepertoire_donnees(repertoireDonnees.getText());
-		// Tri par mot anglais ou mot français
-		parametres.getInstance().setTypeTri(0);
 		// Passage à la traduction suivante automatique
 		parametres.getInstance().setSuivantAuto(cb_traducSuivanteAuto.isSelected());
 		// Délai av	ant de passer au suivant suite à l'affichage d'une traduction

@@ -20,6 +20,8 @@ public class actionRestaurer implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		ficheRestau fr = new ficheRestau();
 		fr.setModal(true);
+		// Centrer la fenêtre par rapport à la fenêtre principale 
+		fr.setLocationRelativeTo(application);
 		fr.setVisible(true);
 	}
 }

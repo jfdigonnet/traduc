@@ -14,7 +14,8 @@ public class parametres {
 	// Style choisi
 	private String style;
 	// Tri par mot anglais ou mot français
-	private int typeTri;
+	// Pas de tri par défaut
+	private int typeTri = 0;
 	// Passage à la traduction suivante automatique
 	private Boolean suivantAuto = false;
 	// Délai av	ant de passer au suivant suite à l'affichage d'une traduction
@@ -27,8 +28,6 @@ public class parametres {
 	private Integer PositionTraductionGB = -1;
 	// Position dans la lecture (F -> GB)
 	private Integer PositionTraductionF = -1;
-	// Type de tri
-	private Integer tri = 0;
 	// Proxy pour la connexion internet
 	private String proxy = "";
 	// Jouer le mot en langue 1 lors de l'affichage
@@ -84,7 +83,7 @@ public class parametres {
     	PositionTraductionF = myPrefs.getInt("PositionTraductionF", 0);
     	
     	sens = myPrefs.getInt("Sens", 0);
-    	tri = myPrefs.getInt("Tri", 0);
+    	typeTri = myPrefs.getInt("Tri", 0);
     	
     	proxy = myPrefs.get("proxy", "");
     	joueTDS = myPrefs.getBoolean("joueTDS", false);
@@ -120,7 +119,7 @@ public class parametres {
     	myPrefs.putInt("PositionTraductionF",  PositionTraductionF);
     	
     	myPrefs.putInt("Sens",  sens);
-    	myPrefs.putInt("Tri",  tri);
+    	myPrefs.putInt("Tri",  typeTri);
     	
     	myPrefs.put("proxy",  proxy);
     	myPrefs.putBoolean("joueTDS", joueTDS);
@@ -175,12 +174,6 @@ public class parametres {
 	public Boolean getEnresPosLecteur() {
 		return enresPosLecteur;
 	}
-	public Integer getTri() {
-		return tri;
-	}
-	public void setTri(Integer tri) {
-		this.tri = tri;
-	}
 	public String loadParamRep() {
     	Preferences prefsRoot = Preferences.userRoot();
     	Preferences myPrefs = prefsRoot.node("traduc.preference");
@@ -206,6 +199,16 @@ public class parametres {
 
 	public void setSens(int selectedIndex) {
 		this.sens = selectedIndex;
+	}
+	public Integer loadParamDerAtteindre() {
+    	Preferences prefsRoot = Preferences.userRoot();
+    	Preferences myPrefs = prefsRoot.node("traduc.preference");
+    	return myPrefs.getInt("dernier", 0);
+	}
+	public void sauveParamAtteindre(int no) {
+    	Preferences prefsRoot = Preferences.userRoot();
+    	Preferences myPrefs = prefsRoot.node("traduc.preference");
+    	myPrefs.putInt("dernier", no);
 	}
 }
 
