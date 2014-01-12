@@ -6,7 +6,7 @@ public class constantes {
 
 	public static Integer nbcol = 25;
 	public static String titreAppli = "Exercice de traduction";
-	public static String repDonnees = "datatraduc";
+	public static String repDonnees = "./datatraduc";
 	public static String repMP3 = repDonnees + File.separator + "mp3" + File.separator;
 	public static String nomBase = repDonnees + File.separator + "traduc.db";
 	public static String typeSGBD = "jdbc:sqlite:" + nomBase;

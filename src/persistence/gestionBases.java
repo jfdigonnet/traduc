@@ -19,6 +19,7 @@ public class gestionBases
 	private gestionBases() {
         try {
 			Class.forName("org.sqlite.JDBC");
+			System.out.println("Base sur : " + constantes.typeSGBD);
 			connection = DriverManager.getConnection(constantes.typeSGBD);
 	        statement = connection.createStatement();
 	        statement.setQueryTimeout(30);  // set timeout to 30 sec.
