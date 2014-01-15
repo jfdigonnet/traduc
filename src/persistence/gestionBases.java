@@ -37,7 +37,10 @@ public class gestionBases
     public String testLaConnexion() {
     	try
     	{
-    		statement.executeQuery("select * from traduction LIMIT 1");
+    		//ResultSet ping = null;
+    		//ping = statement.executeQuery("select * from traduction LIMIT 1");
+    		statement.executeQuery("select 1");
+    		//return ping.next();
     		statement.close();
     		return "";
     	}
