@@ -9,12 +9,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -55,6 +59,7 @@ import action.actionSauvegarde;
 import action.actionStat;
 import action.actionSupprSon;
 import action.actionSupprTraduction;
+import action.reinitConnaissance;
 
 import param.parametres;
 import persistence.gestionBases;
@@ -417,6 +422,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		restauration.addActionListener(new actionRestaurer(this));
 		restauration.setMnemonic('R');
 
+		JMenuItem reinitC = new JMenuItem("Réinitialiser les éléments 'Connaissance'");
+		reinitC.addActionListener(new reinitConnaissance(this));
+
 		JMenuItem correction = new JMenuItem("Correction");
 		correction.addActionListener(new actionCorrection(this));
 
@@ -440,6 +448,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		menuOutils.addSeparator();
 		menuOutils.add(sauvegarde);
 		menuOutils.add(restauration);
+		menuOutils.addSeparator();
+		menuOutils.add(reinitC);
 		menuOutils.addSeparator();
 		menuOutils.add(correction);
 
@@ -483,11 +493,11 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		barreOutils.setBorder(loweredetched);
 
 
-		ImageIcon iconeAjout = new ImageIcon("images/edit_add.png");
-		JButton boutonAjouter = new JButton(iconeAjout);
-		boutonAjouter.setToolTipText("Ajouter une traduction");
-		boutonAjouter.addActionListener(new actionNouvelleTraduction(this));
-
+		Image icone = Toolkit.getDefaultToolkit().getImage("images/edit_add.png");
+		ImageIcon icon = new ImageIcon(icone);
+		JButton boutonAjouter = new JButton(icon);
+		//Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+		
 		ImageIcon iconeEnreg = new ImageIcon("images/ok.png");
 		boutonEnreg = new JButton(iconeEnreg);
 		boutonEnreg.setToolTipText("Enregistrer les modifications");

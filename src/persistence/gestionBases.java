@@ -98,6 +98,18 @@ public class gestionBases
     	statement.close();
     	return id + 1;
     }
+    public void engreLibelleLangue(String L1, String L2) throws Exception  {
+    	String query = "";
+    	query = "Delete from param where id_param = '01' or id_param = '02'";
+    	statement.executeUpdate(query);
+    	statement.close();
+    	query = "Insert into param (id_param, va_param) values ('01', '" + L1 + "')";
+    	statement.executeUpdate(query);
+    	statement.close();
+    	query = "Insert into param (id_param, va_param) values ('02', '" + L2 + "')";
+    	statement.executeUpdate(query);
+    	statement.close();
+    }
     /**********************************************************************
      * 
      * @param gb
@@ -109,14 +121,14 @@ public class gestionBases
     public void enreg(elementTraduc et) throws Exception  {
     	String query = "";
     	query += "INSERT INTO traduction ";
-    	query += " ('id', 'anglais', 'francais','fichiermp3', 'connuGB', 'connuF') ";
+    	query += " ('id', 'anglais', 'francais','fichiermp3', 'connuGB', 'connuF', 'dateAjout') ";
     	query +=	"VALUES (";
     	query += NouId() + ", ";
     	query += "'" + et.getAnglaisSQL() + "', ";
     	query += "'" + et.getFrancaisSQL() + "', ";
     	query += "'" + et.getFichiermp3() + "',";
     	query += et.getConnuGBSQLite() + ",";
-    	query += et.getConnuFSQLite() + ")";
+    	query += et.getConnuFSQLite() + ", Date('now');";
     	System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
@@ -132,7 +144,7 @@ public class gestionBases
     	query += " francais='" + et.getFrancaisSQL() + "', ";
     	query += " fichiermp3 = '" +  et.getFichiermp3() + "', ";
     	query += " connuGB = '" + et.getConnuGBSQLite() + "',";
-    	query += " connuF = '" + et.getConnuFSQLite() + "' ";
+    	query += " connuF = '" + et.getConnuFSQLite() + "'";
     	query += " WHERE ID ='" + et.getId()  + "'";
 
     	System.out.println(query);
@@ -207,6 +219,16 @@ public class gestionBases
     	System.out.println(query);
     	statement.executeUpdate(query);
     }
+    /*
+     * On supprime la notion de conanissance ou non 
+     */
+    public void reinitConnaissace() throws Exception {
+    	String query = "";
+    	query += "UPDATE traduction ";
+    	query += "set connuF = 0, connuGB = 0";
+    	System.out.println(query);
+    	statement.executeUpdate(query);
+    }
     /**********************************************************************
      * 
      * @param et
@@ -215,8 +237,8 @@ public class gestionBases
     public void supprimeSon(elementTraduc et) throws Exception  {
     	String query = "";
     	query += "UPDATE traduction ";
-    	query += "set fichiermp3 = '' ";
-    	query += "WHERE ID ='" + et.getId()  + "'";
+    	query += "set fichiermp3 = '',";
+    	query += " WHERE ID ='" + et.getId()  + "'";
 
     	System.out.println(query);
     	statement.executeUpdate(query);

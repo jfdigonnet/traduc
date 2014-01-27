@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
@@ -23,11 +21,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import persistence.gestionBases;
+
 import utilitaires.constantes;
 
 import net.miginfocom.swing.MigLayout;
 
-public class ficheParam extends JDialog implements ItemListener, ActionListener {
+public class ficheParam extends JDialog implements ActionListener {
 
 	private 	JCheckBox	cb_traducSuivanteAuto;
 	private     JTextField  repertoireDonnees;
@@ -38,6 +38,8 @@ public class ficheParam extends JDialog implements ItemListener, ActionListener 
 	private     JComboBox<String>	comboSens;
 	private     JComboBox<String>	comboTri;
 	private     JTextField 			editProxy;
+	private     JTextField 			editL1;
+	private     JTextField 			editL2;
 
 	/***********************************************************************
 	 * 
@@ -45,11 +47,11 @@ public class ficheParam extends JDialog implements ItemListener, ActionListener 
     public ficheParam() {
 		JPanel panelSouth = null;
 		JPanel panelInternet = null;
-		JPanel panel3 = null;
+		JPanel panelLangue = null;
 		try {
 			panelSouth = panneauGeneral();
 			panelInternet = panneauInternet();
-//			panel3 = createPage3();
+			panelLangue = panneauLangue();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,
 					"Erreur lors de la construction de l'interface graphique :"
@@ -59,6 +61,7 @@ public class ficheParam extends JDialog implements ItemListener, ActionListener 
 
 		tabbedPane.addTab("Général", panelSouth);
 		tabbedPane.addTab("Internet", panelInternet);
+		tabbedPane.addTab("Libellé langue", panelLangue);
 
 		add(tabbedPane, BorderLayout.CENTER);
 		
@@ -71,6 +74,28 @@ public class ficheParam extends JDialog implements ItemListener, ActionListener 
 		pack();
 		setSize(800,430);
 	    setLocationRelativeTo(null);
+	}
+	private JPanel panneauLangue() {
+		JPanel panelSup = new JPanel();
+    	MigLayout layoutSup = new MigLayout("", "[] 10 [] 10 []", "[] 10 [] 10 []");
+    	panelSup.setLayout(layoutSup);
+		
+	    setTitle("Libellé langues");
+
+	    JLabel texte1 = new JLabel("Langue 1 : ");
+	    editL1 = new JTextField(40);
+	    editL1.setPreferredSize(new Dimension(30, 25));
+		
+	    JLabel texte2 = new JLabel("Langue 2 :");
+	    editL2 = new JTextField(40);
+	    editL2.setPreferredSize(new Dimension(30, 25));
+		
+	    panelSup.add(texte1);
+		panelSup.add(editL1, "wrap");
+	    panelSup.add(texte2);
+		panelSup.add(editL2, "wrap");
+
+		return panelSup;
 	}
 	private JPanel panneauInternet() {
 		JPanel panelSup = new JPanel();
@@ -214,6 +239,20 @@ public class ficheParam extends JDialog implements ItemListener, ActionListener 
 			editDelaisSuivant.requestFocus();
 			return false;
 		}
+		if (editL1.getText().trim().length() == 0) {
+			JOptionPane.showMessageDialog(this, "Le libellé de la langue 1 n'a pas été indiqué" , 
+					"Enregistrement", 
+					JOptionPane.ERROR_MESSAGE);	
+			editL1.requestFocus();
+			return false;
+		}
+		if (editL2.getText().trim().length() == 0) {
+			JOptionPane.showMessageDialog(this, "Le libellé de la langue 2 n'a pas été indiqué" , 
+					"Enregistrement", 
+					JOptionPane.ERROR_MESSAGE);	
+			editL2.requestFocus();
+			return false;
+		}
 		return true;
 
 	}
@@ -271,6 +310,13 @@ public class ficheParam extends JDialog implements ItemListener, ActionListener 
 		parametres.getInstance().setJoueTDS(cb_joueTDS.isSelected());
 		// Enregistrement
 		parametres.getInstance().saveParam();
+		// Enreg en base des libellés des langues
+		try {
+			gestionBases.getInstance().engreLibelleLangue(editL1.getText(), editL2.getText());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/*
 	 * 
@@ -327,8 +373,5 @@ public class ficheParam extends JDialog implements ItemListener, ActionListener 
 			editDelaisSuivant.setEnabled(false);
 		}
 	}
-	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }
+
