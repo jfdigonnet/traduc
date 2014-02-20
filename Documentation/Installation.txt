@@ -1,0 +1,11 @@
+Installation
+
+Sous Linux, on trouve l'exécutable (le jar) dans /usr/bin
+les paramètres sont dans /home/nom_user/.traduc.xml
+La base de données doit être dans le home de l'utilisateur ainsi que les fichiers mp3
+Il n'y a pas de raison de demander à l'utilisateur de faire autrement.
+Pour lancer l'application on peut lancer un laucher (traduc_lch.jar) qui vérifie 
+* s'il y a une nouvelle une nouvelle version
+* télécharge les nouvelles traductions et le chargent dans la table des traductions.
+* s'il ne trouve pas la base de données il la crée ainsi que le répertoire des mp3
+* il crée le fichier xml des paramètres utilisateur : ce fichier permet ensuite à l'utilisateur de modifier le dossier de la base de données.
