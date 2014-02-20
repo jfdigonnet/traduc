@@ -12,14 +12,31 @@ public class elementTraduc {
 	public String getAnglais() {
 		return anglais;
 	}
+	/*
+	 * On risque de recevoir de la base un mot avec des double guillements 
+	 * On en enlève un
+	 */
 	public void setAnglais(String anglais) {
 		this.anglais = anglais.replaceAll("''", "'");
+	}
+	/*
+	 * On double les guillemets avant sauvegarde en base
+	 */
+	public void setAnglaisSQL(String anglais) {
+		this.anglais = anglais.replaceAll("'", "''");
 	}
 	public String getFrancais() {
 		return francais;
 	}
+	/*
+	 * On risque de recevoir de la base un mot avec des double guillements 
+	 * On en enlève un
+	 */
 	public void setFrancais(String francais) {
 		this.francais = francais.replaceAll("''", "'");
+	}
+	public void setFrancaisSQL(String francais) {
+		this.francais = francais.replaceAll("'", "''");
 	}
 	public String getFichiermp3() {
 		return fichiermp3;
@@ -82,9 +99,17 @@ public class elementTraduc {
 		else
 			return this.FOk;
 	}
+	/*
+	 * Afin de pouvoir enregistrer dans la table les mots avec des guillemets 
+	 * on les double
+	 */
 	public String getFrancaisSQL() {
 		return francais.replaceAll("'", "''");
 	}
+	/*
+	 * Afin de pouvoir enregistrer dans la table les mots avec des guillemets 
+	 * on les double
+	 */
 	public String getAnglaisSQL() {
 		return anglais.replaceAll("'", "''");
 	}

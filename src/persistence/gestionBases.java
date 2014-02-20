@@ -138,6 +138,34 @@ public class gestionBases
      * @param et
      * @throws Exception
      **********************************************************************/
+    public void modConnuGB(elementTraduc et) throws Exception  {
+    	String query = "UPDATE traduction ";
+    	query += "set connuGB = '" + et.getConnuGBSQLite() + "'";
+    	query += " WHERE ID ='" + et.getId()  + "'";
+
+    	System.out.println(query);
+    	statement.executeUpdate(query);
+    	statement.close();
+    }
+    /**********************************************************************
+     * 
+     * @param et
+     * @throws Exception
+     **********************************************************************/
+    public void modConnuF(elementTraduc et) throws Exception  {
+    	String query = "UPDATE traduction ";
+    	query += "set connuF = '" + et.getConnuGBSQLite() + "'";
+    	query += " WHERE ID ='" + et.getId()  + "'";
+
+    	System.out.println(query);
+    	statement.executeUpdate(query);
+    	statement.close();
+    }
+    /**********************************************************************
+     * 
+     * @param et
+     * @throws Exception
+     **********************************************************************/
     public void mod(elementTraduc et) throws Exception  {
     	String query = "UPDATE traduction ";
     	query += "set anglais = '" + et.getAnglais() + "', ";

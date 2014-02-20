@@ -27,15 +27,15 @@ public class actionEnregistrerTraduction implements ActionListener {
 		elementTraduc et = null;
 		if (application instanceof fenetrePrincipale) {
 			et = ((fenetrePrincipale)application).getEtEnCours();
-			et.setAnglais(((fenetrePrincipale)application).getEditGB());
-			et.setFrancais(((fenetrePrincipale)application).getEditF());
+			et.setAnglaisSQL(((fenetrePrincipale)application).getEditGB());
+			et.setFrancaisSQL(((fenetrePrincipale)application).getEditF());
 			et.setGBOk(((fenetrePrincipale)application).getEditCheckGBOk());
 			et.setFOk(((fenetrePrincipale)application).getEditCheckFOk());
 		}
 		if (application instanceof ficheAffiRecherche) {
 			et = ((ficheAffiRecherche)application).getEtEnCours();
-			et.setAnglais(((ficheAffiRecherche)application).getEditGB());
-			et.setFrancais(((ficheAffiRecherche)application).getEditF());
+			et.setAnglaisSQL(((ficheAffiRecherche)application).getEditGB());
+			et.setFrancaisSQL(((ficheAffiRecherche)application).getEditF());
 		}
 		try {
 			gestionBases.getInstance().mod(et);

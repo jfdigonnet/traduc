@@ -45,6 +45,8 @@ import javax.swing.border.EtchedBorder;
 import action.actionAtteindre;
 import action.actionAuSujetDe;
 import action.actionChercherUnMot;
+import action.actionCocheMotAnglais;
+import action.actionCocheMotFrancais;
 import action.actionEnregistrerTraduction;
 import action.actionImporter;
 import action.actionJouer;
@@ -270,15 +272,13 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		editCheckGBOk = new JCheckBox("Ce mot anglais est désormais connu");
 		//editCheckGBOk.setBounds(10, 80, 250, 20);
 		//editCheckGBOk.setPreferredSize(new Dimension(500, 25));
-		editCheckGBOk.addActionListener(this);
-		editCheckGBOk.setActionCommand("modconnuGB");
+		editCheckGBOk.addActionListener(new actionCocheMotAnglais(this));
 		panelT.add(editCheckGBOk);
 
 		editCheckFOk = new JCheckBox("Ce mot français est désormais connu");
 		//editCheckFOk.setBounds(10, 80, 250, 20);
 		//editCheckFOk.setPreferredSize(new Dimension(500, 25));
-		editCheckFOk.addActionListener(this);
-		editCheckFOk.setActionCommand("modconnuF");
+		editCheckFOk.addActionListener(new actionCocheMotFrancais(this));
 		panelT.add(editCheckFOk, "wrap");
 
 		majCheckBox();
@@ -681,32 +681,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		if (e.getActionCommand().equals("ajoutson")) {
 			selectionneFichierSonore();
 		}
-		/***********************************************************
-		 * L'utilisateur a coché / décoché la case connu
-		 ***********************************************************/
-		if (e.getActionCommand().equals("modconnuGB")) {
-			etEnCours.setGBOk(editCheckGBOk.isSelected());
-			try {
-				gestionBases.getInstance().mod(etEnCours);
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données (GB) : " + e1.getLocalizedMessage(), 
-						"Enregistrement", 
-						JOptionPane.ERROR_MESSAGE);			
-			}
-		}				
-		/***********************************************************
-		 * L'utilisateur a coché / décoché la case connu
-		 ***********************************************************/
-		if (e.getActionCommand().equals("modconnuF")) {
-			etEnCours.setFOk(editCheckFOk.isSelected());
-			try {
-				gestionBases.getInstance().mod(etEnCours);
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données (F) : " + e1.getLocalizedMessage(), 
-						"Enregistrement", 
-						JOptionPane.ERROR_MESSAGE);			
-			}
-		}				
 	}
 	/**
 	 * 
