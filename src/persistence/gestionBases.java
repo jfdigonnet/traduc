@@ -128,7 +128,8 @@ public class gestionBases
     	query += "'" + et.getFrancaisSQL() + "', ";
     	query += "'" + et.getFichiermp3() + "',";
     	query += et.getConnuGBSQLite() + ",";
-    	query += et.getConnuFSQLite() + ", Date('now');";
+    	query += et.getConnuFSQLite() + ", Date('now')";
+    	query += ");";
     	System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();

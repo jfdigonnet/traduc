@@ -492,6 +492,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		Image icone = Toolkit.getDefaultToolkit().getImage("images/edit_add.png");
 		ImageIcon icon = new ImageIcon(icone);
 		JButton boutonAjouter = new JButton(icon);
+		boutonAjouter.addActionListener(new actionNouvelleTraduction(this));
 		//Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
 		
 		ImageIcon iconeEnreg = new ImageIcon("images/ok.png");
