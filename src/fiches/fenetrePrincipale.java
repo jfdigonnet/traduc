@@ -779,11 +779,18 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 //		 System.out.println("" + event.getKeyChar());
 //		 System.out.println("" + event.getExtendedKeyCode());
 		 System.out.println(KeyEvent.getKeyText( event.getKeyCode() ));
+		 System.out.println(event.getExtendedKeyCode());
 		 if (event.getExtendedKeyCode() == 525) {
 			 afficheSuivant();
 		 }
 		 if (event.getExtendedKeyCode() == 524) {
 			 affichageTraduc(etEnCours);
+		 }
+		 if (event.getExtendedKeyCode() == 9) {
+			 if (editGB.isFocusOwner() ) 
+				 editF.requestFocus();
+			 if (editF.isFocusOwner() ) 
+				 editGB.requestFocus();
 		 }
 	}
 	/*
