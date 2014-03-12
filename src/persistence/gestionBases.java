@@ -111,6 +111,25 @@ public class gestionBases
     	statement.close();
     }
     /**********************************************************************
+     * Chargement des libellé des langues
+     **********************************************************************/
+    public void litLibelleLangues(String L1, String L2) throws Exception {
+    	String query = "";
+    	query = "select * from param where id_param = '01' or id_param = '02' order by id_param";
+    	System.out.println(query);
+    	ResultSet rs = statement.executeQuery( query );
+    	while (rs.next()) {
+    		if (rs.getInt("id_param") == 1) {
+    			L1 = rs.getString("va_param"); 
+    		}
+    		if (rs.getInt("id_param") == 2) {
+    			L2 = rs.getString("va_param"); 
+    		}
+    	}
+    	rs.close();
+    	statement.close();
+    }
+    /**********************************************************************
      * 
      * @param gb
      * @param f

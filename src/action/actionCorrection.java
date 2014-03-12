@@ -1,7 +1,10 @@
-package fiches;
+package action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import fiches.fenetrePrincipale;
+import fiches.ficheCorrection;
 
 public class actionCorrection implements ActionListener {
 

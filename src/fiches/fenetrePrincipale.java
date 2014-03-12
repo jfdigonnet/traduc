@@ -1,4 +1,5 @@
 package fiches;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -47,6 +48,7 @@ import action.actionAuSujetDe;
 import action.actionChercherUnMot;
 import action.actionCocheMotAnglais;
 import action.actionCocheMotFrancais;
+import action.actionCorrection;
 import action.actionEnregistrerTraduction;
 import action.actionImporter;
 import action.actionJouer;
@@ -97,6 +99,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private JButton boutonSupprSon;
 	// Utilitaires
 	Timer timer;          // Timer affichant le mot suivant
+	// Libellés des langues
+	private String libLangue1 = "";
+	private String libLangue2 = "";
 	   
     class MonSwingWorker extends SwingWorker<Integer, String> {
 		protected Integer doInBackground() throws Exception {
@@ -107,6 +112,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
     }
 	 public fenetrePrincipale() {
 		 noTraducEnCours = parametres.getInstance().getPositionTraduction();
+		 chargeLibelleLangues();
 		 creeInterface();
 		 ajouteIcone();
 		 //gestion = new gestionBases();
@@ -120,12 +126,33 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			 setFocusable(true);
 		 }
 	}
-	 private void ajouteIcone() {
+	/*
+	 * On charge dans la table des paramètres les libellés des langues 1 et 2
+	 * Ces libellés sont toujours là car ils sont obligatoires dans le module
+	 * (à écrire) d'initialisation d'un nouveau module de langue
+	 */
+	private void chargeLibelleLangues() {
+		 try {
+			gestionBases.getInstance().litLibelleLangues(libLangue1, libLangue2);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this,
+					"Erreur lors du chargement des libellés des langues :" + 
+					e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	private void ajouteIcone() {
 		 Image icone = Toolkit.getDefaultToolkit().getImage("images/address-book-new-2.png");
 		 this.setIconImage(icone);
 	 }
 	/**
-	 * 
+	 * On charge le type de tri pour présenter les données
+	 * Les types de tri sont listés dans le tableau tyepTri 
+	 * On peut trier les mots :
+	 * "Date de création (Du plus ancien au plus récent)"
+	 * "Anglais"
+	 * "Français"
+	 * "Au hasard"
+	 * "Date de création (Du plus récent au plus ancien)"
 	 */
 	public Boolean chargementListeID() {
 		try {
@@ -236,11 +263,11 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),new Color( 133, 156, 221 ));
 		panelT.setBorder(myRaisedBorder);
 		
-		JLabel label5 = new JLabel("Anglais");
+		JLabel label5 = new JLabel(libLangue1);
 		label5.setBounds(10, 60, 150, 20);
 		panelT.add(label5);
 
-		JLabel label6 = new JLabel("Français");
+		JLabel label6 = new JLabel(libLangue2);
 		label6.setBounds(10, 60, 150, 20);
 		panelT.add(label6, "wrap");
 
