@@ -59,6 +59,7 @@ import action.actionSauvegarde;
 import action.actionStat;
 import action.actionSupprSon;
 import action.actionSupprTraduction;
+import action.actioninitNouLangue;
 import action.reinitConnaissance;
 
 import param.parametres;
@@ -68,6 +69,7 @@ import utilitaires.AudioFilePlayer;
 import utilitaires.constantes;
 
 import metier.elementTraduc;
+import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;
 /*
  * A faire : un timer sur le passage au mot suivant aprés l'affichage de la traduction
@@ -99,9 +101,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private JButton boutonSupprSon;
 	// Utilitaires
 	Timer timer;          // Timer affichant le mot suivant
-	// Libellés des langues
-	private String libLangue1 = "";
-	private String libLangue2 = "";
 	   
     class MonSwingWorker extends SwingWorker<Integer, String> {
 		protected Integer doInBackground() throws Exception {
@@ -133,7 +132,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 */
 	private void chargeLibelleLangues() {
 		 try {
-			gestionBases.getInstance().litLibelleLangues(libLangue1, libLangue2);
+			gestionBases.getInstance().litLibelleLangues();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,
 					"Erreur lors du chargement des libellés des langues :" + 
@@ -263,11 +262,11 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),new Color( 133, 156, 221 ));
 		panelT.setBorder(myRaisedBorder);
 		
-		JLabel label5 = new JLabel(libLangue1);
+		JLabel label5 = new JLabel(paramLangues.getInstance().getLibLangue1());
 		label5.setBounds(10, 60, 150, 20);
 		panelT.add(label5);
 
-		JLabel label6 = new JLabel(libLangue2);
+		JLabel label6 = new JLabel(paramLangues.getInstance().getLibLangue2());
 		label6.setBounds(10, 60, 150, 20);
 		panelT.add(label6, "wrap");
 
@@ -296,13 +295,13 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 
 		panel1.add(panelT, "wrap,span");
 		
-		editCheckGBOk = new JCheckBox("Ce mot anglais est désormais connu");
+		editCheckGBOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue1().toLowerCase()  + " est désormais connu");
 		//editCheckGBOk.setBounds(10, 80, 250, 20);
 		//editCheckGBOk.setPreferredSize(new Dimension(500, 25));
 		editCheckGBOk.addActionListener(new actionCocheMotAnglais(this));
 		panelT.add(editCheckGBOk);
 
-		editCheckFOk = new JCheckBox("Ce mot français est désormais connu");
+		editCheckFOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue2().toLowerCase()  + " est désormais connu");
 		//editCheckFOk.setBounds(10, 80, 250, 20);
 		//editCheckFOk.setPreferredSize(new Dimension(500, 25));
 		editCheckFOk.addActionListener(new actionCocheMotFrancais(this));
@@ -445,6 +444,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		restauration.addActionListener(new actionRestaurer(this));
 		restauration.setMnemonic('R');
 
+		JMenuItem initNouLangue = new JMenuItem("Initier une nouvelle langue");
+		initNouLangue.addActionListener(new actioninitNouLangue(this));
+		importer.setMnemonic('N');
+
 		JMenuItem reinitC = new JMenuItem("Réinitialiser les éléments 'Connaissance'");
 		reinitC.addActionListener(new reinitConnaissance(this));
 
@@ -473,6 +476,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		menuOutils.add(restauration);
 		menuOutils.addSeparator();
 		menuOutils.add(reinitC);
+		menuOutils.add(initNouLangue);
 		menuOutils.addSeparator();
 		menuOutils.add(correction);
 
