@@ -446,7 +446,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 
 		JMenuItem initNouLangue = new JMenuItem("Initier une nouvelle langue");
 		initNouLangue.addActionListener(new actioninitNouLangue(this));
-		importer.setMnemonic('N');
+		initNouLangue.setMnemonic('N');
 
 		JMenuItem reinitC = new JMenuItem("Réinitialiser les éléments 'Connaissance'");
 		reinitC.addActionListener(new reinitConnaissance(this));
