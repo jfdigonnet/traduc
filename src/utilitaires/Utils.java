@@ -102,4 +102,21 @@ public class Utils
   		  urlReader.close();
   		  localFile.close();
     }
+    static public boolean deleteDirectory(String repSon) { 
+        boolean resultat = true; 
+        File rep = new File(repSon);
+        if( rep.exists() ) { 
+                File[] files = rep.listFiles(); 
+                for(int i=0; i<files.length; i++) { 
+                        if(files[i].isDirectory()) { 
+                                resultat &= deleteDirectory(files[i].getAbsolutePath()); 
+                        } 
+                        else { 
+                        	resultat &= files[i].delete(); 
+                        } 
+                } 
+        } 
+        resultat &= rep.delete(); 
+        return( resultat ); 
+    } 
 }

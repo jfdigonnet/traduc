@@ -15,6 +15,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import param.parametres;
+import persistence.gestionBases;
+import utilitaires.Utils;
+import utilitaires.constantes;
+
 import net.miginfocom.swing.MigLayout;
 
 public class initNouLangue extends JDialog implements ActionListener {
@@ -55,6 +60,16 @@ public class initNouLangue extends JDialog implements ActionListener {
 			editL2.requestFocus();
 			return;
 		}
+    	int retour = JOptionPane.showConfirmDialog(this, "Confirmez-vous la ré initialisaition des données ?", "Réinitialisation", JOptionPane.OK_CANCEL_OPTION); 
+    	if ( retour == JOptionPane.OK_OPTION) {
+			try {
+				gestionBases.getInstance().reinitConnaissace();
+				gestionBases.getInstance().truncateBD();
+				Utils.deleteDirectory(parametres.getInstance().getRepSons());
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, "Une erreur est intervenue lors de la ré initialisation des données\n" + e1.getLocalizedMessage(), "Ré initilisation", JOptionPane.OK_OPTION);
+			}
+    	}
 	}
 	private Component ajouteBoutons() {
 		JPanel panel = new JPanel();

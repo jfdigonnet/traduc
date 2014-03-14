@@ -38,8 +38,6 @@ public class ficheParam extends JDialog implements ActionListener {
 	private     JComboBox<String>	comboSens;
 	private     JComboBox<String>	comboTri;
 	private     JTextField 			editProxy;
-	private     JTextField 			editL1;
-	private     JTextField 			editL2;
 
 	/***********************************************************************
 	 * 
@@ -47,11 +45,10 @@ public class ficheParam extends JDialog implements ActionListener {
     public ficheParam() {
 		JPanel panelSouth = null;
 		JPanel panelInternet = null;
-		JPanel panelLangue = null;
+		//JPanel panelLangue = null;
 		try {
 			panelSouth = panneauGeneral();
 			panelInternet = panneauInternet();
-			panelLangue = panneauLangue();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,
 					"Erreur lors de la construction de l'interface graphique :"
@@ -61,7 +58,7 @@ public class ficheParam extends JDialog implements ActionListener {
 
 		tabbedPane.addTab("Général", panelSouth);
 		tabbedPane.addTab("Internet", panelInternet);
-		tabbedPane.addTab("Libellé langue", panelLangue);
+		//tabbedPane.addTab("Libellé langue", panelLangue);
 
 		add(tabbedPane, BorderLayout.CENTER);
 		
@@ -74,28 +71,6 @@ public class ficheParam extends JDialog implements ActionListener {
 		pack();
 		setSize(800,430);
 	    setLocationRelativeTo(null);
-	}
-	private JPanel panneauLangue() {
-		JPanel panelSup = new JPanel();
-    	MigLayout layoutSup = new MigLayout("", "[] 10 [] 10 []", "[] 10 [] 10 []");
-    	panelSup.setLayout(layoutSup);
-		
-	    setTitle("Libellé langues");
-
-	    JLabel texte1 = new JLabel("Langue 1 : ");
-	    editL1 = new JTextField(40);
-	    editL1.setPreferredSize(new Dimension(30, 25));
-		
-	    JLabel texte2 = new JLabel("Langue 2 :");
-	    editL2 = new JTextField(40);
-	    editL2.setPreferredSize(new Dimension(30, 25));
-		
-	    panelSup.add(texte1);
-		panelSup.add(editL1, "wrap");
-	    panelSup.add(texte2);
-		panelSup.add(editL2, "wrap");
-
-		return panelSup;
 	}
 	private JPanel panneauInternet() {
 		JPanel panelSup = new JPanel();
@@ -239,22 +214,7 @@ public class ficheParam extends JDialog implements ActionListener {
 			editDelaisSuivant.requestFocus();
 			return false;
 		}
-		if (editL1.getText().trim().length() == 0) {
-			JOptionPane.showMessageDialog(this, "Le libellé de la langue 1 n'a pas été indiqué" , 
-					"Enregistrement", 
-					JOptionPane.ERROR_MESSAGE);	
-			editL1.requestFocus();
-			return false;
-		}
-		if (editL2.getText().trim().length() == 0) {
-			JOptionPane.showMessageDialog(this, "Le libellé de la langue 2 n'a pas été indiqué" , 
-					"Enregistrement", 
-					JOptionPane.ERROR_MESSAGE);	
-			editL2.requestFocus();
-			return false;
-		}
 		return true;
-
 	}
 	/***********************************************************************
 	 * On a chargé les paramètres
@@ -310,13 +270,6 @@ public class ficheParam extends JDialog implements ActionListener {
 		parametres.getInstance().setJoueTDS(cb_joueTDS.isSelected());
 		// Enregistrement
 		parametres.getInstance().saveParam();
-		// Enreg en base des libellés des langues
-		try {
-			gestionBases.getInstance().engreLibelleLangue(editL1.getText(), editL2.getText());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	/*
 	 * 

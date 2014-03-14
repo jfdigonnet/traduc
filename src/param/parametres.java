@@ -34,6 +34,7 @@ public class parametres {
 	private Boolean joueTDS = false;
 	
 	private static parametres instance = new parametres();
+	
 	public static parametres getInstance() {
         return instance;
     }
@@ -44,9 +45,15 @@ public class parametres {
 	public String getRepertoire_donnees() {
 		return repertoire_donnees;
 	}
+	/*
+	 * 
+	 */
 	public void setRepertoire_donnees(String repertoire_donnees) {
 		this.repertoire_donnees = repertoire_donnees;
 	}
+	/*
+	 * 
+	 */
 	public String getRepSons() {
         String repOutImg = getRepertoire_donnees();
         if ( repOutImg.substring(0, repOutImg.length()-1) != "/") repOutImg += "/";
