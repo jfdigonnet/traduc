@@ -1,6 +1,7 @@
 package fiches;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -151,15 +152,20 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 				editF.requestFocus();
 				return;
 			}
-			if (enregsitrementTraduction()) {
-				// Copie du fichier son dans le dossier des mp3
-				if (fichier.getText().trim().length() > 0) {
-					traiteFichierSon(fichier.getText().trim());
-				} 
-				editGB.setText("");
-				editF.setText("");
-				fichier.setText("");
-				editGB.requestFocus();
+			try {
+				if (enregsitrementTraduction()) {
+					// Copie du fichier son dans le dossier des mp3
+					if (fichier.getText().trim().length() > 0) {
+						traiteFichierSon(fichier.getText().trim());
+					} 
+					editGB.setText("");
+					editF.setText("");
+					fichier.setText("");
+					editGB.requestFocus();
+				}
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement dans la base\n :" +
+						e1.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 			}
 			try {
 				if (gestionBases.getInstance().existeDeja(editGB.getText(), true)) {
@@ -222,24 +228,23 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 	 * fichier et pas le répertoire
 	 * Le fichier sera ensuite copié dans le dossier des fichiers MP3
 	 */
-	private boolean enregsitrementTraduction() {
-		elementTraduc et = new elementTraduc();
-		et.setAnglais(editGB.getText());
-		et.setFrancais(editF.getText());
-		et.setFOk(false);
-		et.setGBOk(false);
-		if (fichier.getText().trim().length() > 0) {
-			et.setFichiermp3( new File(fichier.getText().trim()).getName() );
-		} else {
-			et.setFichiermp3("");
-		}
-		try {
+	private boolean enregsitrementTraduction() throws Exception {
+		if (! gestionBases.getInstance().existeDeja(editGB.getText(), true)) {
+			elementTraduc et = new elementTraduc();
+			et.setAnglais(editGB.getText());
+			et.setFrancais(editF.getText());
+			et.setFOk(false);
+			et.setGBOk(false);
+			if (fichier.getText().trim().length() > 0) {
+				et.setFichiermp3( new File(fichier.getText().trim()).getName() );
+			} else {
+				et.setFichiermp3("");
+			}
 			gestionBases.getInstance().enreg(et);
 			return true;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement dans la base\n :" +
-					e.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this, "Ce mot existe dèja dans la base", "Nouvel enregistrement", JOptionPane.OK_OPTION);
+			return false;
 		}
-		return false;
 	}
 }
