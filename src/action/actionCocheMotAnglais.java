@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import metier.paramLangues;
+
 import persistence.gestionBases;
 
 import fiches.fenetrePrincipale;
@@ -24,7 +26,7 @@ public class actionCocheMotAnglais implements ActionListener {
 		try {
 			gestionBases.getInstance().modConnuGB(application.getEtEnCours());
 		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(application, "Erreur lors de l'enregistrement des données (GB) : " + e1.getLocalizedMessage(), 
+			JOptionPane.showMessageDialog(application, "Erreur lors de l'enregistrement des données (" + paramLangues.getInstance().getLibLangue1() + ") : " + e1.getLocalizedMessage(), 
 					"Enregistrement", 
 					JOptionPane.ERROR_MESSAGE);			
 		}

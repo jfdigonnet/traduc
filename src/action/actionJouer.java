@@ -26,7 +26,7 @@ public class actionJouer implements ActionListener {
 		}
     }
 	/***********************************************************
-	 * Jouer le fichier mp3 du mot anglais
+	 * Jouer le fichier mp3 du mot en langue étrangère
 	 ***********************************************************/
 	public actionJouer(Component app) {
 		application = app;

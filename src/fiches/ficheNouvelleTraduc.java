@@ -1,7 +1,7 @@
 package fiches;
+
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -26,6 +26,7 @@ import persistence.gestionBases;
 import utilitaires.constantes;
 
 import metier.elementTraduc;
+import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -50,10 +51,10 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),new Color( 133, 156, 221 ));
 		panelT.setBorder(myRaisedBorder);
 		
-		JLabel label5 = new JLabel("Anglais");
+		JLabel label5 = new JLabel(paramLangues.getInstance().getLibLangue1());
 		panelT.add(label5);
 
-		JLabel label6 = new JLabel("Français");
+		JLabel label6 = new JLabel(paramLangues.getInstance().getLibLangue2());
 		panelT.add(label6, "wrap");
 
 		editGB = new JTextArea(20,40);

@@ -148,8 +148,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * Les types de tri sont listés dans le tableau tyepTri 
 	 * On peut trier les mots :
 	 * "Date de création (Du plus ancien au plus récent)"
-	 * "Anglais"
-	 * "Français"
+	 * "Langue étrangère"
+	 * "Langue maternelle"
 	 * "Au hasard"
 	 * "Date de création (Du plus récent au plus ancien)"
 	 */

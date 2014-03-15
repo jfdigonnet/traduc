@@ -235,7 +235,7 @@ public class ficheParam extends JDialog implements ActionListener {
 		cb_afficherTousLesMots.setSelected(parametres.getInstance().getAfficherTousLesMots());
 		// 
 		repertoireDonnees.setText(parametres.getInstance().getRepertoire_donnees());
-		// Tri par mot anglais ou mot français
+		// Tri par mot étranger ou mot français
 		//param.setTypeTri(0);
 		// Passage à la traduction suivante automatique
 		cb_traducSuivanteAuto.setSelected(parametres.getInstance().getSuivantAuto());

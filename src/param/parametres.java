@@ -13,7 +13,7 @@ public class parametres {
 	private String repertoire_donnees;
 	// Style choisi
 	private String style;
-	// Tri par mot anglais ou mot français
+	// Tri par mot étranger ou mot français
 	// Pas de tri par défaut
 	private int typeTri = 0;
 	// Passage à la traduction suivante automatique
