@@ -365,13 +365,15 @@ public class gestionBases
 		return liste;
 	}
     /**********************************************************************
-     * 
+     * On teste si le mot en cours de création existe ou non dans la table
+     * des traductions
+     * On peut chercher en langue étrangère ou en langue native
      * @param et
      * @throws Exception
      **********************************************************************/
     public Boolean existeDeja(String mot, Boolean GB ) throws Exception  {
     	String query = "";
-    	query += "select * from traduction ";
+    	query += "select count(*) as total from traduction ";
     	if (GB) {
     		query += "where anglais = '" + mot + "'";  
     	} else {
@@ -382,11 +384,11 @@ public class gestionBases
     	ResultSet rs = statement.executeQuery( query );
     	int i = 0;
     	while (rs.next()) {
-    		i++;
+    		i = rs.getInt("total");
     	}
     	rs.close();
     	statement.close();
-    	return (i == 0);
+    	return (i != 0);
     }
     public void destuctor() {
       try

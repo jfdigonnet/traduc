@@ -168,22 +168,6 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement dans la base\n :" +
 						e1.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 			}
-			try {
-				if (gestionBases.getInstance().existeDeja(editGB.getText(), true)) {
-					JOptionPane.showMessageDialog(this, "Le mot en langue étrangère existe déja", "Nouvelle traduction", JOptionPane.WARNING_MESSAGE);
-					editGB.requestFocus();
-					return;
-				}
-				if (gestionBases.getInstance().existeDeja(editGB.getText(), false)) {
-					JOptionPane.showMessageDialog(this, "Le mot en langue française existe déja", "Nouvelle traduction", JOptionPane.WARNING_MESSAGE);
-					editF.requestFocus();
-					return;
-				}
-			} catch (Exception ex) {
-		    	JOptionPane.showMessageDialog(this, "Erreur lors de la recherche de doublon\n" + 
-						ex.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
-		    	return;
-			}
 		}				
 		if (e.getActionCommand().equals("ajoutson")) {
 			selectionneFichierSonore();
@@ -230,7 +214,10 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 	 * Le fichier sera ensuite copié dans le dossier des fichiers MP3
 	 */
 	private boolean enregsitrementTraduction() throws Exception {
-		if (! gestionBases.getInstance().existeDeja(editGB.getText(), true)) {
+		if (gestionBases.getInstance().existeDeja(editGB.getText(), true)) {
+			JOptionPane.showMessageDialog(this, "Ce mot existe dèja dans la base", "Nouvel enregistrement", JOptionPane.OK_OPTION);
+			return false;
+		} else {
 			elementTraduc et = new elementTraduc();
 			et.setAnglais(editGB.getText());
 			et.setFrancais(editF.getText());
@@ -243,9 +230,6 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 			}
 			gestionBases.getInstance().enreg(et);
 			return true;
-		} else {
-			JOptionPane.showMessageDialog(this, "Ce mot existe dèja dans la base", "Nouvel enregistrement", JOptionPane.OK_OPTION);
-			return false;
 		}
 	}
 }
