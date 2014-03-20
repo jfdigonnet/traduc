@@ -86,6 +86,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	// GBVersF Donne le sens 0: GB vers F 1: F vers GB
 	// No de la traduction en cours pour les deux sens 
 	private int noTraducEnCours = -1;
+	private int vusseance = 0;
 	// Eléments d'interface
 	private JLabel labelBas;
 	private JTextArea editF;
@@ -790,6 +791,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 					} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
 				}
 			}
+			vusseance++;
 			boutonAffiTraduc.setEnabled(true);
 		}
 	}
@@ -846,7 +848,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		adapteBouton();
 		menuEnreg.setEnabled(false);
 		boutonEnreg.setEnabled(false);
-		labelBas.setText(constantes.titreAppli + " : " + (noTraducEnCours + 1) + " / " + (liste.size()));
+		labelBas.setText( " Mot en cours  : " + (noTraducEnCours + 1) + " sur " + (liste.size()) + "  Mot dans la séance : " + vusseance);
 		if (parametres.getInstance().getJoueTDS()) {
 			if (et.getFichiermp3().length() > 0) {
 				new MonSwingWorker().execute();
