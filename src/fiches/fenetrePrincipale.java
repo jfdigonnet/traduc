@@ -3,6 +3,7 @@ package fiches;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -87,6 +88,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	// No de la traduction en cours pour les deux sens 
 	private int noTraducEnCours = -1;
 	private int vusseance = 0;
+	private int cochesseance = 0;
 	// Eléments d'interface
 	private JLabel labelBas;
 	private JTextArea editF;
@@ -198,6 +200,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * 
 	 */
 	private void creeInterface() {
+		Font police = new Font(Font.SANS_SERIF , Font.TRUETYPE_FONT, 14);
+		this.setFont(police);
+
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
 		//topPanel.setBackground(Color.darkGray);
@@ -848,7 +853,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		adapteBouton();
 		menuEnreg.setEnabled(false);
 		boutonEnreg.setEnabled(false);
-		labelBas.setText( " Mot en cours  : " + (noTraducEnCours + 1) + " sur " + (liste.size()) + "  Mot dans la séance : " + vusseance);
+		labelBas.setText( " Mot en cours  : " + (noTraducEnCours + 1) + " sur " + (liste.size()) + "  Mot dans la séance : " + vusseance + " Acquis au cours de la séance : " + cochesseance);
 		if (parametres.getInstance().getJoueTDS()) {
 			if (et.getFichiermp3().length() > 0) {
 				new MonSwingWorker().execute();
@@ -901,5 +906,11 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	}
 	public void setNoTraducEnCours( int no ) {
 		this.noTraducEnCours = no; 
+	}
+	public int getCochesseance() {
+		return cochesseance;
+	}
+	public void setCochesseance(int cochesseance) {
+		this.cochesseance = cochesseance;
 	}
 }

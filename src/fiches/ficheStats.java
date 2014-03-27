@@ -1,10 +1,9 @@
 package fiches;
 
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
@@ -33,7 +32,16 @@ public class ficheStats extends JDialog {
         pack();
 	}
 	private JPanel initComposants() {
-        DecimalFormat df = new DecimalFormat ( ) ;
+		Font police = new Font(Font.SANS_SERIF , Font.TRUETYPE_FONT, 40);
+		this.setFont(police);
+
+		Font police1 = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+
+		DecimalFormat df = new DecimalFormat ( ) ;
+		df.setMaximumFractionDigits ( 2 ) ; //arrondi à 2 chiffres apres la virgules
+		df.setMinimumFractionDigits ( 2 ) ;
+		df.setDecimalSeparatorAlwaysShown ( true ) ; 
+		
         float moyenne = 0;
         int a = 0;
         int b = 0;
@@ -50,6 +58,7 @@ public class ficheStats extends JDialog {
         JLabel label1 = new JLabel("Nombre total de traductions");
         label1.setSize(500, 50);
         JLabel label1Res = new JLabel(String.valueOf(resStat[0]));
+        label1Res.setFont(police1);
         panelres.add(label1);
         panelres.add(label1Res, "wrap");
 
@@ -64,6 +73,7 @@ public class ficheStats extends JDialog {
 
         JLabel label2 = new JLabel("Nombre de traduction non maîtrisée (langue " + paramLangues.getInstance().getLibLangue1() + ")");
         JLabel label2Res = new JLabel(String.valueOf(resStat[1]) + " (" + df.format (moyenne) + "%)");
+        label2Res.setFont(police1);
         panelres.add(label2);
         panelres.add(label2Res, "wrap");
 
@@ -75,6 +85,7 @@ public class ficheStats extends JDialog {
 
         JLabel label3 = new JLabel("Nombre de traduction maîtrisée (langue " + paramLangues.getInstance().getLibLangue1() + ")");
         JLabel label3Res = new JLabel(String.valueOf(resStat[2]) + " (" + df.format (moyenne) + "%)");
+        label3Res.setFont(police1);
         panelres.add(label3);
         panelres.add(label3Res, "wrap");
 
@@ -90,6 +101,7 @@ public class ficheStats extends JDialog {
 
         JLabel label4 = new JLabel("Nombre de traduction non maîtrisée (langue " + paramLangues.getInstance().getLibLangue2() + ")");
         JLabel label4Res = new JLabel(String.valueOf(resStat[3]) + " (" + df.format (moyenne) + "%)");
+        label4Res.setFont(police1);
         panelres.add(label4);
         panelres.add(label4Res, "wrap");
         
@@ -101,6 +113,7 @@ public class ficheStats extends JDialog {
 
         JLabel label5 = new JLabel("Nombre de traduction maîtrisée (langue " + paramLangues.getInstance().getLibLangue2() + ")");
         JLabel label5Res = new JLabel(String.valueOf(resStat[4]) + " (" + df.format (moyenne) + "%)");
+        label5Res.setFont(police1);
         panelres.add(label5);
         panelres.add(label5Res, "wrap");
         
@@ -119,6 +132,7 @@ public class ficheStats extends JDialog {
         df.setDecimalSeparatorAlwaysShown ( true ) ; 
         
         JLabel label6Res = new JLabel(String.valueOf(resStat[5]) + " (" + df.format (moyenne) + "%)");
+        label6Res.setFont(police1);
         panelres.add(label6);
         panelres.add(label6Res, "wrap");
         
