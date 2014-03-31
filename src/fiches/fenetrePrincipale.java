@@ -853,12 +853,18 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		adapteBouton();
 		menuEnreg.setEnabled(false);
 		boutonEnreg.setEnabled(false);
-		labelBas.setText( " Mot en cours  : " + (noTraducEnCours + 1) + " sur " + (liste.size()) + "  Mot dans la séance : " + vusseance + " Acquis au cours de la séance : " + cochesseance);
+		affiLigneStatus();
 		if (parametres.getInstance().getJoueTDS()) {
 			if (et.getFichiermp3().length() > 0) {
 				new MonSwingWorker().execute();
 			}
 		}
+	}
+	/**
+	 * 
+	 */
+	public void affiLigneStatus() {
+		labelBas.setText( " Mot en cours  : " + (noTraducEnCours + 1) + " sur " + (liste.size()) + "  Mot dans la séance : " + vusseance + " Acquis au cours de la séance : " + cochesseance);
 	}
 	/**
 	 * @param et

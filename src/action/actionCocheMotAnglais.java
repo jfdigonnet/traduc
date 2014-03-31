@@ -29,6 +29,7 @@ public class actionCocheMotAnglais implements ActionListener {
 			application.getEtEnCours().setGBOk(false);
 			application.setCochesseance(application.getCochesseance() - 1);
 		}
+		application.affiLigneStatus();
 		try {
 			gestionBases.getInstance().modConnuGB(application.getEtEnCours());
 		} catch (Exception e1) {
