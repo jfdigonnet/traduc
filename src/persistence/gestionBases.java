@@ -373,6 +373,7 @@ public class gestionBases
      **********************************************************************/
     public Boolean existeDeja(String mot, Boolean GB ) throws Exception  {
     	String query = "";
+    	mot = mot.replaceAll("''", "'");
     	query += "select count(*) as total from traduction ";
     	if (GB) {
     		query += "where anglais = '" + mot + "'";  
