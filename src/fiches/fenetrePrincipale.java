@@ -89,6 +89,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private int noTraducEnCours = -1;
 	private int vusseance = 0;
 	private int cochesseance = 0;
+	private int start = 0;
 	// Eléments d'interface
 	private JLabel labelBas;
 	private JTextArea editF;
@@ -114,6 +115,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
     }
 	 public fenetrePrincipale() {
 		 noTraducEnCours = parametres.getInstance().getPositionTraduction();
+		 start = noTraducEnCours;
 		 chargeLibelleLangues();
 		 creeInterface();
 		 ajouteIcone();
@@ -406,6 +408,17 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		affiStats.addActionListener(new actionStat(this));
 		affiStats.setMnemonic('s');
 
+		JMenuItem chouteAgain = new JMenuItem("Recommncez cette série");
+		chouteAgain.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent ae) {
+						 noTraducEnCours = start;
+						 afficheSuivant();
+					}
+				}
+				);
+		chouteAgain.setMnemonic('R');
+
 		menuEnreg = new JMenuItem("Enregistrer");
 		menuEnreg.addActionListener(new actionEnregistrerTraduction(this));
 		menuEnreg.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
@@ -463,6 +476,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		// On initialise nos menus
 		menuFichier.add(ajoutTraduc);
 		menuFichier.add(supprTraduc);
+		menuFichier.addSeparator();
+		menuFichier.add(chouteAgain);
+		menuFichier.addSeparator();
 		menuFichier.add(affiStats);
 		menuFichier.addSeparator();
 		menuFichier.add(menuEnreg);
