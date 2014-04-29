@@ -3,9 +3,6 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-import utilitaires.Utils;
-
-
 public class filtreFichierZIP extends FileFilter {
 
 	@Override
