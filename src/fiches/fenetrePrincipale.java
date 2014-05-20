@@ -115,6 +115,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
     }
 	 public fenetrePrincipale() {
 		 noTraducEnCours = parametres.getInstance().getPositionTraduction();
+		 // On mémorise pour pouvoir recommencer la séance
 		 start = noTraducEnCours;
 		 chargeLibelleLangues();
 		 creeInterface();
@@ -782,7 +783,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 */
 	private void afficheSuivant() {
 		System.out.println(noTraducEnCours);
-		if (noTraducEnCours <= liste.size() - 1) {
+		System.out.println(liste.size());
+		if (noTraducEnCours < liste.size()) {
 			if (parametres.getInstance().getTypeTri() == 3) {
 					noTraducEnCours = (int)Math.random() * liste.size();
 					Random rand = new Random();
@@ -814,6 +816,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			}
 			vusseance++;
 			boutonAffiTraduc.setEnabled(true);
+		} else {
+			noTraducEnCours = liste.size() - 1;
+			etEnCours = loadTraduction( liste.get(noTraducEnCours) );
+			soumettreTraduction( etEnCours );
 		}
 	}
 	class MonAction extends TimerTask {

@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 
 import utilitaires.constantes;
 
+import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;
 
 public class ficheRechercher extends JDialog implements ActionListener {
@@ -60,7 +61,9 @@ public class ficheRechercher extends JDialog implements ActionListener {
 
 		panel.add(label1);
 		
-		comboTypeCh =  new JComboBox<String>( constantes.tyepCh );
+		comboTypeCh =  new JComboBox<String>();
+		comboTypeCh.addItem(paramLangues.getInstance().getLibLangue1());
+		comboTypeCh.addItem(paramLangues.getInstance().getLibLangue2());
 	    comboTypeCh.setPreferredSize(new Dimension(150,25));
 	    panel.add(comboTypeCh, "grow, wrap");
 
