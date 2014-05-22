@@ -286,7 +286,7 @@ public class gestionBases
     public void supprimeSon(elementTraduc et) throws Exception  {
     	String query = "";
     	query += "UPDATE traduction ";
-    	query += "set fichiermp3 = '',";
+    	query += "set fichiermp3 = ''";
     	query += " WHERE ID ='" + et.getId()  + "'";
 
     	System.out.println(query);

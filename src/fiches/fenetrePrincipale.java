@@ -420,6 +420,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 				);
 		chouteAgain.setMnemonic('R');
 
+		JMenuItem interrogation = new JMenuItem("Débuter une interrogation");
+		interrogation.addActionListener(new actionInterrogation(this));
+		interrogation.setMnemonic('i');
+
 		menuEnreg = new JMenuItem("Enregistrer");
 		menuEnreg.addActionListener(new actionEnregistrerTraduction(this));
 		menuEnreg.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
@@ -479,6 +483,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		menuFichier.add(supprTraduc);
 		menuFichier.addSeparator();
 		menuFichier.add(chouteAgain);
+		menuFichier.add(interrogation);
 		menuFichier.addSeparator();
 		menuFichier.add(affiStats);
 		menuFichier.addSeparator();
