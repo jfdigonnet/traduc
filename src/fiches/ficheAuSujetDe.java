@@ -3,7 +3,6 @@ package fiches;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -136,32 +135,57 @@ public class ficheAuSujetDe extends JDialog {
         panelCentre.add(lePanneau, BorderLayout.CENTER);
 		return panelCentre;
 	}
-
+    public static String getJavaVendor() {
+        String vd = System.getProperty("java.vm.vendor"); 
+        if (vd == null || vd.trim().length() == 0) {
+            vd = System.getProperty("java.vendor"); 
+        }
+        return System.getProperty("java.runtime.version") + " - " + vd;
+    }
 	private JPanel createPage3() {
         JPanel panelCentre = new JPanel();
         MigLayout layout = new MigLayout("", "[] 10 []", "[] 20 []");
         panelCentre.setLayout(layout);
         panelCentre.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
-        JLabel texte1 = new JLabel("Os : ");
-        String name = System.getProperty ( "os.name" );
-        JLabel texte2 = new JLabel(name);
-        JLabel texte3 = new JLabel("Version :");        
-        String version = System.getProperty ( "os.version" );
-        JLabel texte4 = new JLabel(version);
-        panelCentre.add(texte1);
-        panelCentre.add(texte2, "wrap");
-        panelCentre.add(texte3);
-        panelCentre.add(texte4, "wrap");
-	
-        JLabel texte5 = new JLabel("Répertoire utilisateur :");        
-        JLabel texte6 = new JLabel(System.getProperty("user.dir"));        
-        JLabel texte7 = new JLabel("Java Home :");                
-        JLabel texte8 = new JLabel(System.getProperty("java.home"));        
         
-        panelCentre.add(texte5);
-        panelCentre.add(texte6, "wrap");
-        panelCentre.add(texte7);
-        panelCentre.add(texte8, "wrap");
+        panelCentre.add(new JLabel("Os : "));
+        panelCentre.add(new JLabel(System.getProperty ( "os.name" )), "wrap");
+        panelCentre.add(new JLabel("Version :"));
+        panelCentre.add(new JLabel(System.getProperty ( "os.version" )), "wrap");
+	
+        long TOTAL_MEMORY = Runtime.getRuntime().totalMemory();
+        //long TOTAL_MEMORY_KB = TOTAL_MEMORY / 1024;
+        long TOTAL_MEMORY_MB = TOTAL_MEMORY / 1048576;
+
+        JLabel texte9 = new JLabel("Mémoire libre (en Mo) :");     
+        long FREE_MEMORY = Runtime.getRuntime().freeMemory();
+        //long FREE_MEMORY_KB = FREE_MEMORY / 1024;
+        long FREE_MEMORY_MB = FREE_MEMORY / 1048576;
+        
+        long USED_MEMORY = TOTAL_MEMORY - FREE_MEMORY;
+        //long USED_MEMORY_KB = USED_MEMORY / 1024;
+        long USED_MEMORY_MB = USED_MEMORY / 1048576;
+
+        panelCentre.add(new JLabel("Répertoire utilisateur :"));
+        panelCentre.add(new JLabel(System.getProperty("user.dir")), "wrap");
+        panelCentre.add(new JLabel("Java Home :"));
+        panelCentre.add(new JLabel(System.getProperty("java.home")), "wrap");
+        panelCentre.add(new JLabel("Version formatée de Java : "));
+        panelCentre.add(new JLabel(System.getProperty("java.runtime.name") + " - " + getJavaVendor()), "wrap");
+        
+
+        panelCentre.add(new JLabel("Mémoire total (en Mo) :"));
+        panelCentre.add(new JLabel(String.valueOf(TOTAL_MEMORY_MB)), "wrap");
+
+        panelCentre.add(texte9);
+        panelCentre.add(new JLabel(String.valueOf(FREE_MEMORY_MB)), "wrap");
+
+        panelCentre.add(new JLabel("Mémoire libre :"));
+        panelCentre.add(new JLabel(String.valueOf(USED_MEMORY_MB)), "wrap");
+
+        panelCentre.add(new JLabel("Nombre de procésseurs :"));
+        long NB_PROC = Runtime.getRuntime().availableProcessors();
+        panelCentre.add(new JLabel(String.valueOf(NB_PROC)), "wrap");
 
         return panelCentre;
 	}
