@@ -560,11 +560,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		boutonEnreg.addActionListener(new actionEnregistrerTraduction(this));
 		//boutonEnreg.setEnabled(false);
 
-		ImageIcon iconeImport = new ImageIcon("images/import.png");
-		JButton boutonImport = new JButton(iconeImport);
-		boutonImport.setToolTipText("importer les données d'un fichier CVS");
-		boutonImport.addActionListener(new actionImporter(this));
-
 		ImageIcon iconePrems = new ImageIcon("images/premier.png");
 		JButton boutonPrems = new JButton(iconePrems);
 		boutonPrems.setToolTipText("Premier");
@@ -603,15 +598,12 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		barreOutils.add(boutonAjouter);
 		barreOutils.add(boutonEnreg);
 		barreOutils.addSeparator();
-		barreOutils.add(boutonPref);
-		barreOutils.addSeparator();
-		barreOutils.add(boutonImport);
-		barreOutils.addSeparator();
 		barreOutils.add(boutonPrems);
 		barreOutils.add(boutonPred);
 		barreOutils.add(boutonSuivant);
 		barreOutils.add(boutonDer);
 		barreOutils.addSeparator();
+		barreOutils.add(boutonPref);
 		barreOutils.add(boutonQuitter);
 
 		return barreOutils;
