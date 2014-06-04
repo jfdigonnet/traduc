@@ -762,7 +762,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 					} else {
 						etEnCours = loadTraduction( liste.get(noTraducEnCours) );
 						soumettreTraduction( etEnCours );
-						soumettreTraduction( etEnCours );
 //							System.out.println(traducEnCours);
 //							System.out.println( liste.size());
 //							System.out.println(etEnCours.getConnu(GBVersF));
@@ -835,8 +834,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	public void keyPressed(KeyEvent event) {
 //		 System.out.println("" + event.getKeyChar());
 //		 System.out.println("" + event.getExtendedKeyCode());
-		 System.out.println(KeyEvent.getKeyText( event.getKeyCode() ));
-		 System.out.println(event.getExtendedKeyCode());
+//		 System.out.println(KeyEvent.getKeyText( event.getKeyCode() ));
+//		 System.out.println(event.getExtendedKeyCode());
 		 if (event.getExtendedKeyCode() == 525) {
 			 afficheSuivant();
 		 }
