@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import metier.Seance;
 import metier.elementTraduc;
 
 import persistence.gestionBases;
@@ -16,24 +17,25 @@ import fiches.ficheAffiRecherche;
 public class actionEnregistrerTraduction implements ActionListener {
 
 	private Component application;
+	private Seance seance;
 	
 	/***********************************************************
 	 * Enregistrer une traduction existante
 	 ***********************************************************/
-	public actionEnregistrerTraduction(Component app) {
+	public actionEnregistrerTraduction(Component app, Seance sc) {
 		application = app;
+		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
 		elementTraduc et = null;
+		et = seance.getEtEnCours();
 		if (application instanceof fenetrePrincipale) {
-			et = ((fenetrePrincipale)application).getEtEnCours();
 			et.setAnglaisSQL(((fenetrePrincipale)application).getEditGB());
 			et.setFrancaisSQL(((fenetrePrincipale)application).getEditF());
 			et.setGBOk(((fenetrePrincipale)application).getEditCheckGBOk());
 			et.setFOk(((fenetrePrincipale)application).getEditCheckFOk());
 		}
 		if (application instanceof ficheAffiRecherche) {
-			et = ((ficheAffiRecherche)application).getEtEnCours();
 			et.setAnglaisSQL(((ficheAffiRecherche)application).getEditGB());
 			et.setFrancaisSQL(((ficheAffiRecherche)application).getEditF());
 		}

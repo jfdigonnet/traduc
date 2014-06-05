@@ -5,24 +5,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
+import metier.Seance;
 
 import persistence.gestionBases;
 import utilitaires.constantes;
-import fiches.fenetrePrincipale;
 
 public class reinitConnaissance implements ActionListener {
 
 	private Component application;
+	private Seance seance;
 	
 	/***********************************************************
 	* Suppression de la référence au son dans la table
 	***********************************************************/
-	public reinitConnaissance(Component app) {
+	public reinitConnaissance(Component app, Seance sc) {
 		application = app;
+		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
-	    ((fenetrePrincipale)application).getEtEnCours().setFichiermp3("");
+	    seance.getEtEnCours().setFichiermp3("");
 	    try {
 	    	int retour = JOptionPane.showConfirmDialog(application, "Confirmez la ré initialisaition de la rubrique 'Connaissance'", "Réinitialisation", JOptionPane.OK_CANCEL_OPTION); 
 	    	if ( retour == JOptionPane.OK_OPTION) {

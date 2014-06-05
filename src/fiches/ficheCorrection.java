@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
+import metier.Seance;
 import metier.elementTraduc;
 import net.miginfocom.swing.MigLayout;
 
@@ -33,6 +34,7 @@ public class ficheCorrection extends JDialog implements ActionListener {
 
 	// Fiche principale
 	private Component application;
+	private Seance seance;
 	// Ensemble des id des traductions
 	private ArrayList<Integer> liste;
 	//Classe contenant une traduction
@@ -129,10 +131,10 @@ public class ficheCorrection extends JDialog implements ActionListener {
 		}
     }
 
-    public ficheCorrection(fenetrePrincipale app) {
+    public ficheCorrection(fenetrePrincipale app, Seance sc) {
 		super();
 		application = app;
-		liste = app.getListe();
+		seance = sc;
         this.setTitle(constantes.getTitreAppli());
         this.setSize(550, 270);
         this.setLocationRelativeTo(null);

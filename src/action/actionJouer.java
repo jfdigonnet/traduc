@@ -1,21 +1,19 @@
 package action;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.SwingWorker;
 
+import metier.Seance;
+
 import utilitaires.AudioFilePlayer;
 import utilitaires.constantes;
 
-import fiches.fenetrePrincipale;
-import fiches.ficheAffiRecherche;
-
 public class actionJouer implements ActionListener {
 
-	private Component application;
-	private String fichier = null;
+	private Seance seance;
+	private String fichier = "";
 	
     class MonSwingWorker extends SwingWorker<Integer, String> {
 
@@ -28,16 +26,11 @@ public class actionJouer implements ActionListener {
 	/***********************************************************
 	 * Jouer le fichier mp3 du mot en langue étrangère
 	 ***********************************************************/
-	public actionJouer(Component app) {
-		application = app;
+	public actionJouer(Seance sc) {
+		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
-        if (application instanceof fenetrePrincipale) {
-        	fichier = (((fenetrePrincipale)application).getEtEnCours().getFichiermp3());
-        }
-        if (application instanceof ficheAffiRecherche) {
-        	fichier = ((ficheAffiRecherche)application).getEtEnCours().getFichiermp3();
-        }
+       	fichier = seance.getEtEnCours().getFichiermp3();
     	System.out.println("On joue : " + fichier);
     	new MonSwingWorker().execute();
 	}

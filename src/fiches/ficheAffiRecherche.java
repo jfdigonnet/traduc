@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -18,9 +19,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingWorker;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import action.actionCocheMotAnglais;
+import action.actionCocheMotFrancais;
 import action.actionEnregistrerTraduction;
 import action.actionJouer;
 import action.actionSupprSon;
@@ -28,17 +32,24 @@ import action.actionSupprSon;
 import param.parametres;
 import persistence.gestionBases;
 
+import utilitaires.AudioFilePlayer;
 import utilitaires.constantes;
 
 import metier.elementTraduc;
 import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;
 
-
+/*
+ * On affiche le résultat d'un recherche
+ * On a entre 1 et n traductions à afficher
+ * On reçoit une liste des traductions à afficher
+ */
 public class ficheAffiRecherche extends JDialog implements ActionListener {
 
 	private JTextArea editF;
 	private JTextArea editGB;
+	private JCheckBox editCheckGBOk;
+	private JCheckBox editCheckFOk;
 	private ArrayList<Integer> listeCh;
 	// No de la traduction en cours pour les deux sens 
 	private int traducEnCours = -1;
@@ -48,8 +59,19 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 	private JButton boutonSuivant;
 	// Dernier répertoire utilisé
 	private String lastrepert = "";
+	// Pour le fcihier son
+	private String fichier = "";
 
-	public ficheAffiRecherche( ArrayList<Integer> liste) {
+    class MonSwingWorker extends SwingWorker<Integer, String> {
+
+		protected Integer doInBackground() throws Exception {
+	        final AudioFilePlayer player = new AudioFilePlayer ();
+	    	player.play(constantes.getRepMP3() + fichier);
+			return 0;
+		}
+    }
+
+    public ficheAffiRecherche( ArrayList<Integer> liste) {
 		lastrepert = parametres.getInstance().loadParamRep();
 		this.listeCh = liste;
 		JPanel panelSup = new JPanel();
@@ -87,6 +109,14 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		panelT.add(editGBScrollComm);
 		panelT.add(editFScrollComm);
 
+		editCheckGBOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue1().toLowerCase()  + " est désormais connu");
+//		editCheckGBOk.addActionListener(new actionCocheMotAnglais(this, seance));
+		panelT.add(editCheckGBOk);
+
+		editCheckFOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue2().toLowerCase()  + " est désormais connu");
+//		editCheckFOk.addActionListener(new actionCocheMotFrancais(this, seance));
+		panelT.add(editCheckFOk, "wrap");
+
 		panelSup.add(panelT, "wrap");
 		
 		JButton boutonSelFichierSon = new JButton("...");
@@ -97,14 +127,16 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		JButton boutonSupprSon = new JButton("X");
 		boutonSupprSon.setPreferredSize(new Dimension(40,25));
 		boutonSupprSon.setToolTipText("Supprimer la référence au son");
-		boutonSupprSon.addActionListener(new actionSupprSon(this));
+		boutonSupprSon.setActionCommand("supprson");
+		boutonSupprSon.addActionListener(this);
 		
 		JPanel panelS = new JPanel();
 		MigLayout layouS = new MigLayout("", "[] 5 []", "[] 5 [grow] 5 []");
 		panelS.setLayout(layouS);
 
 		boutonJouer = new JButton("Jouer");
-		boutonJouer.addActionListener(new actionJouer(this));
+		boutonJouer.setActionCommand("jouer");
+		boutonJouer.addActionListener(this);
 		boutonJouer.setMnemonic( KeyEvent.VK_J ) ;
 		boutonJouer.setPreferredSize(new Dimension(150,25));
 		boutonJouer.setEnabled(false);
@@ -129,7 +161,8 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 
 		JButton boutonEnreg = new JButton("Enregistrer");
 		boutonEnreg.setToolTipText("Enregistrer les modifications");
-		boutonEnreg.addActionListener(new actionEnregistrerTraduction(this));
+		boutonEnreg.setActionCommand("enreg");
+		boutonEnreg.addActionListener(this);
 
 		JButton boutonQuitter = new JButton("Fermer");
 		getRootPane().setDefaultButton(boutonQuitter);
@@ -171,6 +204,31 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals("ajoutson")) {
 			selectionneFichierSonore();
 		}
+
+		if (e.getActionCommand().equals("supprson")) {
+		    try {
+		    	gestionBases.getInstance().supprimeSon(etEnCours);
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement dans la base\n :" +
+						e1.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
+			}
+		}				
+		if (e.getActionCommand().equals("jouer")) {
+	    	new MonSwingWorker().execute();
+		}				
+		if (e.getActionCommand().equals("enreg")) {
+			etEnCours.setAnglaisSQL(this.getEditGB());
+			etEnCours.setFrancaisSQL(this.getEditF());
+			etEnCours.setGBOk(editCheckGBOk.isSelected());
+			etEnCours.setFOk(editCheckFOk.isSelected());
+			try {
+				gestionBases.getInstance().mod(etEnCours);
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données : " + e1.getLocalizedMessage(), 
+						"Enregistrement", 
+						JOptionPane.ERROR_MESSAGE);			
+			}
+		}				
 	}
 	private elementTraduc loadTraduction(Integer no) {
 		elementTraduc traduc;

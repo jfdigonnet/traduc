@@ -2,7 +2,8 @@ package action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+
+import metier.Seance;
 
 import fiches.fenetrePrincipale;
 import fiches.ficheAtteindre;
@@ -10,9 +11,11 @@ import fiches.ficheAtteindre;
 public class actionAtteindre implements ActionListener  {
 
 	private fenetrePrincipale application;
+	private Seance seance;
 	
-	public actionAtteindre(fenetrePrincipale app) {
+	public actionAtteindre(fenetrePrincipale app, Seance sc) {
 		application = app;
+		seance = sc;
 	}
 	/*
 	 * (non-Javadoc)
@@ -20,20 +23,20 @@ public class actionAtteindre implements ActionListener  {
 	 * On saisit le no de la traduction que l'on souhaire atteindre
 	 */
 	public void actionPerformed(ActionEvent e) {
-		// On récupère la liste de id
-		ArrayList<Integer> liste = application.getListe();
-		// On mémorise l'id supprimé pour le supprimer 
-		int ancIndex = liste.get(application.getNoTraducEnCours());
-
-		ficheAtteindre att = new ficheAtteindre( liste.size() );
+		ficheAtteindre att = new ficheAtteindre( seance.getListe().size() );
 		att.setModal(true);
 		// Centrer la fenêtre par rapport à la fenêtre principale 
 		att.setLocationRelativeTo(application);
 		att.setVisible(true);
 		if (att.getResultat()) {
-			application.setNoTraducEnCours( att.getValeur() - 1 );
-			application.setEtEnCours( application.loadTraduction( liste.get(ancIndex) ));
-		    application.soumettreTraduction( application.getEtEnCours() );
+			seance.setNoTraducEnCours( att.getValeur() - 1 );
+			try {
+				seance.setEtEnCours( seance.loadTraduction());
+			} catch (Exception e1) {
+				// Il faut lever une exception ici pour la transmettre à la fiche principale
+				e1.printStackTrace();
+			}
+			application.soumettreTraduction( seance.getEtEnCours() );
 		}
 	}	
 }

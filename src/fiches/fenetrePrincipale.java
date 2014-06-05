@@ -69,6 +69,7 @@ import persistence.gestionBases;
 import utilitaires.AudioFilePlayer;
 import utilitaires.constantes;
 
+import metier.Seance;
 import metier.elementTraduc;
 import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;
@@ -79,17 +80,6 @@ import net.miginfocom.swing.MigLayout;
 
 public class fenetrePrincipale extends JFrame implements ActionListener, KeyListener  {
 
-	// Variables globales
-	//Classe contenant une traduction
-	private elementTraduc etEnCours;
-	// Ensemble des id des traductions
-	private ArrayList<Integer> liste;
-	// GBVersF Donne le sens 0: GB vers F 1: F vers GB
-	// No de la traduction en cours pour les deux sens 
-	private int noTraducEnCours = -1;
-	private int vusseance = 0;
-	private int cochesseance = 0;
-	private int start = 0;
 	// Eléments d'interface
 	private JLabel labelBas;
 	private JTextArea editF;
@@ -105,24 +95,27 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private JButton boutonSupprSon;
 	// Utilitaires
 	Timer timer;          // Timer affichant le mot suivant
+	// les variable de la séance de formation qui s'ouvre
+	private Seance seance;
 	   
     class MonSwingWorker extends SwingWorker<Integer, String> {
 		protected Integer doInBackground() throws Exception {
 	        final AudioFilePlayer player = new AudioFilePlayer ();
-	    	player.play(constantes.getRepMP3() + etEnCours.getFichiermp3());
+	    	player.play(constantes.getRepMP3() + seance.getEtEnCours().getFichiermp3());
 			return 0;
 		}
     }
-	 public fenetrePrincipale() {
-		 noTraducEnCours = parametres.getInstance().getPositionTraduction();
+	public fenetrePrincipale() {
+		 seance = new Seance(this);
+		 seance.setNoTraducEnCours( parametres.getInstance().getPositionTraduction() );
 		 // On mémorise pour pouvoir recommencer la séance
-		 start = noTraducEnCours;
+		 seance.setStart( seance.getNoTraducEnCours() );
 		 chargeLibelleLangues();
 		 creeInterface();
 		 ajouteIcone();
 		 //gestion = new gestionBases();
 		 if (chargementListeID()) {
-			 if (liste.size() > 0) {
+			 if (seance.getListe().size() > 0) {
 				 afficheSuivant();
 			 } else {
 				 JOptionPane.showMessageDialog(this,
@@ -161,7 +154,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 */
 	public Boolean chargementListeID() {
 		try {
-			liste = chargeListeID(parametres.getInstance().getTypeTri());
+			seance.setListe( chargeListeID(parametres.getInstance().getTypeTri()) );
 			return true;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,
@@ -169,25 +162,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 							e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-	}
-	/**
-	 * On va charger une traduction dans la table
-	 * On part du l'identifiant de la traduction (clé primaire)
-	 * On renvoie une occurrence de l'objet elementTraduc
-	 * @param traduc
-	 * @return
-	 */
-	public elementTraduc loadTraduction(Integer no) {
-		elementTraduc traduc;
-		try {
-			traduc = gestionBases.getInstance().chargeUneTraduc( no );
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this,
-					"Erreur lors du chargement de la traduction no " + Integer.toString(liste.get(0)) + 
-							e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
-			return null;
-		}
-		return traduc;
 	}
 	/**
 	 * On charge la liste de clé primaires des traductions dans une liste d'entiers
@@ -307,20 +281,20 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		editCheckGBOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue1().toLowerCase()  + " est désormais connu");
 		//editCheckGBOk.setBounds(10, 80, 250, 20);
 		//editCheckGBOk.setPreferredSize(new Dimension(500, 25));
-		editCheckGBOk.addActionListener(new actionCocheMotAnglais(this));
+		editCheckGBOk.addActionListener(new actionCocheMotAnglais(this, seance));
 		panelT.add(editCheckGBOk);
 
 		editCheckFOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue2().toLowerCase()  + " est désormais connu");
 		//editCheckFOk.setBounds(10, 80, 250, 20);
 		//editCheckFOk.setPreferredSize(new Dimension(500, 25));
-		editCheckFOk.addActionListener(new actionCocheMotFrancais(this));
+		editCheckFOk.addActionListener(new actionCocheMotFrancais(this, seance));
 		panelT.add(editCheckFOk, "wrap");
 
 		majCheckBox();
 		
 		boutonJouer = new JButton("Jouer");
 		//boutonJouer.setBorder(nul);
-		boutonJouer.addActionListener(new actionJouer(this));
+		boutonJouer.addActionListener(new actionJouer(seance));
 		boutonJouer.setMnemonic( KeyEvent.VK_J ) ;
 		boutonJouer.setPreferredSize(new Dimension(150,25));
 		panel1.add(boutonJouer, "left");
@@ -335,7 +309,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		boutonSupprSon = new JButton("X");
 		boutonSupprSon.setPreferredSize(new Dimension(40,25));
 		boutonSupprSon.setToolTipText("Supprimer la référence au son");
-		boutonSupprSon.addActionListener(new actionSupprSon(this));
+		boutonSupprSon.addActionListener(new actionSupprSon(this, seance));
 		
 		panel1.add(boutonSelFichierSon);
 		panel1.add(boutonSupprSon, "wrap,left");
@@ -402,7 +376,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		ajoutTraduc.setMnemonic('A');
 
 		JMenuItem supprTraduc = new JMenuItem("Supprimer cette traduction");
-		supprTraduc.addActionListener(new actionSupprTraduction(this));
+		supprTraduc.addActionListener(new actionSupprTraduction(this, seance));
 		supprTraduc.setMnemonic('S');
 
 		JMenuItem affiStats = new JMenuItem("Afficher les statistiques");
@@ -413,7 +387,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		chouteAgain.addActionListener(
 				new ActionListener() {
 					public void actionPerformed(ActionEvent ae) {
-						 noTraducEnCours = start;
+						 seance.setNoTraducEnCours( seance.getStart() );
 						 afficheSuivant();
 					}
 				}
@@ -425,7 +399,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		interrogation.setMnemonic('i');
 
 		menuEnreg = new JMenuItem("Enregistrer");
-		menuEnreg.addActionListener(new actionEnregistrerTraduction(this));
+		menuEnreg.addActionListener(new actionEnregistrerTraduction(this, seance));
 		menuEnreg.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				KeyEvent.CTRL_DOWN_MASK));
 		menuEnreg.setMnemonic('E');
@@ -444,7 +418,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 
 		JMenuItem atteindre = new JMenuItem("Atteindre");
 		atteindre.setMnemonic('A');
-		atteindre.addActionListener(new actionAtteindre(this));
+		atteindre.addActionListener(new actionAtteindre(this,seance));
 
 		JMenuItem preferences = new JMenuItem("Préférences");
 		preferences.addActionListener(new actionPreferences(this));
@@ -473,10 +447,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		initNouLangue.setMnemonic('N');
 
 		JMenuItem reinitC = new JMenuItem("Réinitialiser les éléments 'Connaissance'");
-		reinitC.addActionListener(new reinitConnaissance(this));
+		reinitC.addActionListener(new reinitConnaissance(this, seance));
 
 		JMenuItem correction = new JMenuItem("Correction");
-		correction.addActionListener(new actionCorrection(this));
+		correction.addActionListener(new actionCorrection(this, seance));
 
 		// On initialise nos menus
 		menuFichier.add(ajoutTraduc);
@@ -557,7 +531,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		ImageIcon iconeEnreg = new ImageIcon("images/ok.png");
 		boutonEnreg = new JButton(iconeEnreg);
 		boutonEnreg.setToolTipText("Enregistrer les modifications");
-		boutonEnreg.addActionListener(new actionEnregistrerTraduction(this));
+		boutonEnreg.addActionListener(new actionEnregistrerTraduction(this, seance));
 		//boutonEnreg.setEnabled(false);
 
 		ImageIcon iconePrems = new ImageIcon("images/premier.png");
@@ -643,9 +617,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 							" vers\n" + ficOut.toString(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 				}
 		    }
-		    etEnCours.setFichiermp3( choixfichier.getSelectedFile().getName() );
+		    seance.getEtEnCours().setFichiermp3( choixfichier.getSelectedFile().getName() );
 		    try {
-		    	gestionBases.getInstance().majSon(etEnCours);
+		    	gestionBases.getInstance().majSon( seance.getEtEnCours() );
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement dans la base\n :" +
 						e.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
@@ -672,11 +646,11 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * On empeche l'enregistrement tant tout n'est pas affiché
 	 */
 	private void adapteBouton() {
-		boutonSuivant.setEnabled(noTraducEnCours < (liste.size() - 1));
-		boutonPrecedent.setEnabled(noTraducEnCours > 0);
-	    boutonJouer.setToolTipText( etEnCours.getFichiermp3() );
-	    boutonJouer.setEnabled( etEnCours.getFichiermp3().trim().length() > 0);
-		boutonSupprSon.setEnabled(etEnCours.getFichiermp3().trim().length() > 0);
+		boutonSuivant.setEnabled( seance.getNoTraducEnCours() < (seance.getListe().size() - 1));
+		boutonPrecedent.setEnabled( seance.getNoTraducEnCours() > 0);
+	    boutonJouer.setToolTipText( seance.getEtEnCours().getFichiermp3() );
+	    boutonJouer.setEnabled( seance.getEtEnCours().getFichiermp3().trim().length() > 0);
+		boutonSupprSon.setEnabled(seance.getEtEnCours().getFichiermp3().trim().length() > 0);
 	}
 	/**********************************************************
 	 * les actions effectuées
@@ -704,22 +678,28 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		 * Afficher le dernier mot 
 		 ***********************************************************/
 		if (e.getActionCommand().equals("dernier")) {
-			noTraducEnCours = liste.size() - 1;
-			etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-			soumettreTraduction( etEnCours );
+			seance.setNoTraducEnCours( seance.getListe().size() - 1);
+			try {
+				seance.setEtEnCours( seance.loadTraduction() );
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this,
+						"Erreur lors du chargement de la traduction no " + Integer.toString( seance.getNoTraducEnCours() ) + 
+								e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+			}
+			soumettreTraduction( seance.getEtEnCours() );
 		}				
 		/***********************************************************
 		 * On quitte l'application
 		 ***********************************************************/
 		if (e.getActionCommand().equals("quitter")) {
-			parametres.getInstance().sauvePosLecture( noTraducEnCours );
+			parametres.getInstance().sauvePosLecture( seance.getNoTraducEnCours() );
 			System.exit(0);
 		}
 		/***********************************************************
 		 * Afficher la traduction du mot
 		 ***********************************************************/
 		if (e.getActionCommand().equals("affitraduc")) {
-			affichageTraduc(etEnCours);
+			affichageTraduc( seance.getEtEnCours() );
 			// Création et lancement du timer
 			if (parametres.getInstance().getSuivantAuto()) {
 				boutonAffiTraduc.setEnabled(false);
@@ -738,37 +718,22 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * 
 	 */
 	public void affichePremier() {
-		noTraducEnCours = 0;
-		etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-		soumettreTraduction( etEnCours );
+		seance.setNoTraducEnCours( 0 );
+		try {
+			seance.setEtEnCours( seance.loadTraduction() );
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(this,
+					"Erreur lors du chargement de la traduction no " + Integer.toString( seance.getNoTraducEnCours() ) + 
+							e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+		}
+		soumettreTraduction( seance.getEtEnCours() );
 	}
 	/**
 	 * Affichage de la traduction précédente
 	 */
 	private void affichePrecedent() {
-		if (noTraducEnCours > 0) {
-			if (parametres.getInstance().getAfficherTousLesMots()) {
-				noTraducEnCours--;
-				etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-				soumettreTraduction( etEnCours );
-			} else {
-				int ancIndex = noTraducEnCours;
-				do {
-					noTraducEnCours--;
-					if (noTraducEnCours == 0) {
-						etEnCours = loadTraduction( liste.get(ancIndex) );
-						soumettreTraduction( etEnCours );
-						JOptionPane.showConfirmDialog(this, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
-					} else {
-						etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-						soumettreTraduction( etEnCours );
-//							System.out.println(traducEnCours);
-//							System.out.println( liste.size());
-//							System.out.println(etEnCours.getConnu(GBVersF));
-					}
-				} while ((etEnCours.getConnu(parametres.getInstance().getSens()) && (noTraducEnCours > 0) ));
-			}
-		}
+		seance.affichePrecedent();
+		soumettreTraduction( seance.getEtEnCours() );
 	}
 	/**
 	 * On incrémente le compteur de traduction
@@ -778,45 +743,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * Si non on recommence
 	 */
 	private void afficheSuivant() {
-		System.out.println(noTraducEnCours);
-		System.out.println(liste.size());
-		if (noTraducEnCours < liste.size()) {
-			if (parametres.getInstance().getTypeTri() == 3) {
-					noTraducEnCours = (int)Math.random() * liste.size();
-					Random rand = new Random();
-					int nombreAleatoire = rand.nextInt(liste.size() - 1 + 1) + 1;
-					System.out.println(nombreAleatoire);
-					noTraducEnCours = nombreAleatoire;
-					etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-					soumettreTraduction( etEnCours );
-			} else {
-				if (parametres.getInstance().getAfficherTousLesMots()) {
-					noTraducEnCours++;
-					etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-					soumettreTraduction( etEnCours );
-				} else {
-					int ancIndex = noTraducEnCours;
-					do {
-						noTraducEnCours++;
-						if (noTraducEnCours == liste.size() - 1) {
-							etEnCours = loadTraduction( liste.get(ancIndex) );
-							soumettreTraduction( etEnCours );
-							JOptionPane.showConfirmDialog(this, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
-						} else {
-							System.out.println(liste.get(noTraducEnCours) );
-							etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-							soumettreTraduction( etEnCours );
-						}
-					} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
-				}
-			}
-			vusseance++;
-			boutonAffiTraduc.setEnabled(true);
-		} else {
-			noTraducEnCours = liste.size() - 1;
-			etEnCours = loadTraduction( liste.get(noTraducEnCours) );
-			soumettreTraduction( etEnCours );
-		}
+		seance.afficheSuivant();
+		soumettreTraduction( seance.getEtEnCours() );
+		boutonAffiTraduc.setEnabled(true);
 	}
 	class MonAction extends TimerTask {
 		public void run() {
@@ -840,7 +769,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			 afficheSuivant();
 		 }
 		 if (event.getExtendedKeyCode() == 524) {
-			 affichageTraduc(etEnCours);
+			 affichageTraduc( seance.getEtEnCours() );
 		 }
 		 if (event.getExtendedKeyCode() == 9) {
 			 if (editGB.isFocusOwner() ) 
@@ -871,18 +800,19 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		adapteBouton();
 		menuEnreg.setEnabled(false);
 		boutonEnreg.setEnabled(false);
-		affiLigneStatus();
 		if (parametres.getInstance().getJoueTDS()) {
 			if (et.getFichiermp3().length() > 0) {
 				new MonSwingWorker().execute();
 			}
 		}
+		seance.incVusseance();
+		affiLigneStatus();
 	}
 	/**
 	 * 
 	 */
 	public void affiLigneStatus() {
-		labelBas.setText( " Mot en cours  : " + (noTraducEnCours + 1) + " sur " + (liste.size()) + "  Mot dans la séance : " + vusseance + " Acquis au cours de la séance : " + cochesseance);
+		labelBas.setText( seance.getLigneStatus() );
 	}
 	/**
 	 * @param et
@@ -903,9 +833,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		menuEnreg.setEnabled(true);
 		boutonEnreg.setEnabled(true);
 	}
-	public elementTraduc getEtEnCours() {
-		return etEnCours;
-	}
 	public void keyReleased(KeyEvent e) {	}
 	public String getEditF() {
 		return editF.getText() ;
@@ -918,23 +845,5 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	}
 	public Boolean getEditCheckFOk() {
 		return editCheckFOk.isSelected() ;
-	}
-	public ArrayList<Integer> getListe() {
-		return liste;
-	}
-	public void setEtEnCours(elementTraduc etEnCours) {
-		this.etEnCours = etEnCours;
-	}
-	public int getNoTraducEnCours() {
-		return noTraducEnCours;
-	}
-	public void setNoTraducEnCours( int no ) {
-		this.noTraducEnCours = no; 
-	}
-	public int getCochesseance() {
-		return cochesseance;
-	}
-	public void setCochesseance(int cochesseance) {
-		this.cochesseance = cochesseance;
 	}
 }
