@@ -31,19 +31,17 @@ public class actionSupprTraduction implements ActionListener {
 		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
-		// On récupère la liste de id
-		ArrayList<Integer> liste = seance.getListe();
 		// On mémorise l'id supprimé pour le supprimer 
-		int ancIndex = liste.get(seance.getNoTraducEnCours());
+		int ancIndex = seance.getListe().get(seance.getNoTraducEnCours());
 		// On le supprime de la liste
-		liste.remove(seance.getNoTraducEnCours());
+		seance.getListe().remove(seance.getNoTraducEnCours());
 		try {
 			// On le supprime de la base de données
 			gestionBases.getInstance().supprimeTraduction( ancIndex );
 			// On recharge un element de traduction : celui qui occupe la place supprimé
 			// Il faudra ajouter un test quand on supprime le dernier
-			if (seance.getNoTraducEnCours() == liste.size()) {
-				seance.setNoTraducEnCours(liste.size());
+			if (seance.getNoTraducEnCours() == seance.getListe().size()) {
+				seance.setNoTraducEnCours(seance.getListe().size());
 			}
 			elementTraduc et = seance.loadTraduction();
 			// On la mémorise

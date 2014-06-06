@@ -107,7 +107,7 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		editFScrollComm.setPreferredSize(new Dimension(400, 300));
 
 		panelT.add(editGBScrollComm);
-		panelT.add(editFScrollComm);
+		panelT.add(editFScrollComm, "wrap");
 
 		editCheckGBOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue1().toLowerCase()  + " est désormais connu");
 //		editCheckGBOk.addActionListener(new actionCocheMotAnglais(this, seance));

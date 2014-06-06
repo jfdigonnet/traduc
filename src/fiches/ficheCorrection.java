@@ -218,5 +218,4 @@ public class ficheCorrection extends JDialog implements ActionListener {
 			simulation = !simulation;
 		}
 	}
-
 }

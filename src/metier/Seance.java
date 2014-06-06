@@ -29,8 +29,47 @@ public class Seance {
 	
 	public Seance(fenetrePrincipale fenetrePrincipale) {
 		application = fenetrePrincipale;
+		setNoTraducEnCours( parametres.getInstance().getPositionTraduction() );
+		// On mémorise pour pouvoir recommencer la séance
+		setStart( getNoTraducEnCours() );
+		chargeLibelleLangues();
 	}
-
+	/**
+	 * On charge la liste de clé primaires des traductions dans une liste d'entier
+	 * On charge le type de tri pour présenter les données
+	 * Les types de tri sont listés dans le tableau tyepTri 
+	 * On peut trier les mots :
+	 * "Date de création (Du plus ancien au plus récent)"
+	 * "Langue étrangère"
+	 * "Langue maternelle"
+	 * "Au hasard"
+	 * "Date de création (Du plus récent au plus ancien)"
+	 */
+	public Boolean chargementListeID() {
+		try {
+			setListe( gestionBases.getInstance().listeMots(parametres.getInstance().getTypeTri()) );
+			return true;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(application,
+							"Erreur lors du chargement de la liste des traductions :" + 
+							e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+	/*
+	 * On charge dans la table des paramètres les libellés des langues 1 et 2
+	 * Ces libellés sont toujours là car ils sont obligatoires dans le module
+	 * (à écrire) d'initialisation d'un nouveau module de langue
+	 */
+	private void chargeLibelleLangues() {
+		 try {
+			gestionBases.getInstance().litLibelleLangues();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(application,
+					"Erreur lors du chargement des libellés des langues :" + 
+					e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+		}
+	}
 	/**
 	 * On va charger une traduction dans la table
 	 * On part du l'identifiant de la traduction (clé primaire)
@@ -41,7 +80,7 @@ public class Seance {
 	 */
 	public elementTraduc loadTraduction() throws Exception {
 		elementTraduc traduc;
-		traduc = gestionBases.getInstance().chargeUneTraduc( noTraducEnCours );
+		traduc = gestionBases.getInstance().chargeUneTraduc( liste.get(noTraducEnCours) );
 		return traduc;
 	}
 	private void chargeTraduction() {

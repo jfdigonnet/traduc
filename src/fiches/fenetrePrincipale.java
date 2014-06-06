@@ -10,10 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
@@ -23,7 +20,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -44,6 +40,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import action.actionAjouteSon;
 import action.actionAtteindre;
 import action.actionAuSujetDe;
 import action.actionChercherUnMot;
@@ -55,6 +52,7 @@ import action.actionImporter;
 import action.actionJouer;
 import action.actionNouvelleTraduction;
 import action.actionPreferences;
+import action.actionQuitter;
 import action.actionRestaurer;
 import action.actionSauvegarde;
 import action.actionStat;
@@ -64,7 +62,6 @@ import action.actioninitNouLangue;
 import action.reinitConnaissance;
 
 import param.parametres;
-import persistence.gestionBases;
 
 import utilitaires.AudioFilePlayer;
 import utilitaires.constantes;
@@ -107,14 +104,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
     }
 	public fenetrePrincipale() {
 		 seance = new Seance(this);
-		 seance.setNoTraducEnCours( parametres.getInstance().getPositionTraduction() );
-		 // On mémorise pour pouvoir recommencer la séance
-		 seance.setStart( seance.getNoTraducEnCours() );
-		 chargeLibelleLangues();
 		 creeInterface();
 		 ajouteIcone();
 		 //gestion = new gestionBases();
-		 if (chargementListeID()) {
+		 if (seance.chargementListeID()) {
 			 if (seance.getListe().size() > 0) {
 				 afficheSuivant();
 			 } else {
@@ -124,55 +117,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			 setFocusable(true);
 		 }
 	}
-	/*
-	 * On charge dans la table des paramètres les libellés des langues 1 et 2
-	 * Ces libellés sont toujours là car ils sont obligatoires dans le module
-	 * (à écrire) d'initialisation d'un nouveau module de langue
-	 */
-	private void chargeLibelleLangues() {
-		 try {
-			gestionBases.getInstance().litLibelleLangues();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this,
-					"Erreur lors du chargement des libellés des langues :" + 
-					e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
-		}
-	}
 	private void ajouteIcone() {
 		 Image icone = Toolkit.getDefaultToolkit().getImage("images/address-book-new-2.png");
 		 this.setIconImage(icone);
 	 }
-	/**
-	 * On charge le type de tri pour présenter les données
-	 * Les types de tri sont listés dans le tableau tyepTri 
-	 * On peut trier les mots :
-	 * "Date de création (Du plus ancien au plus récent)"
-	 * "Langue étrangère"
-	 * "Langue maternelle"
-	 * "Au hasard"
-	 * "Date de création (Du plus récent au plus ancien)"
-	 */
-	public Boolean chargementListeID() {
-		try {
-			seance.setListe( chargeListeID(parametres.getInstance().getTypeTri()) );
-			return true;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this,
-							"Erreur lors du chargement de la liste des traductions :" + 
-							e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-	}
-	/**
-	 * On charge la liste de clé primaires des traductions dans une liste d'entiers
-	 * @param tri 
-	 * @return : la liste des clés
-	 * @throws Exception 
-	 * 
-	 */
-	private ArrayList<Integer> chargeListeID(Integer tri) throws Exception {
-		return gestionBases.getInstance().listeMots(tri);
-	}
 	/**
 	 * 
 	 */
@@ -303,8 +251,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		boutonSelFichierSon.setPreferredSize(new Dimension(40,25));
 		//boutonSelFichierSon.setBorder(myRaisedBorder);
 		boutonSelFichierSon.setToolTipText("Ajouter / Modifier un enregistrement sonore");
-		boutonSelFichierSon.addActionListener(this);
-		boutonSelFichierSon.setActionCommand("ajoutson");
+		boutonSelFichierSon.addActionListener(new actionAjouteSon(this, seance));
 
 		boutonSupprSon = new JButton("X");
 		boutonSupprSon.setPreferredSize(new Dimension(40,25));
@@ -405,8 +352,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		menuEnreg.setMnemonic('E');
 
 		JMenuItem fermer = new JMenuItem("Quitter");
-		fermer.addActionListener(this);
-		fermer.setActionCommand("quitter");
+		fermer.addActionListener(new actionQuitter(this, seance));
 		fermer.setMnemonic('Q');
 		fermer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
 				KeyEvent.ALT_DOWN_MASK));
@@ -566,8 +512,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		ImageIcon iconeQuitter = new ImageIcon("images/exit.png");
 		JButton boutonQuitter = new JButton(iconeQuitter);
 		boutonQuitter.setToolTipText("Quitter l'application");
-		boutonQuitter.setActionCommand("quitter");
-		boutonQuitter.addActionListener(this);
+		boutonQuitter.addActionListener(new actionQuitter(this, seance));
 
 		barreOutils.add(boutonAjouter);
 		barreOutils.add(boutonEnreg);
@@ -592,41 +537,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		} catch (Exception e) {
 		}
 	}
-	/**
-	 * On choisit le fichier sonore correspondant à la traduction
-	 * On copie le fichier dans le dossier des sons
-	 * et on enregistre l'information en base
-	 */
-	private void selectionneFichierSonore() {
-		JFileChooser choixfichier = new JFileChooser();
-		choixfichier.setDialogTitle("Choix du fichier sonore");
-		// Empeche de pouvoir sélectionner Tous les fichiers
-		choixfichier.setAcceptAllFileFilterUsed(false);
-		choixfichier.setCurrentDirectory(new File(parametres.getInstance().loadParamRep()));
-		choixfichier.setFileFilter(new filtreFichierSon());
-		int returnVal = choixfichier.showOpenDialog(this);
-		if ( returnVal == 0) {
-			parametres.getInstance().sauveParamRep(choixfichier.getSelectedFile().getParent());
-		    if ( choixfichier.getSelectedFile().getParent() + File.separator !=  constantes.getRepMP3() ) { 
-			    // Copie du fichier dans le dossier des sons
-				File ficIn = new File( choixfichier.getSelectedFile().getAbsolutePath()  );
-				//System.out.println(constantes.getRepMP3() + choixfichier.getSelectedFile().getName());
-				File ficOut = new File(constantes.getRepMP3() + choixfichier.getSelectedFile().getName());
-				if (! ficIn.renameTo(ficOut)) {
-					JOptionPane.showMessageDialog(this, "Erreur lors du déplacement du fichier\n" + ficIn.toString() + 
-							" vers\n" + ficOut.toString(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
-				}
-		    }
-		    seance.getEtEnCours().setFichiermp3( choixfichier.getSelectedFile().getName() );
-		    try {
-		    	gestionBases.getInstance().majSon( seance.getEtEnCours() );
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement dans la base\n :" +
-						e.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
-			}
-		    adapteBouton();
-		}
-	}
 	/*
 	 * Look et style de l'application en fonction du l'OS
 	 */
@@ -645,7 +555,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * en fonction de la valeur de traducEnCours (Position dans la lecture)
 	 * On empeche l'enregistrement tant tout n'est pas affiché
 	 */
-	private void adapteBouton() {
+	public void adapteBouton() {
 		boutonSuivant.setEnabled( seance.getNoTraducEnCours() < (seance.getListe().size() - 1));
 		boutonPrecedent.setEnabled( seance.getNoTraducEnCours() > 0);
 	    boutonJouer.setToolTipText( seance.getEtEnCours().getFichiermp3() );
@@ -689,13 +599,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			soumettreTraduction( seance.getEtEnCours() );
 		}				
 		/***********************************************************
-		 * On quitte l'application
-		 ***********************************************************/
-		if (e.getActionCommand().equals("quitter")) {
-			parametres.getInstance().sauvePosLecture( seance.getNoTraducEnCours() );
-			System.exit(0);
-		}
-		/***********************************************************
 		 * Afficher la traduction du mot
 		 ***********************************************************/
 		if (e.getActionCommand().equals("affitraduc")) {
@@ -707,12 +610,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 				timer.scheduleAtFixedRate(new MonAction(), parametres.getInstance().getDelaisSuivant() * 1000, 5000);
 			}
 		}				
-		/***********************************************************
-		 * Slectionner le fichier sonore
-		 ***********************************************************/
-		if (e.getActionCommand().equals("ajoutson")) {
-			selectionneFichierSonore();
-		}
 	}
 	/**
 	 * 
@@ -745,7 +642,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private void afficheSuivant() {
 		seance.afficheSuivant();
 		soumettreTraduction( seance.getEtEnCours() );
-		boutonAffiTraduc.setEnabled(true);
 	}
 	class MonAction extends TimerTask {
 		public void run() {
@@ -800,6 +696,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		adapteBouton();
 		menuEnreg.setEnabled(false);
 		boutonEnreg.setEnabled(false);
+		boutonAffiTraduc.setEnabled(true);
 		if (parametres.getInstance().getJoueTDS()) {
 			if (et.getFichiermp3().length() > 0) {
 				new MonSwingWorker().execute();
@@ -817,6 +714,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	/**
 	 * @param et
 	 * On affiche la traduction du mot en cours
+	 * On a affiché un mot en GB ou en F et on affiche sa traduction dans l'autre langue
 	 * Du français si on est dans le sens GB -> F
 	 * et inversement
 	 */
