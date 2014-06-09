@@ -19,7 +19,7 @@ public class actionJouer implements ActionListener {
 
 		protected Integer doInBackground() throws Exception {
 	        final AudioFilePlayer player = new AudioFilePlayer ();
-	    	player.play(constantes.getRepMP3() + fichier);
+	    	player.play(fichier);
 			return 0;
 		}
     }
@@ -30,7 +30,7 @@ public class actionJouer implements ActionListener {
 		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
-       	fichier = seance.getEtEnCours().getFichiermp3();
+       	fichier = constantes.getRepMP3() + seance.getEtEnCours().getFichiermp3();
     	System.out.println("On joue : " + fichier);
     	new MonSwingWorker().execute();
 	}

@@ -367,7 +367,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		atteindre.addActionListener(new actionAtteindre(this,seance));
 
 		JMenuItem preferences = new JMenuItem("Préférences");
-		preferences.addActionListener(new actionPreferences(this));
+		preferences.addActionListener(new actionPreferences(this, seance));
 		preferences.setMnemonic('P');
 
 		JMenuItem ausujetde = new JMenuItem("Au sujet de");
@@ -507,7 +507,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		ImageIcon iconePref = new ImageIcon("images/pref.png");
 		JButton boutonPref = new JButton(iconePref);
 		boutonPref.setToolTipText("Préférences");
-		boutonPref.addActionListener(new actionPreferences(this));
+		boutonPref.addActionListener(new actionPreferences(this, seance));
 
 		ImageIcon iconeQuitter = new ImageIcon("images/exit.png");
 		JButton boutonQuitter = new JButton(iconeQuitter);
