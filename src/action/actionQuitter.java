@@ -25,5 +25,4 @@ public class actionQuitter implements ActionListener {
 		parametres.getInstance().sauvePosLecture( seance.getNoTraducEnCours() );
 		System.exit(0);
 	}
-
 }

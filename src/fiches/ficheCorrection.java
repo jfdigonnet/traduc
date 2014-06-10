@@ -35,8 +35,6 @@ public class ficheCorrection extends JDialog implements ActionListener {
 	// Fiche principale
 	private Component application;
 	private Seance seance;
-	// Ensemble des id des traductions
-	private ArrayList<Integer> liste;
 	//Classe contenant une traduction
 	private elementTraduc etEnCours;
     private 	JButton 	okBouton;
@@ -58,21 +56,21 @@ public class ficheCorrection extends JDialog implements ActionListener {
         }
 		protected Integer doInBackground() {
 	    	Integer nbCor = 0;
-	    	progressBar.setMaximum(liste.size() - 1);
+	    	progressBar.setMaximum( seance.getListe().size() - 1);
 	    	setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
-			suivi.append("Nombre de traduction : " + liste.size() + "\n");
+			suivi.append("Nombre de traduction : " + seance.getListe().size() + "\n");
 			suivi.append("-------------------------------------------\n");
 	    	try {
-		    	if (liste.size() > 0) {
-		    		for (int i=0; i<(liste.size()); i++) {
+		    	if (seance.getListe().size() > 0) {
+		    		for (int i=0; i<(seance.getListe().size()); i++) {
 		        			progressBar.setValue(i+1);
 		        			System.out.println(i);
 		        			try {
-		        				etEnCours = gestionBases.getInstance().chargeUneTraduc( liste.get(liste.get(i)) );
+		        				etEnCours = gestionBases.getInstance().chargeUneTraduc( seance.getListe().get(seance.getListe().get(i)) );
 		        			} catch (Exception e1) {
 		        				JOptionPane.showMessageDialog(null, 
 		        						"Importer : Une erreur est intervenue lors de la lecture de la table : " + e1.getLocalizedMessage() + "\n" +  
-		        						"Indice de lecture : " + liste.get(liste.get(i)) + "\n" + 
+		        						"Indice de lecture : " + seance.getListe().get(seance.getListe().get(i)) + "\n" + 
 		        						"Arrêt de la procédure", 
 		        						"Correction", 
 		        						JOptionPane.WARNING_MESSAGE, 
@@ -119,7 +117,7 @@ public class ficheCorrection extends JDialog implements ActionListener {
 					suivi.append("Nombre de traduction corrigée : " + nbCor + "\n");
 					suivi.append("----------------------------------------------------\n");
 		    		setCursor(Cursor.getDefaultCursor());
-	    			JOptionPane.showMessageDialog(application, "Traitement de correction terminé avec succès\nNombre de traduction lues " + liste.size() + 
+	    			JOptionPane.showMessageDialog(application, "Traitement de correction terminé avec succès\nNombre de traduction lues " + seance.getListe().size() + 
 	    					                            "Nombre de correction apportées : " + nbCor.toString(),
 	    					                            "Correction", JOptionPane.OK_OPTION);
 		    	}
@@ -127,7 +125,7 @@ public class ficheCorrection extends JDialog implements ActionListener {
 	    	finally {
 	    		setCursor(Cursor.getDefaultCursor());
 	    	}
-	    	return liste.size();
+	    	return seance.getListe().size();
 		}
     }
 

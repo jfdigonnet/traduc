@@ -23,12 +23,6 @@ import javax.swing.SwingWorker;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
-import action.actionCocheMotAnglais;
-import action.actionCocheMotFrancais;
-import action.actionEnregistrerTraduction;
-import action.actionJouer;
-import action.actionSupprSon;
-
 import param.parametres;
 import persistence.gestionBases;
 
@@ -59,18 +53,16 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 	private JButton boutonSuivant;
 	// Dernier répertoire utilisé
 	private String lastrepert = "";
-	// Pour le fcihier son
-	private String fichier = "";
 
     class MonSwingWorker extends SwingWorker<Integer, String> {
 
 		protected Integer doInBackground() throws Exception {
 	        final AudioFilePlayer player = new AudioFilePlayer ();
-	    	player.play(constantes.getRepMP3() + fichier);
+	        System.out.println("On joue : " + constantes.getRepMP3() + etEnCours.getFichiermp3().trim());
+	    	player.play(constantes.getRepMP3() + etEnCours.getFichiermp3().trim());
 			return 0;
 		}
     }
-
     public ficheAffiRecherche( ArrayList<Integer> liste) {
 		lastrepert = parametres.getInstance().loadParamRep();
 		this.listeCh = liste;
