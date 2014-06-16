@@ -102,14 +102,18 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		panelT.add(editFScrollComm, "wrap");
 
 		editCheckGBOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue1().toLowerCase()  + " est désormais connu");
-//		editCheckGBOk.addActionListener(new actionCocheMotAnglais(this, seance));
+		editCheckGBOk.addActionListener(this);
+		editCheckGBOk.setActionCommand("langue1");
 		panelT.add(editCheckGBOk);
 
 		editCheckFOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue2().toLowerCase()  + " est désormais connu");
-//		editCheckFOk.addActionListener(new actionCocheMotFrancais(this, seance));
+		editCheckFOk.addActionListener(this);
+		editCheckFOk.setActionCommand("langue2");
 		panelT.add(editCheckFOk, "wrap");
 
 		panelSup.add(panelT, "wrap");
+
+		majCheckBox();
 		
 		JButton boutonSelFichierSon = new JButton("...");
 		boutonSelFichierSon.setToolTipText("Ajouter / Modifier un enregistrement sonore");
@@ -183,7 +187,40 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 	    
 	    afficheSuivant();
 	}
+	/**
+	 * En fonction du sens de la lecture (GB vers F ou inversement) on 
+	 * n'affiche qu'une seule des deux options "Mot connu"
+	 */
+	public void majCheckBox() {
+		if (parametres.getInstance().getSens()) {
+			editCheckGBOk.setVisible(true);
+			editCheckFOk.setVisible(false);
+		} else {
+			editCheckGBOk.setVisible(false);
+			editCheckFOk.setVisible(true);
+		}
+	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("langue1")) {
+			etEnCours.setGBOk(editCheckGBOk.isSelected());
+			try {
+				gestionBases.getInstance().modConnuGB( etEnCours );
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données (" + paramLangues.getInstance().getLibLangue1() + ") : " + e1.getLocalizedMessage(), 
+						"Enregistrement", 
+						JOptionPane.ERROR_MESSAGE);			
+			}
+		}				
+		if (e.getActionCommand().equals("langue2")) {
+			etEnCours.setFOk(editCheckFOk.isSelected());
+			try {
+				gestionBases.getInstance().modConnuF( etEnCours );
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données (" + paramLangues.getInstance().getLibLangue2() + ") : " + e1.getLocalizedMessage(), 
+						"Enregistrement", 
+						JOptionPane.ERROR_MESSAGE);			
+			}
+		}				
 		if (e.getActionCommand().equals("fermer")) {
 			this.setVisible(false);
 		}				
@@ -239,6 +276,8 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		editGB.setText("");
 		editGB.setText(et.getAnglais());
 		editF.setText(et.getFrancais());
+		editCheckGBOk.setSelected(et.getGBOk());
+		editCheckFOk.setSelected(et.getFOk());
 		boutonJouer.setToolTipText(etEnCours.getFichiermp3().trim());
 		editGB.requestFocus();
 		editGB.setCaretPosition(0);

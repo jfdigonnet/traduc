@@ -739,9 +739,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		return editGB.getText() ;
 	}
 	public Boolean getEditCheckGBOk() {
-		return editCheckGBOk.isSelected() ;
+		return editCheckGBOk.isSelected();
 	}
 	public Boolean getEditCheckFOk() {
-		return editCheckFOk.isSelected() ;
+		return editCheckFOk.isSelected();
 	}
 }

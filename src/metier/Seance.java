@@ -114,7 +114,7 @@ public class Seance {
 //							System.out.println( liste.size());
 //							System.out.println(etEnCours.getConnu(GBVersF));
 					}
-				} while ((etEnCours.getConnu(parametres.getInstance().getSens()) && (noTraducEnCours > 0) ));
+				} while ((etEnCours.getConnu(parametres.getInstance().getSens()) && (noTraducEnCours >= 0) ));
 			}
 		}
 	}

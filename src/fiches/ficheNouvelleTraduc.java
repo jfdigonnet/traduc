@@ -17,12 +17,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import param.parametres;
 import persistence.gestionBases;
 
+import utilitaires.AudioFilePlayer;
 import utilitaires.constantes;
 
 import metier.elementTraduc;
@@ -34,8 +36,17 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 
 	private JTextArea editF;
 	private JTextArea editGB;
-	private JTextField fichier;
+	private JTextField fichierJField;
 
+    class MonSwingWorker extends SwingWorker<Integer, String> {
+
+		protected Integer doInBackground() throws Exception {
+	        final AudioFilePlayer player = new AudioFilePlayer ();
+	        System.out.println("On joue : " + fichierJField);
+	    	player.play(constantes.getRepMP3() + fichierJField);
+			return 0;
+		}
+    }
 	public ficheNouvelleTraduc() {
 		setTitle("Nouvelle traduction");
 
@@ -73,20 +84,25 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 
 		panelSup.add(panelT, "wrap");
 		
-		fichier = new JTextField();
-		fichier.setPreferredSize(new Dimension(625,25));
+		fichierJField = new JTextField();
+		fichierJField.setPreferredSize(new Dimension(625,25));
 		
 		JButton boutonSelFichierSon = new JButton("...");
 		boutonSelFichierSon.setToolTipText("Ajouter / Modifier un enregistrement sonore");
 		boutonSelFichierSon.addActionListener(this);
 		boutonSelFichierSon.setActionCommand("ajoutson");
 
+		JButton boutonJouer = new JButton("Jouer");
+		boutonJouer.setToolTipText("Joure le fichierJField sonore");
+		boutonJouer.addActionListener(this);
+		boutonJouer.setActionCommand("jouer");
+
 		JPanel panelS = new JPanel();
 		MigLayout layouS = new MigLayout("", "[] 5 []", "[] 5 [grow] 5 []");
 		panelS.setLayout(layouS);
 
 		panelS.add(new JLabel("Fichier sonore"), "align label");
-		panelS.add(fichier, "grow");
+		panelS.add(fichierJField, "grow");
 		panelS.add(boutonSelFichierSon);
 		
 		JPanel panelB = new JPanel();
@@ -121,14 +137,14 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		setSize(800,400);
 	}
 	/**
-	 * On choisit le fichier sonore correspondant à la traduction
-	 * On supprimer l'ancien fichier s'il existe
-	 * On copie le fichier dans le dossier des sons
+	 * On choisit le fichierJField sonore correspondant à la traduction
+	 * On supprimer l'ancien fichierJField s'il existe
+	 * On copie le fichierJField dans le dossier des sons
 	 * et on enregistre l'information en base
 	 */
 	private void selectionneFichierSonore() {
 		JFileChooser choixfichier = new JFileChooser();
-		choixfichier.setDialogTitle("Choix du fichier sonore");
+		choixfichier.setDialogTitle("Choix du fichierJField sonore");
 		// Empeche de pouvoir sélectionner Tous les fichiers
 		choixfichier.setAcceptAllFileFilterUsed(false);
 		choixfichier.setCurrentDirectory(new File(parametres.getInstance().loadParamRep()));
@@ -138,7 +154,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 			System.out.println(returnVal);
 			System.out.println(choixfichier.getSelectedFile().getAbsolutePath());
 			parametres.getInstance().sauveParamRep(choixfichier.getSelectedFile().getParent());
-			fichier.setText( choixfichier.getSelectedFile().getAbsolutePath() );
+			fichierJField.setText( choixfichier.getSelectedFile().getAbsolutePath() );
 		}
 	}	
 	public void actionPerformed(ActionEvent e) {
@@ -155,13 +171,13 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 			}
 			try {
 				if (enregsitrementTraduction()) {
-					// Copie du fichier son dans le dossier des mp3
-					if (fichier.getText().trim().length() > 0) {
-						traiteFichierSon(fichier.getText().trim());
+					// Copie du fichierJField son dans le dossier des mp3
+					if (fichierJField.getText().trim().length() > 0) {
+						traiteFichierSon(fichierJField.getText().trim());
 					} 
 					editGB.setText("");
 					editF.setText("");
-					fichier.setText("");
+					fichierJField.setText("");
 					editGB.requestFocus();
 				}
 			} catch (Exception e1) {
@@ -174,7 +190,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		}
 	}
 	/*
-	 * On va traiter le fichier son
+	 * On va traiter le fichierJField son
 	 * Si le précédent existe, on le supprime
 	 * S'il n'est pas déja présent dans le dossier de destination
 	 * des mp3, on l'y déplace
@@ -186,32 +202,32 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 				try {
 					ficAnc.delete();
 			    } catch( Exception ex ) {
-			    	JOptionPane.showMessageDialog(this, "Erreur lors de la suppression du fichier sonore\n" + ficAnc.getName() + "\n" +
+			    	JOptionPane.showMessageDialog(this, "Erreur lors de la suppression du fichierJField sonore\n" + ficAnc.getName() + "\n" +
 			    									ex.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 			    	return;
 			    }
 		}
-	    // Si le fichier son n'est pas déja dans le dossier des sont
+	    // Si le fichierJField son n'est pas déja dans le dossier des sont
 	    // On le copie dedans
 		String repertoire = new File( fichierSon ).getParent() + '/';
 		System.out.println(repertoire);
 		System.out.println(System.getProperty("user.dir") + '/' + constantes.getRepMP3());
 	    if ( repertoire !=  System.getProperty("user.dir") + '/' + constantes.getRepMP3() ) { 
-		    // Copie du fichier dans le dossier des sons
+		    // Copie du fichierJField dans le dossier des sons
 			File ficIn = new File( fichierSon  );
 			//System.out.println(constantes.getRepMP3() + choixfichier.getSelectedFile().getName());
 			File ficOut = new File(constantes.getRepMP3() + nomFichier );
 			if (! ficIn.renameTo(ficOut)) {
-				JOptionPane.showMessageDialog(this, "Erreur lors du déplacement du fichier\n" + ficIn.toString() + 
+				JOptionPane.showMessageDialog(this, "Erreur lors du déplacement du fichierJField\n" + ficIn.toString() + 
 						" vers\n" + ficOut.toString(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 			}
 	    }
 	}
 	/*
 	 * Enregistrement des donnés
-	 * Si le nom du fichier est servi : on ne mémorise que le nom du 
-	 * fichier et pas le répertoire
-	 * Le fichier sera ensuite copié dans le dossier des fichiers MP3
+	 * Si le nom du fichierJField est servi : on ne mémorise que le nom du 
+	 * fichierJField et pas le répertoire
+	 * Le fichierJField sera ensuite copié dans le dossier des fichiers MP3
 	 */
 	private boolean enregsitrementTraduction() throws Exception {
 		if (gestionBases.getInstance().existeDeja(editGB.getText(), true)) {
@@ -223,8 +239,8 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 			et.setFrancais(editF.getText());
 			et.setFOk(false);
 			et.setGBOk(false);
-			if (fichier.getText().trim().length() > 0) {
-				et.setFichiermp3( new File(fichier.getText().trim()).getName() );
+			if (fichierJField.getText().trim().length() > 0) {
+				et.setFichiermp3( new File(fichierJField.getText().trim()).getName() );
 			} else {
 				et.setFichiermp3("");
 			}
