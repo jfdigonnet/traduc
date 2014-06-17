@@ -37,6 +37,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 	private JTextArea editF;
 	private JTextArea editGB;
 	private JTextField fichierJField;
+	private JButton boutonJouer;
 
     class MonSwingWorker extends SwingWorker<Integer, String> {
 
@@ -92,9 +93,10 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		boutonSelFichierSon.addActionListener(this);
 		boutonSelFichierSon.setActionCommand("ajoutson");
 
-		JButton boutonJouer = new JButton("Jouer");
+		boutonJouer = new JButton("Jouer");
 		boutonJouer.setToolTipText("Joure le fichierJField sonore");
 		boutonJouer.addActionListener(this);
+		boutonJouer.setEnabled(false);
 		boutonJouer.setActionCommand("jouer");
 
 		JPanel panelS = new JPanel();
@@ -104,6 +106,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		panelS.add(new JLabel("Fichier sonore"), "align label");
 		panelS.add(fichierJField, "grow");
 		panelS.add(boutonSelFichierSon);
+		panelS.add(boutonJouer);
 		
 		JPanel panelB = new JPanel();
 		MigLayout layoutB = new MigLayout();
@@ -155,6 +158,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 			System.out.println(choixfichier.getSelectedFile().getAbsolutePath());
 			parametres.getInstance().sauveParamRep(choixfichier.getSelectedFile().getParent());
 			fichierJField.setText( choixfichier.getSelectedFile().getAbsolutePath() );
+			boutonJouer.setEnabled(true);
 		}
 	}	
 	public void actionPerformed(ActionEvent e) {
