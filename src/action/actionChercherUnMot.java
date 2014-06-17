@@ -30,7 +30,7 @@ public class actionChercherUnMot implements ActionListener {
 		ch.setVisible(true);
 		if (ch.getResult()) {
 			//System.out.println("Lancement de la recherche");
-			String crit = ch.getEditCh();
+			String crit = ch.getEditCh().trim();
 			Integer typeCh = ch.getComboTypeCh();
 			try {
 				ArrayList<Integer> listeCh = gestionBases.getInstance().cherche(typeCh, crit);
