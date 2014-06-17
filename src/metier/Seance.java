@@ -107,7 +107,7 @@ public class Seance {
 					if (noTraducEnCours == 0) {
 						noTraducEnCours = ancIndex;
 						chargeTraduction();
-						JOptionPane.showConfirmDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
 					} else {
 						chargeTraduction();
 //							System.out.println(traducEnCours);
@@ -154,12 +154,12 @@ public class Seance {
 						if (noTraducEnCours == liste.size() - 1) {
 							noTraducEnCours = ancIndex;
 							chargeTraduction();
-							JOptionPane.showConfirmDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
 						} else {
 							System.out.println(liste.get( noTraducEnCours ) );
 							chargeTraduction();
 						}
-					} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
+					} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours <= (liste.size() - 1)));
 				}
 			}
 		} else {
