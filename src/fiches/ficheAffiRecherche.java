@@ -51,6 +51,8 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 	private JButton boutonJouer;
 	private JButton boutonPrecedent;
 	private JButton boutonSuivant;
+	private JButton boutonSelFichierSon;
+	private JButton boutonSupprSon;
 	// Dernier répertoire utilisé
 	private String lastrepert = "";
 
@@ -115,12 +117,12 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 
 		majCheckBox();
 		
-		JButton boutonSelFichierSon = new JButton("...");
+		boutonSelFichierSon = new JButton("...");
 		boutonSelFichierSon.setToolTipText("Ajouter / Modifier un enregistrement sonore");
 		boutonSelFichierSon.addActionListener(this);
 		boutonSelFichierSon.setActionCommand("ajoutson");
 
-		JButton boutonSupprSon = new JButton("X");
+		boutonSupprSon = new JButton("X");
 		boutonSupprSon.setPreferredSize(new Dimension(40,25));
 		boutonSupprSon.setToolTipText("Supprimer la référence au son");
 		boutonSupprSon.setActionCommand("supprson");
@@ -145,12 +147,17 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		MigLayout layoutB = new MigLayout();
 		panelB.setLayout(layoutB);
 
-		boutonPrecedent = new JButton("Précédent");
+		JButton boutonSupprimer = new JButton("Supprimer");
+		boutonSupprimer.setPreferredSize(new Dimension(150,25));
+		boutonSupprimer.addActionListener(this);
+		boutonSupprimer.setActionCommand("supprimer");
+
+		JButton boutonPrecedent = new JButton("Précédent");
 		boutonPrecedent.setPreferredSize(new Dimension(150,25));
 		boutonPrecedent.addActionListener(this);
 		boutonPrecedent.setActionCommand("precedent");
 
-		boutonSuivant = new JButton("Suivant");
+		JButton boutonSuivant = new JButton("Suivant");
 		boutonSuivant.setPreferredSize(new Dimension(150,25));
 		boutonSuivant.addActionListener(this);
 		boutonSuivant.setActionCommand("suivant");
@@ -201,16 +208,40 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("langue1")) {
-			etEnCours.setGBOk(editCheckGBOk.isSelected());
+		/*
+		 * A tester
+		 */
+		if (e.getActionCommand().equals("supprimer")) {
+			// On mémorise l'id supprimé pour le supprimer 
+			int ancIndex = listeCh.get(traducEnCours);
+			// On le supprime de la liste
+			listeCh.remove(traducEnCours);
 			try {
-				gestionBases.getInstance().modConnuGB( etEnCours );
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données (" + paramLangues.getInstance().getLibLangue1() + ") : " + e1.getLocalizedMessage(), 
-						"Enregistrement", 
-						JOptionPane.ERROR_MESSAGE);			
+				// On le supprime de la base de données
+				gestionBases.getInstance().supprimeTraduction( ancIndex );
+				// On recharge un element de traduction : celui qui occupe la place supprimé
+				// Il faudra ajouter un test quand on supprime le dernier
+				if (traducEnCours == listeCh.size()) {
+					traducEnCours = listeCh.size();
+				}
+				afficheSuivant();
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this,
+						"Une erreur est intervenue lors de la suppression de la traduction " + "\n" + ex.getMessage(),
+						constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 			}
-		}				
+
+			if (e.getActionCommand().equals("langue1")) {
+				etEnCours.setGBOk(editCheckGBOk.isSelected());
+				try {
+					gestionBases.getInstance().modConnuGB( etEnCours );
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données (" + paramLangues.getInstance().getLibLangue1() + ") : " + e1.getLocalizedMessage(), 
+							"Enregistrement", 
+							JOptionPane.ERROR_MESSAGE);			
+				}
+			}		
+		}
 		if (e.getActionCommand().equals("langue2")) {
 			etEnCours.setFOk(editCheckFOk.isSelected());
 			try {
