@@ -152,12 +152,12 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		boutonSupprimer.addActionListener(this);
 		boutonSupprimer.setActionCommand("supprimer");
 
-		JButton boutonPrecedent = new JButton("Précédent");
+		boutonPrecedent = new JButton("Précédent");
 		boutonPrecedent.setPreferredSize(new Dimension(150,25));
 		boutonPrecedent.addActionListener(this);
 		boutonPrecedent.setActionCommand("precedent");
 
-		JButton boutonSuivant = new JButton("Suivant");
+		boutonSuivant = new JButton("Suivant");
 		boutonSuivant.setPreferredSize(new Dimension(150,25));
 		boutonSuivant.addActionListener(this);
 		boutonSuivant.setActionCommand("suivant");
