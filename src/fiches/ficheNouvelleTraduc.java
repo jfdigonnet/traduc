@@ -21,6 +21,8 @@ import javax.swing.SwingWorker;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import fiches.ficheAffiRecherche.MonSwingWorker;
+
 import param.parametres;
 import persistence.gestionBases;
 
@@ -43,8 +45,8 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 
 		protected Integer doInBackground() throws Exception {
 	        final AudioFilePlayer player = new AudioFilePlayer ();
-	        System.out.println("On joue : " + fichierJField);
-	    	player.play(constantes.getRepMP3() + fichierJField);
+	        System.out.println("On joue : " + fichierJField.getText());
+	    	player.play(fichierJField.getText());
 			return 0;
 		}
     }
@@ -162,6 +164,9 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		}
 	}	
 	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("jouer")) {
+			new MonSwingWorker().execute();
+		}
 		if (e.getActionCommand().equals("enreg")) {
 			if (editGB.getText().trim().length() == 0) {
 				JOptionPane.showMessageDialog(this, "Le mot en langue étrangère n'a pas été saisi", "Nouvelle traduction", JOptionPane.WARNING_MESSAGE);

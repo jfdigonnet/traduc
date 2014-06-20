@@ -107,12 +107,9 @@ public class Seance {
 					if (noTraducEnCours == 0) {
 						noTraducEnCours = ancIndex;
 						chargeTraduction();
-						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
+//						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
 					} else {
 						chargeTraduction();
-//							System.out.println(traducEnCours);
-//							System.out.println( liste.size());
-//							System.out.println(etEnCours.getConnu(GBVersF));
 					}
 				} while ((etEnCours.getConnu(parametres.getInstance().getSens()) && (noTraducEnCours >= 0) ));
 			}
@@ -130,6 +127,7 @@ public class Seance {
 		System.out.println( liste.get( noTraducEnCours ) );
 		System.out.println( liste.size());
 		if (noTraducEnCours < liste.size()) {
+			// On tire les mots au hasard
 			if (parametres.getInstance().getTypeTri() == 3) {
 				    noTraducEnCours = (int)Math.random() * liste.size();
 					Random rand = new Random();
@@ -144,22 +142,24 @@ public class Seance {
 										e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 					}
 			} else {
+				// On affiche tous les mots
 				if (parametres.getInstance().getAfficherTousLesMots()) {
 					noTraducEnCours++;
 					chargeTraduction();
 				} else {
-					int ancIndex = noTraducEnCours;
+					// On incrément le compteur de l'éléménent à afficher jusqu'à ce que l'on trouve 
+					// un élémeent dont on ne connait pas la traduction
+					// ou que l'on ai atteint la fin du fichier
 					do {
 						noTraducEnCours++;
-						if (noTraducEnCours == liste.size() - 1) {
-							noTraducEnCours = ancIndex;
+						if (noTraducEnCours == liste.size()) {
+							noTraducEnCours--;
 							chargeTraduction();
-							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
+//							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
 						} else {
-							System.out.println(liste.get( noTraducEnCours ) );
 							chargeTraduction();
 						}
-					} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours <= (liste.size() - 1)));
+					} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
 				}
 			}
 		} else {
