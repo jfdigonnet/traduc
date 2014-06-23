@@ -250,6 +250,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 			et.setGBOk(false);
 			if (fichierJField.getText().trim().length() > 0) {
 				et.setFichiermp3( new File(fichierJField.getText().trim()).getName() );
+				boutonJouer.setEnabled(false);
 			} else {
 				et.setFichiermp3("");
 			}
