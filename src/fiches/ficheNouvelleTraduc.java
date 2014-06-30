@@ -187,6 +187,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 					editGB.setText("");
 					editF.setText("");
 					fichierJField.setText("");
+					boutonJouer.setEnabled(false);
 					editGB.requestFocus();
 				}
 			} catch (Exception e1) {
@@ -244,8 +245,8 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 			return false;
 		} else {
 			elementTraduc et = new elementTraduc();
-			et.setAnglais(editGB.getText());
-			et.setFrancais(editF.getText());
+			et.setAnglaisSQL(editGB.getText());
+			et.setFrancaisSQL(editF.getText());
 			et.setFOk(false);
 			et.setGBOk(false);
 			if (fichierJField.getText().trim().length() > 0) {
