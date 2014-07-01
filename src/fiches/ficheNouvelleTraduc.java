@@ -212,7 +212,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 				try {
 					ficAnc.delete();
 			    } catch( Exception ex ) {
-			    	JOptionPane.showMessageDialog(this, "Erreur lors de la suppression du fichierJField sonore\n" + ficAnc.getName() + "\n" +
+			    	JOptionPane.showMessageDialog(this, "Erreur lors de la suppression du fichier sonore\n" + ficAnc.getName() + "\n" +
 			    									ex.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 			    	return;
 			    }
@@ -228,7 +228,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 			//System.out.println(constantes.getRepMP3() + choixfichier.getSelectedFile().getName());
 			File ficOut = new File(constantes.getRepMP3() + nomFichier );
 			if (! ficIn.renameTo(ficOut)) {
-				JOptionPane.showMessageDialog(this, "Erreur lors du déplacement du fichierJField\n" + ficIn.toString() + 
+				JOptionPane.showMessageDialog(this, "Erreur lors du déplacement du fichier\n" + ficIn.toString() + 
 						" vers\n" + ficOut.toString(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 			}
 	    }
