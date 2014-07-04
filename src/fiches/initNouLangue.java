@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import param.parametres;
 import persistence.gestionBases;
 import utilitaires.Utils;
-import utilitaires.constantes;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -48,24 +47,27 @@ public class initNouLangue extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (editL1.getText().trim().length() == 0) {
 			JOptionPane.showMessageDialog(this, "Le libellé de la langue 1 n'a pas été indiqué" , 
-					"Enregistrement", 
+					"Nouvelle langue", 
 					JOptionPane.ERROR_MESSAGE);	
 			editL1.requestFocus();
 			return;
 		}
 		if (editL2.getText().trim().length() == 0) {
 			JOptionPane.showMessageDialog(this, "Le libellé de la langue 2 n'a pas été indiqué" , 
-					"Enregistrement", 
+					"Nouvelle langue", 
 					JOptionPane.ERROR_MESSAGE);	
 			editL2.requestFocus();
 			return;
 		}
-    	int retour = JOptionPane.showConfirmDialog(this, "Confirmez-vous la ré initialisaition des données ?", "Réinitialisation", JOptionPane.OK_CANCEL_OPTION); 
+    	int retour = JOptionPane.showConfirmDialog(this, "Confirmez-vous la ré initialisaition des données ?", "Nouvelle langue", JOptionPane.OK_CANCEL_OPTION); 
     	if ( retour == JOptionPane.OK_OPTION) {
 			try {
 				gestionBases.getInstance().reinitConnaissace();
 				gestionBases.getInstance().truncateBD();
+				System.out.println("Netoyage du répertoire");
 				Utils.deleteDirectory(parametres.getInstance().getRepSons());
+				JOptionPane.showMessageDialog(this, "Ré initailisation Ok", "Nouvelle langue", JOptionPane.OK_OPTION);
+				setVisible(false);
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(this, "Une erreur est intervenue lors de la ré initialisation des données\n" + e1.getLocalizedMessage(), "Ré initilisation", JOptionPane.OK_OPTION);
 			}

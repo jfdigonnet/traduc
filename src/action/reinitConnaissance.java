@@ -17,18 +17,18 @@ public class reinitConnaissance implements ActionListener {
 	private Seance seance;
 	
 	/***********************************************************
-	* Suppression de la référence au son dans la table
+	* Les rubriques ConnuGF et ConnuF sont remises à 0
 	***********************************************************/
 	public reinitConnaissance(Component app, Seance sc) {
 		application = app;
 		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
-	    seance.getEtEnCours().setFichiermp3("");
 	    try {
 	    	int retour = JOptionPane.showConfirmDialog(application, "Confirmez la ré initialisaition de la rubrique 'Connaissance'", "Réinitialisation", JOptionPane.OK_CANCEL_OPTION); 
 	    	if ( retour == JOptionPane.OK_OPTION) {
 		    	gestionBases.getInstance().reinitConnaissace();
+		    	JOptionPane.showMessageDialog(application, "Traitement terminé", "Ré initilisation", JOptionPane.OK_OPTION);
 	    	}
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(application, "Erreur lors de la réinitialisation dans la base\n :" +
