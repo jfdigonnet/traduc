@@ -2,13 +2,19 @@ package fiches;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JSpinner;
+import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 
 import param.parametres;
@@ -75,6 +81,8 @@ public class ficheAtteindre extends JDialog implements ActionListener {
 		
 		this.add(panelFonds);
 		pack();
+		// Permet de quitter la fiche par la touche ECHAP
+		configureRootPane(this.getRootPane());
 		editNbCh.requestFocus();
 	}
 	public Boolean getResultat() {
@@ -90,4 +98,20 @@ public class ficheAtteindre extends JDialog implements ActionListener {
 			setVisible(false);
 		}
 	}
+	// Permet de quitter la fiche par la touche ECHAP
+	private void onKeyEscape() {
+		this.setVisible(false);
+	}
+	private void configureRootPane(JRootPane rootPane) {
+	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escPressed");
+	 
+	    rootPane.getActionMap().put(
+	        "escPressed",
+	        new AbstractAction("escPressed") {
+	          public void actionPerformed(ActionEvent actionEvent) {
+	            onKeyEscape();
+	          }
+	        });
+	  }
 }

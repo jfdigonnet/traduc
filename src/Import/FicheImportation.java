@@ -6,6 +6,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
@@ -16,9 +17,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -26,7 +30,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 
 import persistence.gestionBases;
@@ -138,6 +144,8 @@ public class FicheImportation extends JDialog implements ActionListener, Propert
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog .DISPOSE_ON_CLOSE);
         this.getContentPane().add( initComposants() );
+		// Permet de quitter la fiche par la touche ECHAP
+		configureRootPane(this.getRootPane());
         this.pack();
     }
 
@@ -291,4 +299,20 @@ public class FicheImportation extends JDialog implements ActionListener, Propert
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.out.println(evt.getNewValue());
 	}
+	// Permet de quitter la fiche par la touche ECHAP
+	private void onKeyEscape() {
+		this.setVisible(false);
+	}
+	private void configureRootPane(JRootPane rootPane) {
+	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escPressed");
+	 
+	    rootPane.getActionMap().put(
+	        "escPressed",
+	        new AbstractAction("escPressed") {
+	          public void actionPerformed(ActionEvent actionEvent) {
+	            onKeyEscape();
+	          }
+	        });
+	  }
 }

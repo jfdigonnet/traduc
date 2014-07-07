@@ -106,11 +106,9 @@ public class Seance {
 					decNoTraducEnCours();
 					if (noTraducEnCours == 0) {
 						noTraducEnCours = ancIndex;
-						chargeTraduction();
-//						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
-					} else {
-						chargeTraduction();
 					}
+					chargeTraduction();
+//						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
 				} while ((etEnCours.getConnu(parametres.getInstance().getSens()) && (noTraducEnCours >= 0) ));
 			}
 		}
@@ -154,11 +152,9 @@ public class Seance {
 						noTraducEnCours++;
 						if (noTraducEnCours == liste.size()) {
 							noTraducEnCours--;
-							chargeTraduction();
-//							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
-						} else {
-							chargeTraduction();
 						}
+						chargeTraduction();
+//							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
 					} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
 				}
 			}

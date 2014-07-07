@@ -11,18 +11,23 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -90,6 +95,8 @@ public class ficheAuSujetDe extends JDialog {
 		
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		//setSize(400,300);
+		// Permet de quitter la fiche par la touche ECHAP
+		configureRootPane(this.getRootPane());
 		pack();
 	    setLocationRelativeTo(null);
 	}
@@ -207,4 +214,20 @@ public class ficheAuSujetDe extends JDialog {
    		      e.printStackTrace();
   			}		 
 	} 
+	// Permet de quitter la fiche par la touche ECHAP
+	private void onKeyEscape() {
+		this.setVisible(false);
+	}
+	private void configureRootPane(JRootPane rootPane) {
+	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escPressed");
+	 
+	    rootPane.getActionMap().put(
+	        "escPressed",
+	        new AbstractAction("escPressed") {
+	          public void actionPerformed(ActionEvent actionEvent) {
+	            onKeyEscape();
+	          }
+	        });
+	  }
 }

@@ -9,14 +9,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 import utilitaires.constantes;
 
@@ -93,6 +98,8 @@ public class ficheRechercher extends JDialog implements ActionListener {
 
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		//setSize(500,300);
+		// Permet de quitter la fiche par la touche ECHAP
+		configureRootPane(this.getRootPane());
 		pack();
 	    //setLocationRelativeTo(null);
 	    editCh.requestFocus();
@@ -114,4 +121,20 @@ public class ficheRechercher extends JDialog implements ActionListener {
 	public int getComboTypeCh() {
 		return comboTypeCh.getSelectedIndex();
 	}
+	// Permet de quitter la fiche par la touche ECHAP
+	private void onKeyEscape() {
+		this.setVisible(false);
+	}
+	private void configureRootPane(JRootPane rootPane) {
+	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escPressed");
+	 
+	    rootPane.getActionMap().put(
+	        "escPressed",
+	        new AbstractAction("escPressed") {
+	          public void actionPerformed(ActionEvent actionEvent) {
+	            onKeyEscape();
+	          }
+	        });
+	  }
 }

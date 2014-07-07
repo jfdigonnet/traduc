@@ -534,6 +534,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		LookAndFeel lf = UIManager.getLookAndFeel();
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			// Ne pas utiliser de texte en gras (LnF Metal) :
+			UIManager.put("swing.boldMetal", Boolean.FALSE);
+			// Pas certain que cela fonctionne
 		} catch (Exception e) {
 		}
 	}
