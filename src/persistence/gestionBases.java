@@ -300,37 +300,37 @@ public class gestionBases
      **********************************************************************/
     public void stats(int[] res1) throws Exception  {
     	String query = "SELECT Count(*) as res FROM traduction";
-    	System.out.println(query);
+    	//System.out.println(query);
     	ResultSet rs = statement.executeQuery( query );
     	while (rs.next()) {
     		res1[0] = rs.getInt("res");
     	}
     	query = "SELECT Count(*) as res FROM traduction where connuGB = 0";
-    	System.out.println(query);
+    	//System.out.println(query);
     	rs = statement.executeQuery( query );
     	while (rs.next()) {
     		res1[1] = rs.getInt("res");
     	}
     	query = "SELECT Count(*) as res FROM traduction where connuGB = 1";
-    	System.out.println(query);
+    	//System.out.println(query);
     	rs = statement.executeQuery( query );
     	while (rs.next()) {
     		res1[2] = rs.getInt("res");
     	}
     	query = "SELECT Count(*) as res FROM traduction where connuF = 0";
-    	System.out.println(query);
+    	//System.out.println(query);
     	rs = statement.executeQuery( query );
     	while (rs.next()) {
     		res1[3] = rs.getInt("res");
     	}
     	query = "SELECT Count(*) as res FROM traduction where connuF = 1";
-    	System.out.println(query);
+    	//System.out.println(query);
     	rs = statement.executeQuery( query );
     	while (rs.next()) {
     		res1[4] = rs.getInt("res");
     	}
     	query = "SELECT Count(*) as res FROM traduction where fichiermp3 != ''";
-    	System.out.println(query);
+    	//System.out.println(query);
     	rs = statement.executeQuery( query );
     	while (rs.next()) {
     		res1[5] = rs.getInt("res");
@@ -376,9 +376,9 @@ public class gestionBases
     	mot = mot.replaceAll("''", "'");
     	query += "select count(*) as total from traduction ";
     	if (GB) {
-    		query += "where anglais = '" + mot + "'";  
+    		query += "where anglais = '" + mot.replaceAll("'", "''") + "'";  
     	} else {
-    		query += "where francais='" + mot + "'";
+    		query += "where francais='" + mot.replaceAll("'", "''") + "'";
     	}
 
     	System.out.println(query);
