@@ -28,6 +28,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import fiches.ficheAffiRecherche.MonSwingWorker;
+import filtres.filtreFichierSon;
 
 import param.parametres;
 import persistence.gestionBases;

@@ -13,7 +13,6 @@ import utilitaires.constantes;
 
 import metier.Seance;
 import fiches.fenetrePrincipale;
-import fiches.filtreFichierSon;
 
 public class actionAjouteSon implements ActionListener {
 
@@ -42,7 +41,7 @@ public class actionAjouteSon implements ActionListener {
 		// Empeche de pouvoir sélectionner Tous les fichiers
 		choixfichier.setAcceptAllFileFilterUsed(false);
 		choixfichier.setCurrentDirectory(new File(parametres.getInstance().loadParamRep()));
-		choixfichier.setFileFilter(new filtreFichierSon());
+		choixfichier.setFileFilter(new filtres.filtreFichierSon());
 		int returnVal = choixfichier.showOpenDialog(application);
 		if ( returnVal == 0) {
 			parametres.getInstance().sauveParamRep(choixfichier.getSelectedFile().getParent());

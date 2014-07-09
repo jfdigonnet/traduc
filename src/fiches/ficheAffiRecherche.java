@@ -23,6 +23,8 @@ import javax.swing.SwingWorker;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import filtres.filtreFichierSon;
+
 import param.parametres;
 import persistence.gestionBases;
 

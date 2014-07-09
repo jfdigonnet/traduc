@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
-import javax.swing.UIManager;
 
 import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;

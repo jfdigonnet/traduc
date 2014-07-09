@@ -49,6 +49,7 @@ import action.actionCocheMotFrancais;
 import action.actionCorrection;
 import action.actionEnregistrerTraduction;
 import action.actionImporter;
+import action.actionInterrogation;
 import action.actionJouer;
 import action.actionNouvelleTraduction;
 import action.actionPreferences;
