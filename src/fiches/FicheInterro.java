@@ -15,7 +15,6 @@ import net.miginfocom.swing.MigLayout;
 
 public class FicheInterro extends JDialog {
 
-	private JButton boutonLancer;
 	private JButton boutonArreter;
 	private JButton boutonJouer;
 	private JLabel labelGB;
@@ -43,26 +42,14 @@ public class FicheInterro extends JDialog {
 		//boutonJouer.addActionListener(this);
 		boutonJouer.setMnemonic( KeyEvent.VK_J ) ;
 		boutonJouer.setPreferredSize(new Dimension(380,25));
-		boutonJouer.setEnabled(false);
 
 		panelS.add(labelGB, "wrap, center");
 		panelS.add(labelF, "wrap, center");
 		panelS.add(boutonJouer);
 		panelSup.add(panelS, "wrap");
 		
-		JButton boutonSupprimer = new JButton("Supprimer");
-		boutonSupprimer.setPreferredSize(new Dimension(380,25));
-		//boutonSupprimer.addActionListener(this);
-		boutonSupprimer.setActionCommand("supprimer");
-
-		boutonLancer = new JButton("Lancer");
-		boutonLancer.setPreferredSize(new Dimension(150,25));
-		//boutonPrecedent.addActionListener(this);
-
 		boutonArreter = new JButton("Arrêter");
 		boutonArreter.setPreferredSize(new Dimension(150,25));
-		boutonArreter.setEnabled(false);
-		//boutonArreter.addActionListener(this);
 
 		JButton boutonQuitter = new JButton("Fermer");
 		getRootPane().setDefaultButton(boutonQuitter);
@@ -78,7 +65,6 @@ public class FicheInterro extends JDialog {
 		MigLayout layoutB = new MigLayout();
 		panelB.setLayout(layoutB);
 
-		panelB.add(boutonLancer, "tag ok");
 		panelB.add(boutonArreter);
 		panelB.add(boutonQuitter, "tag cancel");
 		
@@ -91,5 +77,30 @@ public class FicheInterro extends JDialog {
 		setSize(400,255);
 	    setLocationRelativeTo(null);		
 	}
+
+	/**
+	 * @param labelGB the labelGB to set
+	 */
+	public void setLabelGB(String texte) {
+		this.labelGB.setText(texte);
+	}
+
+	/**
+	 * @param labelF the labelF to set
+	 */
+	public void setLabelF(String texte) {
+		this.labelF.setText(texte);
+	}
+
+	/**
+	 * @return the boutonJouer
+	 */
+	public JButton getBoutonJouer() {
+		return boutonJouer;
+	}
+
+	/**
+	 * @return the boutonLancer
+	 */
 }
 

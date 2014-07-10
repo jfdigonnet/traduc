@@ -121,9 +121,9 @@ public class Seance {
 	 * Si non on recommence
 	 */
 	public void afficheSuivant() {
-		System.out.println( noTraducEnCours );
-		System.out.println( liste.get( noTraducEnCours ) );
-		System.out.println( liste.size());
+//		System.out.println( noTraducEnCours );
+//		System.out.println( liste.get( noTraducEnCours ) );
+//		System.out.println( liste.size());
 		if (noTraducEnCours < liste.size()) {
 			// On tire les mots au hasard
 			if (parametres.getInstance().getTypeTri() == 3) {
