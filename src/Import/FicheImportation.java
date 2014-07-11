@@ -53,9 +53,9 @@ public class FicheImportation extends JDialog implements ActionListener, Propert
     private 	String 		repDB;
     private     ArrayList<String>   liste;
 
-    class MonSwingWorker extends SwingWorker<Integer, String> {
+    class threadImport extends SwingWorker<Integer, String> {
 
-        public MonSwingWorker() {
+        public threadImport() {
             /* On ajoute un écouteur de barre de progression. */
             addPropertyChangeListener(new PropertyChangeListener() {
                 public void propertyChange(PropertyChangeEvent evt) {
@@ -294,7 +294,7 @@ public class FicheImportation extends JDialog implements ActionListener, Propert
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	new MonSwingWorker().execute();
+    	new threadImport().execute();
     }
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.out.println(evt.getNewValue());

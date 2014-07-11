@@ -2,6 +2,7 @@ package fiches;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -625,8 +626,13 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * Affichage de la traduction précédente
 	 */
 	private void affichePrecedent() {
-		seance.affichePrecedent();
-		soumettreTraduction( seance.getEtEnCours() );
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
+		try {
+			seance.affichePrecedent();
+			soumettreTraduction( seance.getEtEnCours() );
+		} finally {
+			setCursor(Cursor.getDefaultCursor());
+		}
 	}
 	/**
 	 * On incrémente le compteur de traduction
@@ -636,8 +642,13 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * Si non on recommence
 	 */
 	private void afficheSuivant() {
-		seance.afficheSuivant();
-		soumettreTraduction( seance.getEtEnCours() );
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
+		try {
+			seance.afficheSuivant();
+			soumettreTraduction( seance.getEtEnCours() );
+		} finally {
+			setCursor(Cursor.getDefaultCursor());
+		}
 	}
 	class MonAction extends TimerTask {
 		public void run() {

@@ -47,9 +47,9 @@ public class ficheCorrection extends JDialog implements ActionListener {
     private     JTextArea suivi ;
     private     Boolean   simulation = true;
 
-    class MonSwingWorker extends SwingWorker<Integer, String> {
+    class threadCorrection extends SwingWorker<Integer, String> {
 
-        public MonSwingWorker() {
+        public threadCorrection() {
             /* On ajoute un écouteur de barre de progression. */
             addPropertyChangeListener(new PropertyChangeListener() {
                 public void propertyChange(PropertyChangeEvent evt) {
@@ -217,7 +217,7 @@ public class ficheCorrection extends JDialog implements ActionListener {
     }
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("correction")) {
-	    	new MonSwingWorker().execute();
+	    	new threadCorrection().execute();
 		}
 		if (e.getActionCommand().equals("simulation")) {
 			simulation = !simulation;

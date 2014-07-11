@@ -29,6 +29,7 @@ import param.parametres;
 import persistence.gestionBases;
 
 import utilitaires.AudioFilePlayer;
+import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
 
 import metier.elementTraduc;
@@ -58,15 +59,6 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 	// Dernier répertoire utilisé
 	private String lastrepert = "";
 
-    class MonSwingWorker extends SwingWorker<Integer, String> {
-
-		protected Integer doInBackground() throws Exception {
-	        final AudioFilePlayer player = new AudioFilePlayer ();
-	        System.out.println("On joue : " + constantes.getRepMP3() + etEnCours.getFichiermp3().trim());
-	    	player.play(constantes.getRepMP3() + etEnCours.getFichiermp3().trim());
-			return 0;
-		}
-    }
     public ficheAffiRecherche( ArrayList<Integer> liste) {
 		lastrepert = parametres.getInstance().loadParamRep();
 		this.listeCh = liste;
@@ -276,7 +268,12 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 			}
 		}				
 		if (e.getActionCommand().equals("jouer")) {
-	    	new MonSwingWorker().execute();
+	    	try {
+				new MonSwingWorker(etEnCours.getFichiermp3().trim()).execute();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}				
 		if (e.getActionCommand().equals("enreg")) {
 			etEnCours.setAnglaisSQL(this.getEditGB());

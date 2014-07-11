@@ -27,13 +27,13 @@ import javax.swing.SwingWorker;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
-import fiches.ficheAffiRecherche.MonSwingWorker;
 import filtres.filtreFichierSon;
 
 import param.parametres;
 import persistence.gestionBases;
 
 import utilitaires.AudioFilePlayer;
+import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
 
 import metier.elementTraduc;
@@ -48,15 +48,6 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 	private JTextField fichierJField;
 	private JButton boutonJouer;
 
-    class MonSwingWorker extends SwingWorker<Integer, String> {
-
-		protected Integer doInBackground() throws Exception {
-	        final AudioFilePlayer player = new AudioFilePlayer ();
-	        System.out.println("On joue : " + fichierJField.getText());
-	    	player.play(fichierJField.getText());
-			return 0;
-		}
-    }
 	public ficheNouvelleTraduc() {
 		setTitle("Nouvelle traduction");
 
@@ -179,7 +170,12 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 	}	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("jouer")) {
-			new MonSwingWorker().execute();
+			try {
+				new MonSwingWorker(fichierJField.getText()).execute();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		if (e.getActionCommand().equals("enreg")) {
 			if (editGB.getText().trim().length() == 0) {

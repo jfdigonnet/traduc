@@ -38,7 +38,7 @@ public class ficheSauvegarde extends JDialog implements ActionListener {
 	private JTextArea suivi;
 	private Component application;
 	
-    class MonSwingWorker extends SwingWorker<Integer, String> {
+    class threadSauvegarde extends SwingWorker<Integer, String> {
 
 		protected Integer doInBackground() throws Exception {
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
@@ -125,7 +125,7 @@ public class ficheSauvegarde extends JDialog implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		try {
-			new MonSwingWorker().execute();
+			new threadSauvegarde().execute();
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(this, 
 					"Sauvegarde : Une erreur est intervenue " + e1.getLocalizedMessage() + "\nArrêt de la procédure", 
