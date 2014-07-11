@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import utilitaires.AudioFilePlayer;
+import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
 import fiches.FicheInterro;
 import fiches.fenetrePrincipale;
@@ -19,15 +20,6 @@ public class Interrogation implements ActionListener {
 	private FicheInterro ficheinterro;
 	private String FichierSon;
 	
-    class MonSwingWorker extends SwingWorker<Integer, String> {
-
-		protected Integer doInBackground() throws Exception {
-	        final AudioFilePlayer player = new AudioFilePlayer ();
-	        System.out.println("On joue : " + constantes.getRepMP3() + FichierSon);
-	    	player.play(constantes.getRepMP3() + FichierSon);
-			return 0;
-		}
-    }
 	public Interrogation(fenetrePrincipale app, Seance sc) {
 		this.application = app;
 		this.seance = sc;
@@ -42,11 +34,13 @@ public class Interrogation implements ActionListener {
 	public void lanceInterrogation() {
 		elementTraduc et = choisitTraduction();
 		if ( et != null ) {
-			ficheinterro.setLabelGB(et.getAnglais().trim());
-			ficheinterro.setLabelF(et.getFrancais().trim());
+			ficheinterro.setLabelGB("");
+			ficheinterro.setLabelF("");
 			ficheinterro.getBoutonJouer().setToolTipText(et.getFichiermp3());
 			FichierSon = et.getFichiermp3();
-			new MonSwingWorker().execute();
+			joueSon();
+			ficheinterro.setLabelGB(et.getAnglais().trim());
+			ficheinterro.setLabelF(et.getFrancais().trim());
 		}
 	}
 	/*
@@ -70,7 +64,17 @@ public class Interrogation implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("jouer")) {
-			new MonSwingWorker().execute();
+			joueSon();
 		}				
+	}
+
+	private void joueSon() {
+		try {
+			new MonSwingWorker(FichierSon).execute();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(application,
+					"Erreur lors de la lecture du fichier sonore\n" +  
+							e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

@@ -34,7 +34,6 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -64,7 +63,7 @@ import action.reinitConnaissance;
 
 import param.parametres;
 
-import utilitaires.AudioFilePlayer;
+import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
 
 import metier.Seance;
@@ -96,13 +95,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	// les variable de la séance de formation qui s'ouvre
 	private Seance seance;
 	   
-    class MonSwingWorker extends SwingWorker<Integer, String> {
-		protected Integer doInBackground() throws Exception {
-	        final AudioFilePlayer player = new AudioFilePlayer ();
-	    	player.play(constantes.getRepMP3() + seance.getEtEnCours().getFichiermp3());
-			return 0;
-		}
-    }
 	public fenetrePrincipale() {
 		 seance = new Seance(this);
 		 creeInterface();
@@ -703,7 +695,12 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		boutonAffiTraduc.setEnabled(true);
 		if (parametres.getInstance().getJoueTDS()) {
 			if (et.getFichiermp3().length() > 0) {
-				new MonSwingWorker().execute();
+				try {
+					new MonSwingWorker(et.getFichiermp3()).execute();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		seance.incVusseance();
