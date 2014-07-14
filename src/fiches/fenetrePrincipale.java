@@ -707,7 +707,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		if (parametres.getInstance().getJoueTDS()) {
 			if (et.getFichiermp3().length() > 0) {
 				try {
-					new MonSwingWorker(et.getFichiermp3()).execute();
+					new MonSwingWorker(constantes.getRepMP3() + et.getFichiermp3()).execute();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -269,7 +269,7 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		}				
 		if (e.getActionCommand().equals("jouer")) {
 	    	try {
-				new MonSwingWorker(etEnCours.getFichiermp3().trim()).execute();
+				new MonSwingWorker(constantes.getRepMP3() + etEnCours.getFichiermp3().trim()).execute();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

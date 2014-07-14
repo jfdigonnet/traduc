@@ -70,7 +70,7 @@ public class Interrogation implements ActionListener {
 
 	private void joueSon() {
 		try {
-			new MonSwingWorker(FichierSon).execute();
+			new MonSwingWorker(constantes.getRepMP3() + FichierSon).execute();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(application,
 					"Erreur lors de la lecture du fichier sonore\n" +  

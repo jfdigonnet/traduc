@@ -11,8 +11,8 @@ public class MonSwingWorker extends SwingWorker<Integer, String> {
 	}
 	protected Integer doInBackground() throws Exception {
         final AudioFilePlayer player = new AudioFilePlayer ();
-        System.out.println("On joue : " + constantes.getRepMP3() + nomFichierSon);
-    	player.play(constantes.getRepMP3() + nomFichierSon);
+        System.out.println("On joue : " + nomFichierSon);
+    	player.play(nomFichierSon);
 		return 0;
 	}
 }
