@@ -21,7 +21,7 @@ public class FicheInterro extends JDialog {
 	
 	public FicheInterro(fenetrePrincipale appl) {
 		JPanel panelSup = new JPanel();
-		MigLayout layout = new MigLayout("", "[]", "[] 15 [] 50 []");
+		MigLayout layout = new MigLayout("", "[]", "[] 15 [] 15 []");
 		
     	panelSup.setLayout(layout);
     	
