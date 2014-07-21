@@ -13,24 +13,28 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import param.parametres;
 
 import net.miginfocom.swing.MigLayout;
 
 
-public class ficheAtteindre extends JDialog implements ActionListener {
+public class ficheAtteindre extends JDialog implements ActionListener, ChangeListener {
 
 	private JSpinner editNbCh;
 	private Boolean resultat = false;
 	
 	public ficheAtteindre( int max ) {
+		// On récupére dans les param de l'utilisateur la dernière valeur recherchée
 		Integer dernier = parametres.getInstance().loadParamDerAtteindre();
 		JPanel panel = new JPanel();
-    	MigLayout layout = new MigLayout("", "[] 10 [] 10 []", "[] 10 [] 10 []");
+    	MigLayout layout = new MigLayout("", "[] 10 []", "[] 10 []");
     	panel.setLayout(layout);
     	panel.setBorder(BorderFactory.createTitledBorder("Atteindre"));
 
@@ -48,8 +52,13 @@ public class ficheAtteindre extends JDialog implements ActionListener {
 		JLabel texteD = new JLabel("No de traduction recherchée : ");
 		panel.add(texteD, "align label");
 
+		JSlider framesPerSecond = new JSlider(JSlider.HORIZONTAL, 1, max, dernier);
+		framesPerSecond.addChangeListener(this);
+
+
 		panel.add(texteD);
-		panel.add(editNbCh);
+		panel.add(editNbCh, "wrap");
+		panel.add(framesPerSecond, "span 2, wrap");
 		
         JPanel panelSouth = new JPanel();
     	MigLayout layoutSuivi = new MigLayout();
@@ -103,15 +112,23 @@ public class ficheAtteindre extends JDialog implements ActionListener {
 		this.setVisible(false);
 	}
 	private void configureRootPane(JRootPane rootPane) {
-	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-	    inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escPressed");
-	 
-	    rootPane.getActionMap().put(
-	        "escPressed",
-	        new AbstractAction("escPressed") {
-	          public void actionPerformed(ActionEvent actionEvent) {
-	            onKeyEscape();
-	          }
-	        });
-	  }
+		InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escPressed");
+
+		rootPane.getActionMap().put(
+				"escPressed",
+				new AbstractAction("escPressed") {
+					public void actionPerformed(ActionEvent actionEvent) {
+						onKeyEscape();
+					}
+				});
+	}
+	public void stateChanged(ChangeEvent e) {
+		JSlider source = (JSlider)e.getSource();
+        if (!source.getValueIsAdjusting()) {
+            int val = (int)source.getValue();
+            editNbCh.setValue(val);
+        }
+		
+	}
 }
