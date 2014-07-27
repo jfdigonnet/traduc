@@ -16,12 +16,11 @@ import utilitaires.constantes;
 import fiches.FicheInterro;
 import fiches.fenetrePrincipale;
 
-public class Interrogation implements ActionListener {
+public class Interrogation {
 
 	private fenetrePrincipale application;
 	private Seance seance;
 	private FicheInterro ficheinterro;
-	private String FichierSon;
 	private elementTraduc etEnCours = null;
 	private Timer timer;
 	private Timer timerExec;
@@ -44,15 +43,12 @@ public class Interrogation implements ActionListener {
 			timer.cancel();
 		}
 	}
-
 	public Interrogation(fenetrePrincipale app, Seance sc) {
 		this.application = app;
 		this.seance = sc;
 		ficheinterro = new FicheInterro(application);
 		// Centrer la fenêtre par rapport à la fenêtre principale 
 		ficheinterro.setLocationRelativeTo(application);
-//		ficheinterro.getBoutonJouer().setActionCommand("jouer");
-//		ficheinterro.getBoutonJouer().addActionListener(this);
 		ficheinterro.getBoutonQuitter().addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
             	timer.cancel();
@@ -62,15 +58,18 @@ public class Interrogation implements ActionListener {
           });
 		ficheinterro.setVisible(true);
 	}
-
 	public void lanceInterrogation() {
 		etEnCours = choisitTraduction();
 		if ( etEnCours != null ) {
 			ficheinterro.setLabelGB("");
 			ficheinterro.setLabelF("");
-//			ficheinterro.getBoutonJouer().setToolTipText(etEnCours.getFichiermp3());
-			FichierSon = etEnCours.getFichiermp3();
-			joueSon();
+			try {
+				new MonSwingWorker(constantes.getRepMP3() + etEnCours.getFichiermp3()).execute();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(application,
+						"Erreur lors de la lecture du fichier sonore\n" +  
+								e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+			}
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new MonAction(), 4000, 5000);
 		}
@@ -99,20 +98,5 @@ public class Interrogation implements ActionListener {
 			}
 		} while (etEnCours.getFichiermp3().trim().length() == 0);
 		return etEnCours;
-	}
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("jouer")) {
-			joueSon();
-		}				
-	}
-
-	private void joueSon() {
-		try {
-			new MonSwingWorker(constantes.getRepMP3() + FichierSon).execute();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(application,
-					"Erreur lors de la lecture du fichier sonore\n" +  
-							e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
-		}
 	}
 }
