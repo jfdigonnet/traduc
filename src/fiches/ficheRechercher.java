@@ -48,9 +48,9 @@ public class ficheRechercher extends JDialog implements ActionListener {
 		
         JPanel panel = new JPanel();
         //MigLayout layout = new MigLayout("", "[] 10 [] 10 []", "[] 10 [] 10 []");
-		panel.setLayout(new MigLayout("wrap 2","[] 50 []", "[] 25 [] 20 []"));
+		panel.setLayout(new MigLayout("wrap 2","[] 40 []", "[] 25 [] 20 [] 15 []"));
 
-		JLabel label0 = new JLabel("Saisissez vos critères de recherche");
+		JLabel label0 = new JLabel("Saisissez vos critères de recherche :");
 		panel.add(label0, "wrap");
 		
 		JLabel label1 = new JLabel();
@@ -107,6 +107,7 @@ public class ficheRechercher extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (editCh.getText().trim().length() == 0) {
 			JOptionPane.showMessageDialog(this, "Le critère de recherche n'a pas été saisi", "Rechercher un mot", JOptionPane.WARNING_MESSAGE);
+			editCh.requestFocus();
 		} else {
 			result = true;
 			this.setVisible(false);

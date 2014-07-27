@@ -84,18 +84,20 @@ public class Interrogation implements ActionListener {
 	 * On va tirer au sort une traduction
 	 */
 	private elementTraduc choisitTraduction() {
-	    noTraducEnCours = (int)Math.random() * seance.getListe().size();
-		Random rand = new Random();
-		int nombreAleatoire = rand.nextInt(seance.getListe().size()) + 1;
-		System.out.println(nombreAleatoire);
-		noTraducEnCours = nombreAleatoire;
-		try {
-			etEnCours = loadTraduction();
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(application,
-					"Erreur lors du chargement de la traduction no " + Integer.toString( noTraducEnCours ) + 
-							e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
-		}
+		do {
+			noTraducEnCours = (int)Math.random() * seance.getListe().size();
+			Random rand = new Random();
+			int nombreAleatoire = rand.nextInt(seance.getListe().size()) + 1;
+			//System.out.println(nombreAleatoire);
+			noTraducEnCours = nombreAleatoire;
+			try {
+				etEnCours = loadTraduction();
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(application,
+						"Erreur lors du chargement de la traduction no " + Integer.toString( noTraducEnCours ) + 
+						e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+			}
+		} while (etEnCours.getFichiermp3().trim().length() == 0);
 		return etEnCours;
 	}
 	public void actionPerformed(ActionEvent e) {

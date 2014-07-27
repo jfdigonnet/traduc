@@ -32,9 +32,14 @@ public class FicheInterro extends JDialog {
 		panelS.setLayout(layouS);
 		
 		labelGB = new JLabel("Ici sera affiché le mot en langue 1", SwingConstants.CENTER);
-		labelGB.setPreferredSize(new Dimension(250,25));
+		Dimension d = new Dimension(250,25);
+		labelGB.setPreferredSize(d);
+		labelGB.setMinimumSize(d);
+		labelGB.setMaximumSize(d);
 		labelF = new JLabel("Et ici sa traduction", SwingConstants.CENTER);
-		labelF.setPreferredSize(new Dimension(250,25));
+		labelF.setPreferredSize(d);
+		labelF.setMinimumSize(d);
+		labelF.setMaximumSize(d);
 
 //		boutonJouer = new JButton("Jouer");
 //		boutonJouer.setActionCommand("jouer");
@@ -62,7 +67,7 @@ public class FicheInterro extends JDialog {
 //		panelB.add(boutonArreter);
 		panelB.add(boutonQuitter, "center");
 		
-		panelSup.add(panelB);
+		panelSup.add(panelB, "center");
 
 		add(panelSup);
 		
