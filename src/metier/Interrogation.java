@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
+import param.parametres;
 import persistence.gestionBases;
 
 import java.util.Timer;
@@ -39,7 +40,7 @@ public class Interrogation {
 			tab = etEnCours.getFrancais().split("\n");
 			ficheinterro.setLabelF(tab[0].trim());
 			timerExec = new Timer();
-			timerExec.scheduleAtFixedRate(new NouvelleInterrogation(), 4000, 5000);
+			timerExec.scheduleAtFixedRate(new NouvelleInterrogation(), parametres.getInstance().getTempsAvantInterrogationSuivante() * 1000, 5000);
 			timer.cancel();
 		}
 	}
@@ -53,7 +54,7 @@ public class Interrogation {
             public void actionPerformed(ActionEvent arg0) {
             	timer.cancel();
             	timerExec.cancel();
-            	ficheinterro.setVisible(false);
+            	ficheinterro.dispose();
             }        
           });
 		ficheinterro.setVisible(true);
@@ -71,7 +72,7 @@ public class Interrogation {
 								e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 			}
 			timer = new Timer();
-			timer.scheduleAtFixedRate(new MonAction(), 4000, 5000);
+			timer.scheduleAtFixedRate(new MonAction(), parametres.getInstance().getTempsAvantInterrogationSuivante() * 1000, 5000);
 		}
 	}
 	public elementTraduc loadTraduction() throws Exception {

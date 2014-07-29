@@ -153,7 +153,7 @@ public class ficheStats extends JDialog {
         getRootPane().setDefaultButton(okBouton);
         okBouton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
+            	dispose();
             }
         });
         control.add(okBouton);
@@ -165,7 +165,7 @@ public class ficheStats extends JDialog {
 	}
 	// Permet de quitter la fiche par la touche ECHAP
 	private void onKeyEscape() {
-		this.setVisible(false);
+		this.dispose();
 	}
 	private void configureRootPane(JRootPane rootPane) {
 	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);

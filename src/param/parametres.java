@@ -32,6 +32,8 @@ public class parametres {
 	private String proxy = "";
 	// Jouer le mot en langue 1 lors de l'affichage
 	private Boolean joueTDS = false;
+	// Temps avant interro suivante 
+	private int TempsAvantInterrogationSuivante = 4;
 	
 	private static parametres instance = new parametres();
 	
@@ -94,6 +96,8 @@ public class parametres {
     	
     	proxy = myPrefs.get("proxy", "");
     	joueTDS = myPrefs.getBoolean("joueTDS", false);
+    	
+    	TempsAvantInterrogationSuivante = myPrefs.getInt("TempsAvantInterrogationSuivante", 4);
 	}
 	public void sauvePosLecture( int pos) {
 		if ( getEnresPosLecteur() ) {
@@ -130,6 +134,8 @@ public class parametres {
     	
     	myPrefs.put("proxy",  proxy);
     	myPrefs.putBoolean("joueTDS", joueTDS);
+    	
+    	myPrefs.putInt("TempsAvantInterrogationSuivante", TempsAvantInterrogationSuivante);
 	}
 	public int getTypeTri() {
 		return typeTri;
@@ -216,6 +222,20 @@ public class parametres {
     	Preferences prefsRoot = Preferences.userRoot();
     	Preferences myPrefs = prefsRoot.node("traduc.preference");
     	myPrefs.putInt("dernier", no);
+	}
+
+	/**
+	 * @return the tempsAvantInterrogationSuivante
+	 */
+	public int getTempsAvantInterrogationSuivante() {
+		return TempsAvantInterrogationSuivante;
+	}
+
+	/**
+	 * @param tempsAvantInterrogationSuivante the tempsAvantInterrogationSuivante to set
+	 */
+	public void setTempsAvantInterrogationSuivante(int tempsAvantInterrogationSuivante) {
+		TempsAvantInterrogationSuivante = tempsAvantInterrogationSuivante;
 	}
 }
 

@@ -188,7 +188,6 @@ public class FicheImportation extends JDialog implements ActionListener, Propert
         progressBar.setBorderPainted(false);
         progressBar.setPreferredSize(new Dimension(700,25));
         panelProgression.add(progressBar, BorderLayout.CENTER);
-        //panelProgression.setVisible(false);
         progressBar.setSize(30, 1500);
         
         JPanel control = new JPanel();
@@ -199,7 +198,7 @@ public class FicheImportation extends JDialog implements ActionListener, Propert
         JButton cancelBouton = new JButton("Fermer");
         cancelBouton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
+            	dispose();
             }
         });
         control.add(okBouton);
@@ -301,7 +300,7 @@ public class FicheImportation extends JDialog implements ActionListener, Propert
 	}
 	// Permet de quitter la fiche par la touche ECHAP
 	private void onKeyEscape() {
-		this.setVisible(false);
+		this.dispose();
 	}
 	private void configureRootPane(JRootPane rootPane) {
 	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);

@@ -201,7 +201,7 @@ public class ficheCorrection extends JDialog implements ActionListener {
         JButton cancelBouton = new JButton("Fermer");
         cancelBouton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
+            	dispose();
             }
         });
         control.add(okBouton);
@@ -225,7 +225,7 @@ public class ficheCorrection extends JDialog implements ActionListener {
 	}
 	// Permet de quitter la fiche par la touche ECHAP
 	private void onKeyEscape() {
-		this.setVisible(false);
+		dispose();
 	}
 	private void configureRootPane(JRootPane rootPane) {
 	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);

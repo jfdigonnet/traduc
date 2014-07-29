@@ -38,6 +38,7 @@ public class ficheParam extends JDialog implements ActionListener {
 	private 	JCheckBox	cb_traducSuivanteAuto;
 	private     JTextField  repertoireDonnees;
 	private 	JSpinner 	editDelaisSuivant;
+	private 	JSpinner 	editTempsAvantInterrogationSuivant;
 	private     JCheckBox   cb_afficherTousLesMots;
 	private     JCheckBox   cb_enresPosLecture;
 	private     JCheckBox   cb_joueTDS;
@@ -51,10 +52,11 @@ public class ficheParam extends JDialog implements ActionListener {
     public ficheParam() {
 		JPanel panelSouth = null;
 		JPanel panelInternet = null;
-		//JPanel panelLangue = null;
+		JPanel panelInterrogation = null;
 		try {
 			panelSouth = panneauGeneral();
 			panelInternet = panneauInternet();
+			panelInterrogation = panelInterrogation();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this,
 					"Erreur lors de la construction de l'interface graphique :"
@@ -63,8 +65,8 @@ public class ficheParam extends JDialog implements ActionListener {
 		JTabbedPane tabbedPane = new JTabbedPane();
 
 		tabbedPane.addTab("Général", panelSouth);
+		tabbedPane.addTab("Interrogation", panelInterrogation);
 		tabbedPane.addTab("Internet", panelInternet);
-		//tabbedPane.addTab("Libellé langue", panelLangue);
 
 		add(tabbedPane, BorderLayout.CENTER);
 		
@@ -79,6 +81,28 @@ public class ficheParam extends JDialog implements ActionListener {
 		pack();
 		setSize(800,430);
 	    setLocationRelativeTo(null);
+	}
+	private JPanel panelInterrogation() {
+		JPanel panelSup = new JPanel();
+    	MigLayout layoutSup = new MigLayout("", "[] 10 [] 10 []", "[] 10 [] 10 []");
+    	panelSup.setLayout(layoutSup);
+
+	    setTitle("Interrogation");
+
+		JLabel texteD = new JLabel("Délai avant la lecture du mot suivant : ");
+		panelSup.add(texteD, "align label");
+		
+		Integer value1 = new Integer(1);
+		Integer min1 = new Integer(0);
+		Integer max1 = new Integer(1000);
+		Integer step1 = new Integer(1);
+		SpinnerNumberModel model1 = new SpinnerNumberModel(value1, min1, max1, step1);
+		editTempsAvantInterrogationSuivant = new JSpinner(model1);
+		editTempsAvantInterrogationSuivant.setEditor(new JSpinner.NumberEditor(editTempsAvantInterrogationSuivant, "#"));
+		editTempsAvantInterrogationSuivant.setPreferredSize(new Dimension(30, 25));
+		panelSup.add(editTempsAvantInterrogationSuivant);
+
+		return panelSup;
 	}
 	private JPanel panneauInternet() {
 		JPanel panelSup = new JPanel();
@@ -200,7 +224,7 @@ public class ficheParam extends JDialog implements ActionListener {
 		boutonQuitter.setPreferredSize(new Dimension(150,25));
 		boutonQuitter.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-              setVisible(false);
+            	dispose();
             }        
           });
 		panel.add(boutonQuitter);
@@ -220,6 +244,13 @@ public class ficheParam extends JDialog implements ActionListener {
 					"Enregistrement", 
 					JOptionPane.ERROR_MESSAGE);	
 			editDelaisSuivant.requestFocus();
+			return false;
+		}
+		if ((Integer)editTempsAvantInterrogationSuivant.getValue() == 0) {
+			JOptionPane.showMessageDialog(this, "Le temps avant interrogation suivante ne peut être nul" , 
+					"Enregistrement", 
+					JOptionPane.ERROR_MESSAGE);	
+			editTempsAvantInterrogationSuivant.requestFocus();
 			return false;
 		}
 		return true;
@@ -253,6 +284,8 @@ public class ficheParam extends JDialog implements ActionListener {
 		editProxy.setText(parametres.getInstance().getProxy());
 		// Jouer tout de suite
 		cb_joueTDS.setSelected( parametres.getInstance().getJoueTDS() );
+		// Temps avant interrogation suivante
+		editTempsAvantInterrogationSuivant.setValue(parametres.getInstance().getTempsAvantInterrogationSuivante());
 	}
 	/**
 	 * Enregistrement des paramètres
@@ -276,6 +309,8 @@ public class ficheParam extends JDialog implements ActionListener {
 		parametres.getInstance().setProxy(editProxy.getText());
 		// Jouer tout de suite
 		parametres.getInstance().setJoueTDS(cb_joueTDS.isSelected());
+		//
+		parametres.getInstance().setTempsAvantInterrogationSuivante((Integer)editTempsAvantInterrogationSuivant.getValue());
 		// Enregistrement
 		parametres.getInstance().saveParam();
 	}
@@ -336,7 +371,7 @@ public class ficheParam extends JDialog implements ActionListener {
 	}
 	// Permet de quitter la fiche par la touche ECHAP
 	private void onKeyEscape() {
-		this.setVisible(false);
+		this.dispose();
 	}
 	private void configureRootPane(JRootPane rootPane) {
 	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);

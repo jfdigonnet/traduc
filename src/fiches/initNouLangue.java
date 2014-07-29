@@ -75,7 +75,7 @@ public class initNouLangue extends JDialog implements ActionListener {
 				System.out.println("Netoyage du répertoire");
 				Utils.deleteDirectory(parametres.getInstance().getRepSons());
 				JOptionPane.showMessageDialog(this, "Ré initailisation Ok", "Nouvelle langue", JOptionPane.OK_OPTION);
-				setVisible(false);
+				dispose();
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(this, "Une erreur est intervenue lors de la ré initialisation des données\n" + e1.getLocalizedMessage(), "Ré initilisation", JOptionPane.OK_OPTION);
 			}
@@ -94,7 +94,7 @@ public class initNouLangue extends JDialog implements ActionListener {
 		boutonQuitter.setPreferredSize(new Dimension(150,25));
 		boutonQuitter.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-              setVisible(false);
+            	dispose();
             }        
           });
 		panel.add(boutonQuitter);
@@ -124,7 +124,7 @@ public class initNouLangue extends JDialog implements ActionListener {
 	}
 	// Permet de quitter la fiche par la touche ECHAP
 	private void onKeyEscape() {
-		this.setVisible(false);
+		this.dispose();
 	}
 	private void configureRootPane(JRootPane rootPane) {
 	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);

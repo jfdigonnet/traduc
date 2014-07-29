@@ -126,7 +126,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		boutonQuitter.setPreferredSize(new Dimension(150,25));
 		boutonQuitter.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-              setVisible(false);
+            	dispose();
             }        
           });
 
@@ -270,7 +270,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 	}
 	// Permet de quitter la fiche par la touche ECHAP
 	private void onKeyEscape() {
-		this.setVisible(false);
+		dispose();
 	}
 	private void configureRootPane(JRootPane rootPane) {
 	    InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
