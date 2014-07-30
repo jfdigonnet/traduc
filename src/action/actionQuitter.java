@@ -17,8 +17,9 @@ public class actionQuitter implements ActionListener {
 	/***********************************************************
 	 * On quitte l'application
 	 ***********************************************************/
-	public actionQuitter(fenetrePrincipale app) {
+	public actionQuitter(fenetrePrincipale app, Seance sc) {
 		application = app;
+		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
 		parametres.getInstance().sauvePosLecture( seance.getNoTraducEnCours() );
