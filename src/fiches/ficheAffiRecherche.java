@@ -24,7 +24,6 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
-import javax.swing.SwingWorker;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
@@ -33,7 +32,6 @@ import filtres.filtreFichierSon;
 import param.parametres;
 import persistence.gestionBases;
 
-import utilitaires.AudioFilePlayer;
 import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
 
@@ -231,18 +229,17 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 						"Une erreur est intervenue lors de la suppression de la traduction " + "\n" + ex.getMessage(),
 						constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 			}
-
-			if (e.getActionCommand().equals("langue1")) {
-				etEnCours.setGBOk(editCheckGBOk.isSelected());
-				try {
-					gestionBases.getInstance().modConnuGB( etEnCours );
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données (" + paramLangues.getInstance().getLibLangue1() + ") : " + e1.getLocalizedMessage(), 
-							"Enregistrement", 
-							JOptionPane.ERROR_MESSAGE);			
-				}
-			}		
 		}
+		if (e.getActionCommand().equals("langue1")) {
+			etEnCours.setGBOk(editCheckGBOk.isSelected());
+			try {
+				gestionBases.getInstance().modConnuGB( etEnCours );
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données (" + paramLangues.getInstance().getLibLangue1() + ") : " + e1.getLocalizedMessage(), 
+						"Enregistrement", 
+						JOptionPane.ERROR_MESSAGE);			
+			}
+		}		
 		if (e.getActionCommand().equals("langue2")) {
 			etEnCours.setFOk(editCheckFOk.isSelected());
 			try {

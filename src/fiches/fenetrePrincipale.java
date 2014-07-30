@@ -750,9 +750,15 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	public String getEditGB() {
 		return editGB.getText() ;
 	}
+	/*
+	 * Perme de savoir si la case connu est cochée ou non
+	 */
 	public Boolean getEditCheckGBOk() {
 		return editCheckGBOk.isSelected();
 	}
+	/*
+	 * Perme de savoir si la case connu est cochée ou non
+	 */
 	public Boolean getEditCheckFOk() {
 		return editCheckFOk.isSelected();
 	}

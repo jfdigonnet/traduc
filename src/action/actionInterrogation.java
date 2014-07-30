@@ -23,7 +23,7 @@ public class actionInterrogation implements ActionListener {
 		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
-		Interrogation interro = new Interrogation(application, seance);
+		Interrogation interro = new Interrogation(application, seance.getListe());
 		interro.lanceInterrogation();
 	}
 }

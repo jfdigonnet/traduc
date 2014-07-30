@@ -154,6 +154,15 @@ public class gestionBases
     	statement.executeUpdate(query);
     	statement.close();
     }
+    public void setMotAnglaisInconnu(int id) throws Exception  {
+    	String query = "UPDATE traduction ";
+    	query += "set connuGB = '0'";
+    	query += " WHERE ID ='" + id  + "'";
+
+    	System.out.println(query);
+    	statement.executeUpdate(query);
+    	statement.close();
+    }
     /**********************************************************************
      * 
      * @param et

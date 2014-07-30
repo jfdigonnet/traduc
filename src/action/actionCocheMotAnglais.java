@@ -24,6 +24,14 @@ public class actionCocheMotAnglais implements ActionListener {
 		application = app;
 		seance = sc;
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * On modifie la traduction en cours en basculant la rubrique
+	 * ConnuGb ou connuF
+	 * On met à jour les compteurs de la séance
+	 * On met à jour la base de données
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (application.getEditCheckGBOk()) {
 			// La case est cochée

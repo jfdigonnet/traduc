@@ -1,13 +1,20 @@
 package fiches;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+
+import utilitaires.constantes;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -18,6 +25,8 @@ public class FicheInterro extends JDialog {
 	private JLabel labelGB;
 	private JLabel labelF;
 	private JButton boutonQuitter;
+	private JButton boutonNonConnu;
+	private JLabel labelBas;
 	
 	public FicheInterro(fenetrePrincipale appl) {
 		JPanel panelSup = new JPanel();
@@ -32,7 +41,7 @@ public class FicheInterro extends JDialog {
 		panelS.setLayout(layouS);
 		
 		labelGB = new JLabel("Ici sera affiché le mot en langue 1", SwingConstants.CENTER);
-		Dimension d = new Dimension(250,25);
+		Dimension d = new Dimension(300,25);
 		labelGB.setPreferredSize(d);
 		labelGB.setMinimumSize(d);
 		labelGB.setMaximumSize(d);
@@ -59,18 +68,31 @@ public class FicheInterro extends JDialog {
 		getRootPane().setDefaultButton(boutonQuitter);
 		boutonQuitter.setPreferredSize(new Dimension(150,25));
 
+		boutonNonConnu = new JButton("Inconnu");
+		boutonNonConnu.setPreferredSize(new Dimension(150,25));
 
 		JPanel panelB = new JPanel();
 		MigLayout layoutB = new MigLayout();
 		panelB.setLayout(layoutB);
 
 //		panelB.add(boutonArreter);
-		panelB.add(boutonQuitter, "center");
+		panelB.add(boutonQuitter);
+		panelB.add(boutonNonConnu);
 		
 		panelSup.add(panelB, "center");
 
 		add(panelSup);
 		
+		labelBas = new JLabel();
+		labelBas.setText(constantes.titreAppli);
+//		labelBas.setBackground( new Color( 133, 156, 221 ) );
+		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),
+				new Color( 133, 156, 221 ));
+		//Border border = BorderFactory.createRaisedBevelBorder();
+		labelBas.setBorder(myRaisedBorder);
+		
+		add(labelBas, BorderLayout.SOUTH);
+
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(650,200);
 		pack();
@@ -99,6 +121,18 @@ public class FicheInterro extends JDialog {
 	 */
 	public JButton getBoutonQuitter() {
 		return boutonQuitter;
+	}
+	/**
+	 * @param labelBas the labelBas to set
+	 */
+	public void setLabelBas(String labelBas) {
+		this.labelBas.setText( labelBas );
+	}
+	/**
+	 * @return the boutonNonConnu
+	 */
+	public JButton getBoutonNonConnu() {
+		return boutonNonConnu;
 	}
 }
 
