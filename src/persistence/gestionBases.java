@@ -184,7 +184,7 @@ public class gestionBases
      **********************************************************************/
     public void modConnuF(elementTraduc et) throws Exception  {
     	String query = "UPDATE traduction ";
-    	query += "set connuF = '" + et.getConnuGBSQLite() + "'";
+    	query += "set connuF = '" + et.getConnuFSQLite() + "'";
     	query += " WHERE ID ='" + et.getId()  + "'";
 
     	System.out.println(query);

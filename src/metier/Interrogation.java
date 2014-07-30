@@ -72,7 +72,8 @@ public class Interrogation {
             public void actionPerformed(ActionEvent arg0) {
             	timer.cancel();
             	timerExec.cancel();
-            	ficheinterro.dispose();
+        		parametres.getInstance().sauvePosLecture( noTraducEnCours );
+        		System.exit(0);
             }        
           });
 		ficheinterro.getBoutonNonConnu().addActionListener(new ActionListener(){
