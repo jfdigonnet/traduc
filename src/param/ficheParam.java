@@ -27,8 +27,6 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 
-import persistence.gestionBases;
-
 import utilitaires.constantes;
 
 import net.miginfocom.swing.MigLayout;
@@ -139,12 +137,12 @@ public class ficheParam extends JDialog implements ActionListener {
 
 		cb_enresPosLecture = new JCheckBox ("Enregistrer la position de la lecture", false) ;
 
-		comboSens =  new JComboBox<String>( constantes.tyepSens );
+		comboSens =  new JComboBox<String>( constantes.typeSens );
 		comboSens.setPreferredSize(new Dimension(150,25));
 
 		JLabel texte1 = new JLabel("Sens des traductions ");
 
-		comboTri =  new JComboBox<String>( constantes.tyepTri );
+		comboTri =  new JComboBox<String>( constantes.typeTri );
 		comboTri.setPreferredSize(new Dimension(150,25));
 
 		JLabel texte2 = new JLabel("Trier les mots dans l'ordre ");

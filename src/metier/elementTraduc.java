@@ -73,6 +73,9 @@ public class elementTraduc {
 		else
 			return "0";
 	}
+	/*
+	 * Permet de marquer le mot comme étant connu (1) ou non (0)
+	 */
 	public String getConnuFSQLite() {
 		if (this.GBOk)
 			return "1";
@@ -93,6 +96,9 @@ public class elementTraduc {
 			this.setFOk(true);
 		
 	}
+	/*
+	 * Permet de savoir si le mot est acquis ou non
+	 */
 	public boolean getConnu( Boolean sens ) {
 		if (sens) 
 			return this.GBOk;

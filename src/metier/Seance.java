@@ -146,7 +146,7 @@ public class Seance {
 					chargeTraduction();
 				} else {
 					// On incrément le compteur de l'éléménent à afficher jusqu'à ce que l'on trouve 
-					// un élémeent dont on ne connait pas la traduction
+					// un élément dont on ne connait pas la traduction
 					// ou que l'on ai atteint la fin du fichier
 					do {
 						noTraducEnCours++;

@@ -15,9 +15,9 @@ public class constantes {
 	public static String nomProgramme = "Exercice de traduction";
 	public static String versionProgramme = "0.0.1";
 	public static String dateProgramme = "01/01/2013";
-	public static String[] tyepCh = {"Langue étrangère", "Langue maternelle"};
-	public static String[] tyepSens = {"Langue étrangère->Langue maternelle", "Langue maternelle->Langue étrangère"};
-	public static String[] tyepTri = {"Date de création (Du plus ancien au plus récent)", "Langue étrangère", "Langue maternelle", "Au hasard", "Date de création (Du plus récent au plus ancien)"};
+	public static String[] typeCh = {"Langue étrangère", "Langue maternelle"};
+	public static String[] typeSens = {"Langue étrangère->Langue maternelle", "Langue maternelle->Langue étrangère"};
+	public static String[] typeTri = {"Date de création (Du plus ancien au plus récent)", "Langue étrangère", "Langue maternelle", "Au hasard", "Date de création (Du plus récent au plus ancien)"};
 	
 	public static String getVersionProgramme() {
 		return versionProgramme;

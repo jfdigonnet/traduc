@@ -37,15 +37,18 @@ public class FicheInterro extends JDialog {
 	    setTitle("Résultat de la recherche");
 
 		JPanel panelS = new JPanel();
-		MigLayout layouS = new MigLayout("", "[]", "[] 50 [] 50 []"); // Colonne / Ligne
+		MigLayout layouS = new MigLayout("", "[]", "[] 30 [] 30 []"); // Colonne / Ligne
 		panelS.setLayout(layouS);
 		
 		labelGB = new JLabel("Ici sera affiché le mot en langue 1", SwingConstants.CENTER);
+		Border border = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),new Color( 133, 156, 221 ));
+		labelGB.setBorder(border);
 		Dimension d = new Dimension(300,25);
 		labelGB.setPreferredSize(d);
 		labelGB.setMinimumSize(d);
 		labelGB.setMaximumSize(d);
 		labelF = new JLabel("Et ici sa traduction", SwingConstants.CENTER);
+		labelF.setBorder(border);
 		labelF.setPreferredSize(d);
 		labelF.setMinimumSize(d);
 		labelF.setMaximumSize(d);
@@ -64,7 +67,7 @@ public class FicheInterro extends JDialog {
 //		boutonArreter = new JButton("Arrêter");
 //		boutonArreter.setPreferredSize(new Dimension(150,25));
 
-		boutonQuitter = new JButton("Fermer");
+		boutonQuitter = new JButton("Arrêter");
 		getRootPane().setDefaultButton(boutonQuitter);
 		boutonQuitter.setPreferredSize(new Dimension(150,25));
 

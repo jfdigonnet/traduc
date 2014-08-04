@@ -13,7 +13,7 @@ public class parametres {
 	private String repertoire_donnees;
 	// Style choisi
 	private String style;
-	// Tri par mot étranger ou mot français
+	// Tri des mots présentés : Date, par mot étranger ou mot français, etc...
 	// Pas de tri par défaut
 	private int typeTri = 0;
 	// Passage à la traduction suivante automatique
@@ -137,6 +137,15 @@ public class parametres {
     	
     	myPrefs.putInt("TempsAvantInterrogationSuivante", TempsAvantInterrogationSuivante);
 	}
+	/*
+	 * Retourne le type de tri :
+	 * 	Date de création (Du plus ancien au plus récent)
+	 * 	Langue étrangère
+	 * 	Langue maternelle
+	 * 	Au hasard
+	 * 	Date de création (Du plus récent au plus ancien)
+	 * cf utilitaires.constantes
+	 */
 	public int getTypeTri() {
 		return typeTri;
 	}

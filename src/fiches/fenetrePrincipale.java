@@ -336,6 +336,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		chouteAgain.setMnemonic('R');
 
 		JMenuItem interrogation = new JMenuItem("Débuter une interrogation");
+		interrogation.setAccelerator(KeyStroke.getKeyStroke("F11"));
 		interrogation.addActionListener(new actionInterrogation(this, seance));
 		interrogation.setMnemonic('i');
 
@@ -476,25 +477,25 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 
 		ImageIcon iconePrems = new ImageIcon("images/premier.png");
 		JButton boutonPrems = new JButton(iconePrems);
-		boutonPrems.setToolTipText("Premier");
+		boutonPrems.setToolTipText("Afficher le premier mot");
 		boutonPrems.setActionCommand("premier");
 		boutonPrems.addActionListener(this);
 
 		ImageIcon iconeSuivant = new ImageIcon("images/suivant.png");
 		JButton boutonSuivant = new JButton(iconeSuivant);
-		boutonSuivant.setToolTipText("Suivant");
+		boutonSuivant.setToolTipText("Afficher le mot suivant");
 		boutonSuivant.setActionCommand("suivant");
 		boutonSuivant.addActionListener(this);
 
 		ImageIcon iconePred = new ImageIcon("images/pred.png");
 		JButton boutonPred = new JButton(iconePred);
-		boutonPred.setToolTipText("Précédent");
+		boutonPred.setToolTipText("Afficher le mot précédent");
 		boutonPred.setActionCommand("precedent");
 		boutonPred.addActionListener(this);
 
 		ImageIcon iconeDer = new ImageIcon("images/dernier.png");
 		JButton boutonDer = new JButton(iconeDer);
-		boutonDer.setToolTipText("Dernier");
+		boutonDer.setToolTipText("Afficher le dernier mot");
 		boutonDer.setActionCommand("dernier");
 		boutonDer.addActionListener(this);
 
