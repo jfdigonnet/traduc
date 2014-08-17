@@ -67,12 +67,12 @@ public class FicheInterro extends JDialog {
 //		boutonArreter = new JButton("Arrêter");
 //		boutonArreter.setPreferredSize(new Dimension(150,25));
 
-		boutonQuitter = new JButton("Arrêter");
-		getRootPane().setDefaultButton(boutonQuitter);
+		boutonQuitter = new JButton("Arrêter");		
 		boutonQuitter.setPreferredSize(new Dimension(150,25));
 
 		boutonNonConnu = new JButton("Inconnu");
 		boutonNonConnu.setPreferredSize(new Dimension(150,25));
+		getRootPane().setDefaultButton(boutonNonConnu);
 
 		JPanel panelB = new JPanel();
 		MigLayout layoutB = new MigLayout();

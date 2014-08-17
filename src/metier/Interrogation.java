@@ -73,7 +73,7 @@ public class Interrogation {
             	timer.cancel();
             	timerExec.cancel();
         		parametres.getInstance().sauvePosLecture( noTraducEnCours );
-        		System.exit(0);
+        		ficheinterro.dispose();
             }        
           });
 		ficheinterro.getBoutonNonConnu().addActionListener(new ActionListener(){
