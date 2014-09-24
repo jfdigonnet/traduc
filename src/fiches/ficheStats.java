@@ -144,6 +144,17 @@ public class ficheStats extends JDialog {
         panelres.add(label6);
         panelres.add(label6Res, "wrap");
         
+        JLabel label7 = new JLabel("Nombre de traduction sans fichier sonore");
+
+        moyenne = 0;
+        a = resStat[5];
+        b = resStat[0];
+        moyenne = b - a;
+
+        JLabel label7Res = new JLabel(String.valueOf(moyenne));
+        label7Res.setFont(police1);
+        panelres.add(label7);
+        panelres.add(label7Res, "wrap");
         //paneltot.add(content, "wrap");
         //paneltot.add(panelProgression, "grow, wrap");
         
