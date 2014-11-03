@@ -2,7 +2,6 @@ package fiches;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -587,15 +586,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		 * Afficher le dernier mot 
 		 ***********************************************************/
 		if (e.getActionCommand().equals("dernier")) {
-			seance.setNoTraducEnCours( seance.getListe().size() - 1);
-			try {
-				seance.setEtEnCours( seance.loadTraduction() );
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(this,
-						"Erreur lors du chargement de la traduction no " + Integer.toString( seance.getNoTraducEnCours() ) + 
-								e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
-			}
-			soumettreTraduction( seance.getEtEnCours() );
+			afficheDernier();
 		}				
 		/***********************************************************
 		 * Afficher la traduction du mot
@@ -614,15 +605,27 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * 
 	 */
 	public void affichePremier() {
-		seance.setNoTraducEnCours( 0 );
+//		seance.setNoTraducEnCours( 0 );
 		try {
-			seance.setEtEnCours( seance.loadTraduction() );
+			seance.affichePremier();
+			soumettreTraduction();
+//			seance.setEtEnCours( seance.loadTraduction() );
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(this,
 					"Erreur lors du chargement de la traduction no " + Integer.toString( seance.getNoTraducEnCours() ) + 
 							e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 		}
-		soumettreTraduction( seance.getEtEnCours() );
+	}
+	public void afficheDernier() {
+		try {
+			seance.afficheDernier();
+			soumettreTraduction();
+//			seance.setEtEnCours( seance.loadTraduction() );
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(this,
+					"Erreur lors du chargement de la traduction no " + Integer.toString( seance.getNoTraducEnCours() ) + 
+							e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	/**
 	 * Affichage de la traduction précédente
@@ -631,7 +634,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
 		try {
 			seance.affichePrecedent();
-			soumettreTraduction( seance.getEtEnCours() );
+			soumettreTraduction();
 		} finally {
 			setCursor(Cursor.getDefaultCursor());
 		}
@@ -647,7 +650,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
 		try {
 			seance.afficheSuivant();
-			soumettreTraduction( seance.getEtEnCours() );
+			soumettreTraduction();
 		} finally {
 			setCursor(Cursor.getDefaultCursor());
 		}
@@ -690,26 +693,26 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * Cela permet lors de la mise à jour de la traduction de ne pas perdre l'option 
 	 * d'une des deux langues
 	 */
-	public void soumettreTraduction( elementTraduc et ) {
+	public void soumettreTraduction() {
 		editF.setText("");
 		editGB.setText("");
 		if (parametres.getInstance().getSens()) {
-			editGB.setText(et.getAnglais());
+			editGB.setText(seance.getEtEnCours().getAnglais());
 			editGB.requestFocus();
 		} else {
-			editF.setText(et.getFrancais());
+			editF.setText(seance.getEtEnCours().getFrancais());
 			editF.requestFocus();
 		}
-		editCheckGBOk.setSelected(et.getGBOk());
-		editCheckFOk.setSelected(et.getFOk());
+		editCheckGBOk.setSelected(seance.getEtEnCours().getGBOk());
+		editCheckFOk.setSelected(seance.getEtEnCours().getFOk());
 		adapteBouton();
 		menuEnreg.setEnabled(false);
 		boutonEnreg.setEnabled(false);
 		boutonAffiTraduc.setEnabled(true);
 		if (parametres.getInstance().getJoueTDS()) {
-			if (et.getFichiermp3().length() > 0) {
+			if (seance.getEtEnCours().getFichiermp3().length() > 0) {
 				try {
-					new MonSwingWorker(constantes.getRepMP3() + et.getFichiermp3()).execute();
+					new MonSwingWorker(constantes.getRepMP3() + seance.getEtEnCours().getFichiermp3()).execute();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

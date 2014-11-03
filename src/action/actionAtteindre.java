@@ -31,12 +31,12 @@ public class actionAtteindre implements ActionListener  {
 		if (att.getResultat()) {
 			seance.setNoTraducEnCours( att.getValeur() - 1 );
 			try {
-				seance.setEtEnCours( seance.loadTraduction());
+				seance.loadTraduction();
 			} catch (Exception e1) {
 				// Il faut lever une exception ici pour la transmettre à la fiche principale
 				e1.printStackTrace();
 			}
-			application.soumettreTraduction( seance.getEtEnCours() );
+			application.soumettreTraduction();
 		}
 	}	
 }

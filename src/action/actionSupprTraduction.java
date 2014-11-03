@@ -43,11 +43,8 @@ public class actionSupprTraduction implements ActionListener {
 			if (seance.getNoTraducEnCours() == seance.getListe().size()) {
 				seance.setNoTraducEnCours(seance.getListe().size());
 			}
-			elementTraduc et = seance.loadTraduction();
-			// On la mémorise
-			seance.setEtEnCours( et );
-			// On l'affiche
-			application.soumettreTraduction( et );
+			seance.loadTraduction();
+			application.soumettreTraduction();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(application,
 					"Une erreur est intervenue lors de la suppression de la traduction " + "\n" + ex.getMessage(),

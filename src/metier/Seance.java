@@ -78,97 +78,143 @@ public class Seance {
 	 * @return
 	 * @throws Exception 
 	 */
-	public elementTraduc loadTraduction() throws Exception {
-		elementTraduc traduc;
-		traduc = gestionBases.getInstance().chargeUneTraduc( liste.get(noTraducEnCours) );
-		return traduc;
-	}
-	private void chargeTraduction() {
+	public void loadTraduction() {
 		try {
-			etEnCours = loadTraduction();
+			etEnCours = gestionBases.getInstance().chargeUneTraduc( liste.get(noTraducEnCours) );
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(application,
 					"Erreur lors du chargement de la traduction no " + Integer.toString( noTraducEnCours ) + 
 					e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	/*
+	 *  On affiche le premier élémenent de la liste des mots
+	 *  Si ce mot est connu et que l'on a choisi de n'afficher que les mot non connu
+	 *  on se place sur le suivant jusqu'à ce que l'on trouve un mot non connu
+	 */
+	
+	public void affichePremier() {
+		noTraducEnCours = 0;
+		loadTraduction();
+		// Test type de lecture : Si pas tous les mots donc seulement les mots non connus
+		if (! parametres.getInstance().getAfficherTousLesMots()) {
+			do {
+				noTraducEnCours++;
+				if (noTraducEnCours == liste.size()) {
+					noTraducEnCours--;
+				}
+				loadTraduction();
+			} while ( (etEnCours.getConnu( parametres.getInstance().getSens()) ) && (noTraducEnCours < (liste.size() - 1)));
+		}
+	}
+	/*
+	 * Affihchage du dernier élément de la liste 
+	 * ou du précédent s'il est connu et que l'on ne veut que 
+	 * les mots non connus
+	 */
+	public void afficheDernier() {
+		noTraducEnCours = liste.size() - 1;
+		loadTraduction();
+		// Test type de lecture : Si pas tous les mots donc seulement les mots non connus
+		if (! parametres.getInstance().getAfficherTousLesMots()) {
+			do {
+				noTraducEnCours--;
+				if (noTraducEnCours == -1) {
+					noTraducEnCours = 0;
+				}
+				loadTraduction();
+			} while ( (etEnCours.getConnu( parametres.getInstance().getSens()) ) && (noTraducEnCours > -1) );
+		}
+	}
 	/**
 	 * Affichage de la traduction précédente
 	 */
 	public void affichePrecedent() {
+		// Cas du tirage au sort : on n'est donc jamais au début ou à la fin du fichier
+		if (parametres.getInstance().getTypeTri() == 3) {
+			tirageAuSort();
+		}
+		// On n'est pas en fin de fichier
 		if (noTraducEnCours > 0) {
-			if (parametres.getInstance().getAfficherTousLesMots()) {
-				decNoTraducEnCours();
-				chargeTraduction();
-			} else {
+			decNoTraducEnCours();
+			loadTraduction();
+			if (! parametres.getInstance().getAfficherTousLesMots()) {
+				// On mémorise le no en cours
 				int ancIndex = noTraducEnCours;
 				do {
 					decNoTraducEnCours();
+					// On test si on n'est pas arrivé au début du fichier
 					if (noTraducEnCours == 0) {
+						// Si oui on reprend l'index du début
 						noTraducEnCours = ancIndex;
+						// On recharge
+						loadTraduction();
+						// et on sort
+						return;
 					}
-					chargeTraduction();
+					loadTraduction();
 //						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
 				} while ((etEnCours.getConnu(parametres.getInstance().getSens()) && (noTraducEnCours >= 0) ));
 			}
 		}
 	}
+	public void tirageAuSort() {
+	    noTraducEnCours = (int)Math.random() * liste.size();
+		Random rand = new Random();
+		int nombreAleatoire = rand.nextInt(liste.size()) + 1;
+		System.out.println(nombreAleatoire);
+		noTraducEnCours = nombreAleatoire;
+		try {
+			loadTraduction();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(application,
+					"Erreur lors du chargement de la traduction no " + Integer.toString( noTraducEnCours ) + 
+							e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+		}
+	}
 	/**
 	 * On incrémente le compteur de traduction
 	 * On charge une traduction à partir de la table
-	 * Si on veut toutes les voir : on l'affiche
+	 * Si on veut toutes les voire : on l'affiche
 	 * Sinon on regarde si elle est connue
 	 * Si non on recommence
 	 */
 	public void afficheSuivant() {
-//		System.out.println( noTraducEnCours );
-//		System.out.println( liste.get( noTraducEnCours ) );
-//		System.out.println( liste.size());
+		// Cas du tirage au sort : on n'est donc jamais au début ou à la fin du fichier
+		if (parametres.getInstance().getTypeTri() == 3) {
+			tirageAuSort();
+		}
+		// On vérifie que l'on est pas à la fin du fichier
 		if (noTraducEnCours < liste.size()) {
-			// On tire les mots au hasard
-			if (parametres.getInstance().getTypeTri() == 3) {
-				    noTraducEnCours = (int)Math.random() * liste.size();
-					Random rand = new Random();
-					int nombreAleatoire = rand.nextInt(liste.size()) + 1;
-					System.out.println(nombreAleatoire);
-					noTraducEnCours = nombreAleatoire;
-					try {
-						etEnCours = loadTraduction();
-					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(application,
-								"Erreur lors du chargement de la traduction no " + Integer.toString( noTraducEnCours ) + 
-										e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
-					}
-			} else {
-				// On affiche tous les mots
-				if (parametres.getInstance().getAfficherTousLesMots()) {
-					noTraducEnCours++;
-					chargeTraduction();
-				} else {
-					// On incrément le compteur de l'éléménent à afficher jusqu'à ce que l'on trouve 
-					// un élément dont on ne connait pas la traduction
-					// ou que l'on ai atteint la fin du fichier
-					do {
-						noTraducEnCours++;
-						if (noTraducEnCours == liste.size()) {
-							noTraducEnCours--;
-						}
-						chargeTraduction();
-//							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
-					} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
+				noTraducEnCours++;
+				loadTraduction();
+				// Si on est dans le cas de n'afficher que les mots non connus
+				if ( ! parametres.getInstance().getAfficherTousLesMots()) {
+					// Et si le mot est connu
+					if ( etEnCours.getConnu( parametres.getInstance().getSens()) ) {
+						// On mémorise le no en cours
+						int ancIndex = noTraducEnCours;
+						do {
+							noTraducEnCours++;
+							// On vérifie si on n'a pas atteint la fin de fichier
+							if (noTraducEnCours == liste.size()) {
+								// on remet l'index
+								noTraducEnCours = ancIndex; 
+								// On recharge
+								loadTraduction();
+								// Et on sort
+								return;
+							}
+							loadTraduction();
+	//							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
+						} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
 				}
 			}
-		} else {
-			noTraducEnCours = liste.size() - 1;
-			chargeTraduction();
 		}
 	}
 	
 	public elementTraduc getEtEnCours() {
 		return etEnCours;
-	}
-	public void setEtEnCours(elementTraduc etEnCours) {
-		this.etEnCours = etEnCours;
 	}
 	public ArrayList<Integer> getListe() {
 		return liste;
