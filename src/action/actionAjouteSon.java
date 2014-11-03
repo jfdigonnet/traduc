@@ -45,7 +45,8 @@ public class actionAjouteSon implements ActionListener {
 		int returnVal = choixfichier.showOpenDialog(application);
 		if ( returnVal == 0) {
 			parametres.getInstance().sauveParamRep(choixfichier.getSelectedFile().getParent());
-		    if ( choixfichier.getSelectedFile().getParent() + File.separator !=  constantes.getRepMP3() ) { 
+			String replu = choixfichier.getSelectedFile().getParent() + File.separator; 
+		    if ( ! replu.equals( constantes.getRepMP3()) ) { 
 			    // Copie du fichier dans le dossier des sons
 				File ficIn = new File( choixfichier.getSelectedFile().getAbsolutePath()  );
 				//System.out.println(constantes.getRepMP3() + choixfichier.getSelectedFile().getName());
