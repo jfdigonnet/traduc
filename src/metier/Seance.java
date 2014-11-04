@@ -136,25 +136,29 @@ public class Seance {
 		}
 		// On n'est pas en fin de fichier
 		if (noTraducEnCours > 0) {
-			decNoTraducEnCours();
+			noTraducEnCours--;
 			loadTraduction();
-			if (! parametres.getInstance().getAfficherTousLesMots()) {
+			// Si on est dans le cas de n'afficher que les mots non connus
+			if ( ! parametres.getInstance().getAfficherTousLesMots()) {
+				// Et si le mot est connu
+				if ( etEnCours.getConnu( parametres.getInstance().getSens()) ) {
 				// On mémorise le no en cours
-				int ancIndex = noTraducEnCours;
-				do {
-					decNoTraducEnCours();
-					// On test si on n'est pas arrivé au début du fichier
-					if (noTraducEnCours == 0) {
-						// Si oui on reprend l'index du début
-						noTraducEnCours = ancIndex;
-						// On recharge
+					int ancIndex = noTraducEnCours;
+					do {
+						decNoTraducEnCours();
+						// On test si on n'est pas arrivé au début du fichier
+						if (noTraducEnCours == 0) {
+							// Si oui on reprend l'index du début
+							noTraducEnCours = ancIndex;
+							// On recharge
+							loadTraduction();
+							// et on sort
+							return;
+						}
 						loadTraduction();
-						// et on sort
-						return;
-					}
-					loadTraduction();
-//						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
-				} while ((etEnCours.getConnu(parametres.getInstance().getSens()) && (noTraducEnCours >= 0) ));
+	//						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
+					} while ((etEnCours.getConnu(parametres.getInstance().getSens()) && (noTraducEnCours >= 0) ));
+				}
 			}
 		}
 	}
