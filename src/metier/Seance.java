@@ -136,14 +136,14 @@ public class Seance {
 		}
 		// On n'est pas en fin de fichier
 		if (noTraducEnCours > 0) {
+			// On mémorise le no en cours
+			int ancIndex = noTraducEnCours;
 			noTraducEnCours--;
 			loadTraduction();
 			// Si on est dans le cas de n'afficher que les mots non connus
 			if ( ! parametres.getInstance().getAfficherTousLesMots()) {
 				// Et si le mot est connu
 				if ( etEnCours.getConnu( parametres.getInstance().getSens()) ) {
-				// On mémorise le no en cours
-					int ancIndex = noTraducEnCours;
 					do {
 						decNoTraducEnCours();
 						// On test si on n'est pas arrivé au début du fichier
