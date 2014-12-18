@@ -1,6 +1,5 @@
 package action;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,14 +27,14 @@ public class actionSupprSon implements ActionListener {
 		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
-	    seance.getEtEnCours().setFichiermp3("");
-	    try {
-	    	gestionBases.getInstance().supprimeSon(seance.getEtEnCours());
-	    	JButton Bouton = application.getBoutonJouer();
-	    	Bouton.setEnabled(false);
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(application, "Erreur lors de l'enregistrement dans la base\n :" +
-					e1.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
-		}
+		    seance.getEtEnCours().setFichiermp3("");
+		    try {
+		    	gestionBases.getInstance().supprimeSon(seance.getEtEnCours());
+		    	JButton Bouton = application.getBoutonJouer();
+		    	Bouton.setEnabled(false);
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(application, "Erreur lors de l'enregistrement dans la base\n :" +
+						e1.getLocalizedMessage(), constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
+			}
 	}
 }

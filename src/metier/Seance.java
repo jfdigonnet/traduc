@@ -117,13 +117,15 @@ public class Seance {
 		loadTraduction();
 		// Test type de lecture : Si pas tous les mots donc seulement les mots non connus
 		if (! parametres.getInstance().getAfficherTousLesMots()) {
-			do {
-				noTraducEnCours--;
-				if (noTraducEnCours == -1) {
-					noTraducEnCours = 0;
-				}
-				loadTraduction();
-			} while ( (etEnCours.getConnu( parametres.getInstance().getSens()) ) && (noTraducEnCours > -1) );
+			if (etEnCours.getConnu( parametres.getInstance().getSens())) {
+				do {
+					noTraducEnCours--;
+					if (noTraducEnCours == -1) {
+						noTraducEnCours = 0;
+					}
+					loadTraduction();
+				} while ( (etEnCours.getConnu( parametres.getInstance().getSens()) ) && (noTraducEnCours > -1) );
+			}
 		}
 	}
 	/**
@@ -189,11 +191,10 @@ public class Seance {
 			tirageAuSort();
 		}
 		// On vérifie que l'on est pas à la fin du fichier
-		if (noTraducEnCours < liste.size()) {
-				noTraducEnCours++;
-				loadTraduction();
-				// Si on est dans le cas de n'afficher que les mots non connus
-				if ( ! parametres.getInstance().getAfficherTousLesMots()) {
+		if (noTraducEnCours < liste.size() - 1) { noTraducEnCours++; }
+		loadTraduction();
+		// Si on est dans le cas de n'afficher que les mots non connus
+		if ( ! parametres.getInstance().getAfficherTousLesMots()) {
 					// Et si le mot est connu
 					if ( etEnCours.getConnu( parametres.getInstance().getSens()) ) {
 						// On mémorise le no en cours
@@ -213,7 +214,6 @@ public class Seance {
 	//							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
 						} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
 				}
-			}
 		}
 	}
 	

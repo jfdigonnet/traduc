@@ -31,24 +31,29 @@ public class actionSupprTraduction implements ActionListener {
 		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
-		// On mémorise l'id supprimé pour le supprimer 
-		int ancIndex = seance.getListe().get(seance.getNoTraducEnCours());
-		// On le supprime de la liste
-		seance.getListe().remove(seance.getNoTraducEnCours());
-		try {
-			// On le supprime de la base de données
-			gestionBases.getInstance().supprimeTraduction( ancIndex );
-			// On recharge un element de traduction : celui qui occupe la place supprimé
-			// Il faudra ajouter un test quand on supprime le dernier
-			if (seance.getNoTraducEnCours() == seance.getListe().size()) {
-				seance.setNoTraducEnCours(seance.getListe().size());
+		int retour = JOptionPane.showConfirmDialog(application, "Confirmez vous la suppression de cette traduction ?", 
+				constantes.getTitreAppli(), 
+				JOptionPane.OK_CANCEL_OPTION );
+		if (retour == JOptionPane.OK_OPTION ) {
+			// On mémorise l'id supprimé pour le supprimer 
+			int ancIndex = seance.getListe().get(seance.getNoTraducEnCours());
+			// On le supprime de la liste
+			seance.getListe().remove(seance.getNoTraducEnCours());
+			try {
+				// On le supprime de la base de données
+				gestionBases.getInstance().supprimeTraduction( ancIndex );
+				// On recharge un element de traduction : celui qui occupe la place supprimé
+				// Il faudra ajouter un test quand on supprime le dernier
+				if (seance.getNoTraducEnCours() == seance.getListe().size() - 1) {
+					seance.setNoTraducEnCours(seance.getListe().size() - 1);
+				}
+				seance.loadTraduction();
+				application.soumettreTraduction();
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(application,
+						"Une erreur est intervenue lors de la suppression de la traduction " + "\n" + ex.getMessage(),
+						constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 			}
-			seance.loadTraduction();
-			application.soumettreTraduction();
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(application,
-					"Une erreur est intervenue lors de la suppression de la traduction " + "\n" + ex.getMessage(),
-					constantes.getTitreAppli(), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }
