@@ -11,13 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -28,17 +25,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
+
+import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticLookAndFeel;
+import com.jgoodies.looks.plastic.theme.DesertBlue;
 
 import action.actionAjouteSon;
 import action.actionAtteindre;
@@ -61,12 +59,9 @@ import action.actionSupprSon;
 import action.actionSupprTraduction;
 import action.actioninitNouLangue;
 import action.reinitConnaissance;
-
 import param.parametres;
-
 import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
-
 import metier.Seance;
 import metier.elementTraduc;
 import metier.paramLangues;
@@ -423,32 +418,32 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		menuOutils.addSeparator();
 		menuOutils.add(correction);
 
-		JMenu menu = new JMenu("L&F");
-		ButtonGroup bg = new ButtonGroup();
-		Map<String, String> map = getLookAndFeelsMap();
-		for (String clef : map.keySet()) {
-			final String classe = map.get(clef);
-			boolean natif = classe.equals(UIManager
-					.getSystemLookAndFeelClassName());
-			JRadioButtonMenuItem item = new JRadioButtonMenuItem(clef, natif);
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ae) {
-					try {
-						UIManager.setLookAndFeel(classe);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					SwingUtilities
-							.updateComponentTreeUI(fenetrePrincipale.this);
-				}
-			});
-			bg.add(item);
-			menu.add(item);
-		}
+//		JMenu menu = new JMenu("L&F");
+//		ButtonGroup bg = new ButtonGroup();
+//		Map<String, String> map = getLookAndFeelsMap();
+//		for (String clef : map.keySet()) {
+//			final String classe = map.get(clef);
+//			boolean natif = classe.equals(UIManager
+//					.getSystemLookAndFeelClassName());
+//			JRadioButtonMenuItem item = new JRadioButtonMenuItem(clef, natif);
+//			item.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent ae) {
+//					try {
+//						UIManager.setLookAndFeel(classe);
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//					SwingUtilities
+//							.updateComponentTreeUI(fenetrePrincipale.this);
+//				}
+//			});
+//			bg.add(item);
+//			menu.add(item);
+//		}
 		menuBar.add(menuFichier);
 		menuBar.add(menuEdition);
 		menuBar.add(menuOutils);
-		menuBar.add(menu);
+//		menuBar.add(menu);
 		menuBar.add(menuAide);
 		return menuBar;
 	}
@@ -526,28 +521,32 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * 
 	 */
 	private static void setWindowsLook() {
-		LookAndFeel lf = UIManager.getLookAndFeel();
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			// Ne pas utiliser de texte en gras (LnF Metal) :
-			UIManager.put("swing.boldMetal", Boolean.FALSE);
-			// Pas certain que cela fonctionne
-		} catch (Exception e) {
-		}
+		PlasticLookAndFeel.setPlasticTheme(new DesertBlue());
+		   try {
+		      UIManager.setLookAndFeel(new Plastic3DLookAndFeel());
+		   } catch (Exception e) {}
+//		LookAndFeel lf = UIManager.getLookAndFeel();
+//		try {
+//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+//			// Ne pas utiliser de texte en gras (LnF Metal) :
+//			UIManager.put("swing.boldMetal", Boolean.FALSE);
+//			// Pas certain que cela fonctionne
+//		} catch (Exception e) {
+//		}
 	}
 	/*
 	 * Look et style de l'application en fonction du l'OS
 	 */
-	public Map<String, String> getLookAndFeelsMap() {
-		UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
-		Map<String, String> map = new TreeMap<String, String>();
-		for (int i = 0; i < info.length; i++) {
-			String nomLF = info[i].getName();
-			String nomClasse = info[i].getClassName();
-			map.put(nomLF, nomClasse);
-		}
-		return map;
-	}
+//	public Map<String, String> getLookAndFeelsMap() {
+//		UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
+//		Map<String, String> map = new TreeMap<String, String>();
+//		for (int i = 0; i < info.length; i++) {
+//			String nomLF = info[i].getName();
+//			String nomClasse = info[i].getClassName();
+//			map.put(nomLF, nomClasse);
+//		}
+//		return map;
+//	}
 	/*
 	 * On met les deux boutons à enabled / deseable
 	 * en fonction de la valeur de traducEnCours (Position dans la lecture)

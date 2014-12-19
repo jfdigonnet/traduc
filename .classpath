@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="lib/mp3spi1.9.5.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="lib/jgoodies-looks-2.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/jgoodies-common-1.8.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
