@@ -160,6 +160,7 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		boutonSuivant.setActionCommand("suivant");
 
 		JButton boutonEnreg = new JButton("Enregistrer");
+		boutonEnreg.setPreferredSize(new Dimension(150,25));
 		boutonEnreg.setToolTipText("Enregistrer les modifications");
 		boutonEnreg.setActionCommand("enreg");
 		boutonEnreg.addActionListener(this);

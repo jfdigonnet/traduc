@@ -114,6 +114,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * 
 	 */
 	private void creeInterface() {
+		setWindowsLook();
+
 		Font police = new Font(Font.SANS_SERIF , Font.TRUETYPE_FONT, 14);
 		this.setFont(police);
 
@@ -166,7 +168,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		pack();
 		// setUndecorated(true);
 		// getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
-		setWindowsLook();
 		setLocationRelativeTo(null);
 		//setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		setVisible(true);
