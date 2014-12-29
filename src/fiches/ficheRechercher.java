@@ -23,8 +23,6 @@ import javax.swing.JRootPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
-import utilitaires.constantes;
-
 import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;
 

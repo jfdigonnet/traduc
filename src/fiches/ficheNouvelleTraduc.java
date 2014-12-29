@@ -98,7 +98,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		// fin test		
 
 		boutonJouer = new JButton("Jouer");
-		boutonJouer.setToolTipText("Joure le fichierJField sonore");
+		boutonJouer.setToolTipText("Jouer le fichier sonore");
 		boutonJouer.addActionListener(this);
 		boutonJouer.setEnabled(false);
 		boutonJouer.setActionCommand("jouer");

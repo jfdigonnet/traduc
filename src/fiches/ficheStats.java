@@ -1,6 +1,7 @@
 package fiches;
 
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -161,6 +162,7 @@ public class ficheStats extends JDialog {
         JPanel control = new JPanel();
 
         okBouton = new JButton("Fermer");
+        okBouton.setPreferredSize(new Dimension(120,25));
         getRootPane().setDefaultButton(okBouton);
         okBouton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

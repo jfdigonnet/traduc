@@ -115,12 +115,13 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		majCheckBox();
 		
 		boutonSelFichierSon = new JButton("...");
+		boutonSelFichierSon.setPreferredSize(new Dimension(40,25));
 		boutonSelFichierSon.setToolTipText("Ajouter / Modifier un enregistrement sonore");
 		boutonSelFichierSon.addActionListener(this);
 		boutonSelFichierSon.setActionCommand("ajoutson");
 
 		boutonSupprSon = new JButton("X");
-		boutonSupprSon.setPreferredSize(new Dimension(40,25));
+		//boutonSupprSon.setPreferredSize(new Dimension(40,25));
 		boutonSupprSon.setToolTipText("Supprimer la référence au son");
 		boutonSupprSon.setActionCommand("supprson");
 		boutonSupprSon.addActionListener(this);
