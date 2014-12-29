@@ -34,9 +34,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
-import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
-import com.jgoodies.looks.plastic.theme.DesertBlue;
+import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+import com.jgoodies.looks.plastic.theme.ExperienceBlue;
 
 import action.actionAjouteSon;
 import action.actionAtteindre;
@@ -522,32 +522,11 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * 
 	 */
 	private static void setWindowsLook() {
-		PlasticLookAndFeel.setPlasticTheme(new DesertBlue());
+		PlasticLookAndFeel.setPlasticTheme(new ExperienceBlue());
 		   try {
-		      UIManager.setLookAndFeel(new Plastic3DLookAndFeel());
+		      UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
 		   } catch (Exception e) {}
-//		LookAndFeel lf = UIManager.getLookAndFeel();
-//		try {
-//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-//			// Ne pas utiliser de texte en gras (LnF Metal) :
-//			UIManager.put("swing.boldMetal", Boolean.FALSE);
-//			// Pas certain que cela fonctionne
-//		} catch (Exception e) {
-//		}
 	}
-	/*
-	 * Look et style de l'application en fonction du l'OS
-	 */
-//	public Map<String, String> getLookAndFeelsMap() {
-//		UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
-//		Map<String, String> map = new TreeMap<String, String>();
-//		for (int i = 0; i < info.length; i++) {
-//			String nomLF = info[i].getName();
-//			String nomClasse = info[i].getClassName();
-//			map.put(nomLF, nomClasse);
-//		}
-//		return map;
-//	}
 	/*
 	 * On met les deux boutons à enabled / deseable
 	 * en fonction de la valeur de traducEnCours (Position dans la lecture)
