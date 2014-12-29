@@ -34,6 +34,14 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import com.jgoodies.looks.BorderStyle;
+import com.jgoodies.looks.FontPolicies;
+import com.jgoodies.looks.FontPolicy;
+import com.jgoodies.looks.FontSet;
+import com.jgoodies.looks.FontSets;
+import com.jgoodies.looks.HeaderStyle;
+import com.jgoodies.looks.Options;
+import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.ExperienceBlue;
@@ -231,6 +239,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		majCheckBox();
 		
 		boutonJouer = new JButton("Jouer");
+
 		//boutonJouer.setBorder(nul);
 		boutonJouer.addActionListener(new actionJouer(seance));
 		boutonJouer.setMnemonic( KeyEvent.VK_J ) ;
@@ -294,7 +303,11 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * 
 	 */
 	private JMenuBar ajouteMenu() {
+		
 		JMenuBar menuBar = new JMenuBar();
+		 menuBar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.SINGLE);
+		 menuBar.putClientProperty(PlasticLookAndFeel.BORDER_STYLE_KEY, BorderStyle.SEPARATOR);
+		//menuBar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
 
 		JMenu menuFichier = new JMenu("Fichier");
 		menuFichier.setMnemonic('F');
@@ -453,6 +466,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 */
 	private JToolBar ajouteBarreOutils() {
 		JToolBar barreOutils = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
+		barreOutils.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
 		barreOutils.setFloatable(false);
 		//barreOutils.setBorder(myRaisedBorder);
 		Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
@@ -524,8 +538,16 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private static void setWindowsLook() {
 		PlasticLookAndFeel.setPlasticTheme(new ExperienceBlue());
 		   try {
-		      UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
+		      UIManager.setLookAndFeel(new PlasticXPLookAndFeel());// Plastic3DLookAndFeel PlasticXPLookAndFeel
 		   } catch (Exception e) {}
+		   FontSet fontSet = FontSets.createDefaultFontSet(
+				   	new Font("Tahoma", Font.PLAIN, 11),    // control font
+				    new Font("Tahoma", Font.PLAIN, 12),    // menu font
+				    new Font("Tahoma", Font.BOLD, 11)     // title font
+				    );
+				FontPolicy fixedPolicy = FontPolicies.createFixedPolicy(fontSet);
+				PlasticLookAndFeel.setFontPolicy(fixedPolicy);
+
 	}
 	/*
 	 * On met les deux boutons à enabled / deseable
