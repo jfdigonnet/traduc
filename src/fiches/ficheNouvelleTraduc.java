@@ -31,7 +31,6 @@ import filtres.filtreFichierSon;
 import param.parametres;
 import persistence.gestionBases;
 
-import utilitaires.AudioFilePlayer;
 import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
 
@@ -60,7 +59,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		MigLayout layouT = new MigLayout("", "[]", "[] 5 [] 5 []");
 		panelT.setLayout(layouT);
 		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),new Color( 133, 156, 221 ));
-		panelT.setBorder(myRaisedBorder);
+		//panelT.setBorder(myRaisedBorder);
 		
 		JLabel label5 = new JLabel(paramLangues.getInstance().getLibLangue1());
 		panelT.add(label5);
@@ -68,16 +67,18 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		JLabel label6 = new JLabel(paramLangues.getInstance().getLibLangue2());
 		panelT.add(label6, "wrap");
 
-		editGB = new JTextArea(20,40);
-		editGB.setBounds(10, 80, 150, 20);
+		editGB = new JTextArea();
+		//editGB.setBounds(10, 80, 150, 20);
 		JScrollPane editGBScrollComm = new JScrollPane(editGB);
 		editGBScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		editGBScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		editGBScrollComm.setPreferredSize(new Dimension(400, 300));
 
-		editF = new JTextArea(20,40);
+		editF = new JTextArea();
 		JScrollPane editFScrollComm = new JScrollPane(editF);
 		editFScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		editFScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		editFScrollComm.setPreferredSize(new Dimension(400, 300));
 
 		panelT.add(editGBScrollComm);
 		panelT.add(editFScrollComm);

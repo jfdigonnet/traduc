@@ -162,7 +162,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		labelBas = new JLabel();
 		labelBas.setText(constantes.titreAppli);
 //		labelBas.setBackground( new Color( 133, 156, 221 ) );
-		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),
+		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.LOWERED , new Color( 133, 156, 221 ),
 				new Color( 133, 156, 221 ));
 		//Border border = BorderFactory.createRaisedBevelBorder();
 		labelBas.setBorder(myRaisedBorder);
@@ -189,7 +189,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		MigLayout layouT = new MigLayout("", "[] 5 []", "[] 5 []");
 		panelT.setLayout(layouT);
 		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),new Color( 133, 156, 221 ));
-		panelT.setBorder(myRaisedBorder);
+		//panelT.setBorder(myRaisedBorder);
 		
 		JLabel label5 = new JLabel(paramLangues.getInstance().getLibLangue1());
 		label5.setBounds(10, 60, 150, 20);
@@ -305,8 +305,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private JMenuBar ajouteMenu() {
 		
 		JMenuBar menuBar = new JMenuBar();
-		 menuBar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.SINGLE);
-		 menuBar.putClientProperty(PlasticLookAndFeel.BORDER_STYLE_KEY, BorderStyle.SEPARATOR);
+		menuBar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.SINGLE);
+		menuBar.putClientProperty(PlasticLookAndFeel.BORDER_STYLE_KEY, BorderStyle.SEPARATOR);
 		//menuBar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
 
 		JMenu menuFichier = new JMenu("Fichier");
@@ -469,8 +469,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		barreOutils.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
 		barreOutils.setFloatable(false);
 		//barreOutils.setBorder(myRaisedBorder);
-		Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-		barreOutils.setBorder(loweredetched);
+		//Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		//barreOutils.setBorder(loweredetched);
 
 
 		Image icone = Toolkit.getDefaultToolkit().getImage("images/edit_add.png");

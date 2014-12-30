@@ -193,9 +193,11 @@ public class FicheImportation extends JDialog implements ActionListener, Propert
         JPanel control = new JPanel();
 
         okBouton = new JButton("Importer");
+        okBouton.setPreferredSize(new Dimension(120,25));
         okBouton.setActionCommand("importer");
         okBouton.addActionListener(this);
         JButton cancelBouton = new JButton("Fermer");
+        cancelBouton.setPreferredSize(new Dimension(120,25));
         cancelBouton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	dispose();

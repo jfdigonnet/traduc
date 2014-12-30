@@ -82,6 +82,7 @@ public class ficheAuSujetDe extends JDialog {
 
         JPanel panelSouth = new JPanel();
 		JButton boutonQuitter = new JButton("Fermer");
+		boutonQuitter.setPreferredSize(new Dimension(120,25));
 		getRootPane().setDefaultButton(boutonQuitter);
 		boutonQuitter.setMnemonic( KeyEvent.VK_F ) ;
 		boutonQuitter.addActionListener(new ActionListener(){
