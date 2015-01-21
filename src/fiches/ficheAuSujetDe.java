@@ -5,14 +5,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -53,11 +56,20 @@ public class ficheAuSujetDe extends JDialog {
 		titre.setBorder(BorderFactory.createLineBorder( new Color( 133, 156, 221 ) ));
         add(titre, BorderLayout.NORTH);
 
-        Icon icone = new ImageIcon("images/languages.png");
+        //Icon icone = new ImageIcon("images/languages.png");
         JLabel labelIcone = new JLabel();
         labelIcone.setBackground( new Color( 133, 156, 221 ) );
         labelIcone.setOpaque(true);
-        labelIcone.setIcon(icone);
+        //labelIcone.setIcon(icone);
+
+		try {
+	        Image image = ImageIO.read(this.getClass().getResource("ressources/languages.png"));
+	        Icon warningIcon = new ImageIcon(image);
+	        labelIcone.setIcon(warningIcon);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         add(labelIcone, BorderLayout.WEST);
 
 		JPanel panel1 = null;
@@ -131,7 +143,9 @@ public class ficheAuSujetDe extends JDialog {
         JPanel panelCentre = new JPanel();
         panelCentre.setLayout(new BorderLayout(10,10));
         JTextArea gpl = new JTextArea();
-        readTextFile(gpl, "ressources/lgpl-3.0.txt");
+        InputStream in = this.getClass().getResourceAsStream("ressources/lgpl-3.0.txt"); 
+        String inputStreamString = new Scanner(in,"UTF-8").useDelimiter("\\A").next();
+        gpl.setText(inputStreamString);
         gpl.setEditable(false);
         // gestion auto des retours à la ligne
         gpl.setLineWrap(true);
@@ -199,24 +213,6 @@ public class ficheAuSujetDe extends JDialog {
 
         return panelCentre;
 	}
-	private void readTextFile(JTextArea texte, String fileName) 
- 	{
- 		try 
- 			{
-  			BufferedReader inStream  = new BufferedReader (new FileReader(fileName));
- 			String line = inStream.readLine();  
- 		 	while (line != null)
- 		 	 {                        
-     	       texte.append(line + "\n");                
-		       line = inStream.readLine();                  
-  			}
-   			inStream.close();                              
-  			} catch (Exception e) 
-  				{
-              texte.setText("Exception cause: "+e);
-   		      e.printStackTrace();
-  			}		 
-	} 
 	// Permet de quitter la fiche par la touche ECHAP
 	private void onKeyEscape() {
 		this.dispose();

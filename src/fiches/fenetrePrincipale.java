@@ -11,10 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -101,7 +104,14 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	   
 	public fenetrePrincipale() {
 		 seance = new Seance(this);
-		 creeInterface();
+		 try {
+			 creeInterface();
+		 } catch (Exception e) {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+			 JOptionPane.showMessageDialog(this,
+					 "Erreir de construction de l'interface\n" + e.getLocalizedMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+		 }
 		 ajouteIcone();
 		 //gestion = new gestionBases();
 		 if (seance.chargementListeID()) {
@@ -115,13 +125,20 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		 }
 	}
 	private void ajouteIcone() {
-		 Image icone = Toolkit.getDefaultToolkit().getImage("images/address-book-new-2.png");
-		 this.setIconImage(icone);
+        Image imageApp = null;
+		try {
+			imageApp = ImageIO.read(this.getClass().getResource("ressources/iconeappli.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 this.setIconImage(imageApp);
 	 }
 	/**
+	 * @throws Exception 
 	 * 
 	 */
-	private void creeInterface() {
+	private void creeInterface() throws Exception {
 		setWindowsLook();
 
 		Font police = new Font(Font.SANS_SERIF , Font.TRUETYPE_FONT, 14);
@@ -188,7 +205,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		JPanel panelT = new JPanel();
 		MigLayout layouT = new MigLayout("", "[] 5 []", "[] 5 []");
 		panelT.setLayout(layouT);
-		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),new Color( 133, 156, 221 ));
+		//Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),new Color( 133, 156, 221 ));
 		//panelT.setBorder(myRaisedBorder);
 		
 		JLabel label5 = new JLabel(paramLangues.getInstance().getLibLangue1());
@@ -464,7 +481,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	/*
 	 * 
 	 */
-	private JToolBar ajouteBarreOutils() {
+	private JToolBar ajouteBarreOutils() throws IOException {
 		JToolBar barreOutils = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
 		barreOutils.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
 		barreOutils.setFloatable(false);
@@ -473,49 +490,55 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		//barreOutils.setBorder(loweredetched);
 
 
-		Image icone = Toolkit.getDefaultToolkit().getImage("images/edit_add.png");
-		ImageIcon icon = new ImageIcon(icone);
-		JButton boutonAjouter = new JButton(icon);
+        Image imageEd = ImageIO.read(this.getClass().getResource("ressources/edit_add.png"));
+        Icon iconEd = new ImageIcon(imageEd);
+		JButton boutonAjouter = new JButton(iconEd);
 		boutonAjouter.addActionListener(new actionNouvelleTraduction(this));
 		//Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
 		
-		ImageIcon iconeEnreg = new ImageIcon("images/ok.png");
-		boutonEnreg = new JButton(iconeEnreg);
+        Image image = ImageIO.read(this.getClass().getResource("ressources/ok.png"));
+        Icon warningIcon = new ImageIcon(image);
+		boutonEnreg = new JButton(warningIcon);
 		boutonEnreg.setToolTipText("Enregistrer les modifications");
 		boutonEnreg.addActionListener(new actionEnregistrerTraduction(this, seance));
-		//boutonEnreg.setEnabled(false);
 
-		ImageIcon iconePrems = new ImageIcon("images/premier.png");
-		JButton boutonPrems = new JButton(iconePrems);
+        Image imagePrems = ImageIO.read(this.getClass().getResource("ressources/premier.png"));
+        Icon IconPrems = new ImageIcon(imagePrems);
+		JButton boutonPrems = new JButton(IconPrems);
 		boutonPrems.setToolTipText("Afficher le premier mot");
 		boutonPrems.setActionCommand("premier");
 		boutonPrems.addActionListener(this);
 
-		ImageIcon iconeSuivant = new ImageIcon("images/suivant.png");
-		JButton boutonSuivant = new JButton(iconeSuivant);
+        Image imageSuiv = ImageIO.read(this.getClass().getResource("ressources/suivant.png"));
+        Icon IconSuiv = new ImageIcon(imageSuiv);
+		JButton boutonSuivant = new JButton(IconSuiv);
 		boutonSuivant.setToolTipText("Afficher le mot suivant");
 		boutonSuivant.setActionCommand("suivant");
 		boutonSuivant.addActionListener(this);
 
-		ImageIcon iconePred = new ImageIcon("images/pred.png");
-		JButton boutonPred = new JButton(iconePred);
+        Image imagePred = ImageIO.read(this.getClass().getResource("ressources/pred.png"));
+        Icon IconPred = new ImageIcon(imagePred);
+		JButton boutonPred = new JButton(IconPred);
 		boutonPred.setToolTipText("Afficher le mot précédent");
 		boutonPred.setActionCommand("precedent");
 		boutonPred.addActionListener(this);
 
-		ImageIcon iconeDer = new ImageIcon("images/dernier.png");
-		JButton boutonDer = new JButton(iconeDer);
+        Image imageDer = ImageIO.read(this.getClass().getResource("ressources/dernier.png"));
+        Icon IconDer = new ImageIcon(imageDer);
+		JButton boutonDer = new JButton(IconDer);
 		boutonDer.setToolTipText("Afficher le dernier mot");
 		boutonDer.setActionCommand("dernier");
 		boutonDer.addActionListener(this);
 
-		ImageIcon iconePref = new ImageIcon("images/pref.png");
-		JButton boutonPref = new JButton(iconePref);
+        Image imagePref = ImageIO.read(this.getClass().getResource("ressources/pref.png"));
+        Icon IconPref = new ImageIcon(imagePref);
+		JButton boutonPref = new JButton(IconPref);
 		boutonPref.setToolTipText("Préférences");
 		boutonPref.addActionListener(new actionPreferences(this, seance));
 
-		ImageIcon iconeQuitter = new ImageIcon("images/exit.png");
-		JButton boutonQuitter = new JButton(iconeQuitter);
+        Image imageEx = ImageIO.read(this.getClass().getResource("ressources/exit.png"));
+        Icon IconEx = new ImageIcon(imageEx);
+		JButton boutonQuitter = new JButton(IconEx);
 		boutonQuitter.setToolTipText("Quitter l'application");
 		boutonQuitter.addActionListener(new actionQuitter(this, seance));
 
