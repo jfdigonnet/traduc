@@ -154,7 +154,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 	 */
 	private void selectionneFichierSonore() {
 		JFileChooser choixfichier = new JFileChooser();
-		choixfichier.setDialogTitle("Choix du fichierJField sonore");
+		choixfichier.setDialogTitle("Choix du fichier sonore");
 		// Empeche de pouvoir sélectionner Tous les fichiers
 		choixfichier.setAcceptAllFileFilterUsed(false);
 		choixfichier.setCurrentDirectory(new File(parametres.getInstance().loadParamRep()));

@@ -246,6 +246,16 @@ public class parametres {
 	public void setTempsAvantInterrogationSuivante(int tempsAvantInterrogationSuivante) {
 		TempsAvantInterrogationSuivante = tempsAvantInterrogationSuivante;
 	}
+	public String loadDerRepSauve() {
+    	Preferences prefsRoot = Preferences.userRoot();
+    	Preferences myPrefs = prefsRoot.node("traduc.preference");
+    	return myPrefs.get("derrepsauve", System.getProperty("user.dir"));
+	}
+	public void sauveDerRepSauve(String repert) {
+    	Preferences prefsRoot = Preferences.userRoot();
+    	Preferences myPrefs = prefsRoot.node("traduc.preference");
+    	myPrefs.put("derrepsauve", repert);
+	}
 }
 
 

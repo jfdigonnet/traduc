@@ -33,7 +33,7 @@ public class ficheRestau extends JDialog implements ActionListener {
 	private JTextArea suivi;
 	
 	public ficheRestau() {
-    	MigLayout layoutSup = new MigLayout("", "", "[] 5 [] 5 []");
+    	MigLayout layoutSup = new MigLayout("", "", "[] 5 []");
     	getContentPane().setLayout(layoutSup);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -158,5 +158,5 @@ public class ficheRestau extends JDialog implements ActionListener {
 	            onKeyEscape();
 	          }
 	        });
-	  }
+	}
 }
