@@ -94,7 +94,7 @@ public class ficheSauvegarde extends JDialog implements ActionListener {
 
         JPanel panNom = new JPanel();
     	MigLayout layoutNuo = new MigLayout("", "", "");
-    	panNom.setLayout(layoutSup);
+    	panNom.setLayout(layoutNuo);
         //panNom.setBackground(Color.white);
         //panNom.setPreferredSize(new Dimension(400,80));
         panNom.setBorder(BorderFactory.createTitledBorder("Répertoire de sauvegarde"));
@@ -133,7 +133,7 @@ public class ficheSauvegarde extends JDialog implements ActionListener {
 		//boutonSauve.setPreferredSize(new Dimension(150,25));
 		boutonSauve.addActionListener(this);
 		boutonSauve.setActionCommand("sauve");
-		panelSouth.add(boutonSauve, "split,right,width 150!");
+		panelSouth.add(boutonSauve, "width 150!");
 
 		JButton boutonQuitter = new JButton("Fermer");
 		//boutonQuitter.setPreferredSize(new Dimension(150,25));
@@ -143,7 +143,7 @@ public class ficheSauvegarde extends JDialog implements ActionListener {
             }        
           });
 		panelSouth.add(boutonQuitter, "width 150!");
-		add(panelSouth);
+		add(panelSouth, "right");
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
