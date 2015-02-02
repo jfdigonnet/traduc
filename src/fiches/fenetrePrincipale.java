@@ -282,16 +282,19 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
     	panelAction.setLayout(layoutSuivi);
 
 		boutonPrecedent = new JButton("Précédent");
+		boutonPrecedent.setMnemonic( KeyEvent.VK_P ) ;
 		boutonPrecedent.setPreferredSize(new Dimension(150,25));
 		boutonPrecedent.addActionListener(this);
 		boutonPrecedent.setActionCommand("precedent");
 
 		boutonSuivant = new JButton("Suivant");
+		boutonSuivant.setMnemonic( KeyEvent.VK_S ) ;
 		boutonSuivant.setPreferredSize(new Dimension(150,25));
 		boutonSuivant.addActionListener(this);
 		boutonSuivant.setActionCommand("suivant");
 
 		boutonAffiTraduc = new JButton("Afficher la traduction");
+		boutonAffiTraduc.setMnemonic( KeyEvent.VK_T ) ;
 		boutonAffiTraduc.setPreferredSize(new Dimension(150,25));
 		boutonAffiTraduc.addActionListener(this);
 		boutonAffiTraduc.setActionCommand("affitraduc");
