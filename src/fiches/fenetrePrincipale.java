@@ -107,10 +107,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		 try {
 			 creeInterface();
 		 } catch (Exception e) {
-			 // TODO Auto-generated catch block
 			 e.printStackTrace();
 			 JOptionPane.showMessageDialog(this,
-					 "Erreir de construction de l'interface\n" + e.getLocalizedMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+					 "Erreur de construction de l'interface\n" + e.getLocalizedMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 		 }
 		 ajouteIcone();
 		 //gestion = new gestionBases();
@@ -129,7 +128,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		try {
 			imageApp = ImageIO.read(this.getClass().getResource("ressources/iconeappli.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Erreur de lecture de l'icone : " + e.getLocalizedMessage());
 			e.printStackTrace();
 		}
 		 this.setIconImage(imageApp);
