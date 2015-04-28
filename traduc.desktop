@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Traduc
+Exec=java -jar /home/jfd/workspace/traduc.jar
+StartupNotify=true
+Icon=/home/jfd/workspace/traduc/images/text-speak.png
+Name[fr_FR]=Exercices de traduction
