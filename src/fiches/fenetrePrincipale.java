@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.awt.event.InputEvent;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -238,6 +239,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		panel1.add(panelT, "wrap,span");
 		
 		editCheckGBOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue1().toLowerCase()  + " est désormais connu");
+		editCheckGBOk.setMnemonic( 'c' ) ;
+		// Permet que le C avec underscore soit le second et pas la première occurrence
+		editCheckGBOk.setDisplayedMnemonicIndex(29);
 		//editCheckGBOk.setBounds(10, 80, 250, 20);
 		//editCheckGBOk.setPreferredSize(new Dimension(500, 25));
 		editCheckGBOk.addActionListener(new actionCocheMotAnglais(this, seance));
@@ -336,8 +340,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 
 		JMenuItem ajoutTraduc = new JMenuItem("Ajouter une traduction");
 		ajoutTraduc.addActionListener(new actionNouvelleTraduction(this));
-		ajoutTraduc.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-				KeyEvent.CTRL_DOWN_MASK));
+
+		KeyStroke ctrlP = KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK);
+		ajoutTraduc.setAccelerator(ctrlP);
+		//ajoutTraduc.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
 		// Ajout des menus dans la barre de menus et ajout de mnémoniques !
 		ajoutTraduc.setMnemonic('A');
 
