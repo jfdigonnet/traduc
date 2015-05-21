@@ -9,8 +9,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -190,8 +188,14 @@ public class ficheAuSujetDe extends JDialog {
         //long USED_MEMORY_KB = USED_MEMORY / 1024;
         long USED_MEMORY_MB = USED_MEMORY / 1048576;
 
-        panelCentre.add(new JLabel("Répertoire utilisateur :"));
+		String EnvPath = System.getenv("HOME");
+		
+		panelCentre.add(new JLabel("Répertoire utilisateur :"));
+        panelCentre.add(new JLabel(EnvPath), "wrap");
+
+        panelCentre.add(new JLabel("Répertoire en cours :"));
         panelCentre.add(new JLabel(System.getProperty("user.dir")), "wrap");
+        
         panelCentre.add(new JLabel("Java Home :"));
         panelCentre.add(new JLabel(System.getProperty("java.home")), "wrap");
         panelCentre.add(new JLabel("Version formatée de Java : "));
