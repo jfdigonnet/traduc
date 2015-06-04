@@ -47,7 +47,7 @@ public class Seance {
 	 */
 	public Boolean chargementListeID() {
 		try {
-			setListe( gestionBases.getInstance().listeMots(parametres.getInstance().getTypeTri()) );
+			liste = gestionBases.getInstance().listeMots(parametres.getInstance().getTypeTri());
 			return true;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(application,
