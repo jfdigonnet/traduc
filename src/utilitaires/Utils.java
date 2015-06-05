@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 
@@ -118,5 +120,13 @@ public class Utils
         } 
         resultat &= rep.delete(); 
         return( resultat ); 
-    } 
+    }
+    public static Date calToDate(Calendar cal) {
+    	return cal.getTime();
+    }
+    public static Calendar dateToCal(Date date) {
+    	Calendar myCal = Calendar.getInstance();
+    	myCal.setTime(date);
+    	return myCal;
+    }
 }
