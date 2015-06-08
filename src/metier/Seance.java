@@ -1,6 +1,7 @@
 package metier;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -41,6 +42,12 @@ public class Seance {
 	public String duree() {
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
+		int e = Math.round(elapsedTime / 1000);
+		NumberFormat Nb;
+		Nb = NumberFormat.getPercentInstance();
+		String r = Nb.format(e);
+		System.out.println(e);
+		
 		DecimalFormat df = new DecimalFormat ( ) ;
 		df.setMaximumFractionDigits ( 0 ) ; //arrondi à 2 chiffres apres la virgules
 		df.setDecimalSeparatorAlwaysShown ( false ) ; 
