@@ -16,7 +16,7 @@ public class Traduc {
 			fen.setVisible (true) ;
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"Erreur connexion a la base de données\n Abandon du programme\nVérifiez la présence de la base",
+					"Erreur connexion a la base de données\n Abandon du programme\nVérifiez la présence de la base de données",
 					"Exercice de traduction", JOptionPane.ERROR_MESSAGE);
 			return;
 		}

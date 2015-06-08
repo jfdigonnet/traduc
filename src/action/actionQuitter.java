@@ -23,6 +23,7 @@ public class actionQuitter implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		parametres.getInstance().sauvePosLecture( seance.getNoTraducEnCours() );
+		System.out.println( seance.duree() );
 		System.exit(0);
 	}
 }

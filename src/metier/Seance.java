@@ -1,5 +1,6 @@
 package metier;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,7 +9,6 @@ import javax.swing.JOptionPane;
 import param.parametres;
 import persistence.gestionBases;
 import utilitaires.constantes;
-
 import fiches.fenetrePrincipale;
 
 public class Seance {
@@ -26,13 +26,25 @@ public class Seance {
 	private int cochesseance = 0;
 	private int start = 0;
 	private fenetrePrincipale application;
+	// Mesure du temps passé
+	long startTime = 0;
+	long elapsedTime = 0;
 	
 	public Seance(fenetrePrincipale fenetrePrincipale) {
+		startTime = System.currentTimeMillis();
 		application = fenetrePrincipale;
 		setNoTraducEnCours( parametres.getInstance().getPositionTraduction() );
 		// On mémorise pour pouvoir recommencer la séance
 		setStart( getNoTraducEnCours() );
 		chargeLibelleLangues();
+	}
+	public String duree() {
+		long endTime = System.currentTimeMillis();
+		long elapsedTime = endTime - startTime;
+		DecimalFormat df = new DecimalFormat ( ) ;
+		df.setMaximumFractionDigits ( 0 ) ; //arrondi à 2 chiffres apres la virgules
+		df.setDecimalSeparatorAlwaysShown ( false ) ; 
+		return df.format( elapsedTime / 1000 );
 	}
 	/**
 	 * On charge la liste de clé primaires des traductions dans une liste d'entier
