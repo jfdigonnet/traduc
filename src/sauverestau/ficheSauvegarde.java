@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 
+import fiches.fenetrePrincipale;
 import param.parametres;
 import utilitaires.ZIP;
 import utilitaires.constantes;
@@ -38,7 +39,7 @@ import net.miginfocom.swing.MigLayout;
 public class ficheSauvegarde extends JDialog implements ActionListener {
 
 	private JTextArea suivi;
-	private Component application;
+	private fenetrePrincipale application;
 	private JTextField editRep;
 
     class threadSauvegarde extends SwingWorker<Integer, String> {
@@ -73,7 +74,7 @@ public class ficheSauvegarde extends JDialog implements ActionListener {
 		return null;
 		}
     }
-	public ficheSauvegarde(Component app) {
+	public ficheSauvegarde(fenetrePrincipale app) {
 		this.application = app;
     	MigLayout layoutSup = new MigLayout("", "", "");
     	getContentPane().setLayout(layoutSup);

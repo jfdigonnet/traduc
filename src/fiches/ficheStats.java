@@ -81,7 +81,7 @@ public class ficheStats extends JDialog {
         moyenne = moyenne  * 100;
 
         JLabel label2 = new JLabel("Nombre de traduction non maîtrisée (langue " + paramLangues.getInstance().getLibLangue1() + ")");
-        JLabel label2Res = new JLabel(String.valueOf(resStat[1]) + " (" + df.format (moyenne) + "%)");
+        JLabel label2Res = new JLabel(String.valueOf(resStat[1]) + " (" + df.format (moyenne) + ")");
         label2Res.setFont(police1);
         panelres.add(label2);
         panelres.add(label2Res, "wrap");
@@ -93,7 +93,7 @@ public class ficheStats extends JDialog {
         moyenne = moyenne  * 100;
 
         JLabel label3 = new JLabel("Nombre de traduction maîtrisée (langue " + paramLangues.getInstance().getLibLangue1() + ")");
-        JLabel label3Res = new JLabel(String.valueOf(resStat[2]) + " (" + df.format (moyenne) + "%)");
+        JLabel label3Res = new JLabel(String.valueOf(resStat[2]) + " (" + df.format (moyenne) + ")");
         label3Res.setFont(police1);
         panelres.add(label3);
         panelres.add(label3Res, "wrap");
@@ -109,7 +109,7 @@ public class ficheStats extends JDialog {
         moyenne = moyenne  * 100;
 
         JLabel label4 = new JLabel("Nombre de traduction non maîtrisée (langue " + paramLangues.getInstance().getLibLangue2() + ")");
-        JLabel label4Res = new JLabel(String.valueOf(resStat[3]) + " (" + df.format (moyenne) + "%)");
+        JLabel label4Res = new JLabel(String.valueOf(resStat[3]) + " (" + df.format (moyenne) + ")");
         label4Res.setFont(police1);
         panelres.add(label4);
         panelres.add(label4Res, "wrap");
@@ -121,7 +121,7 @@ public class ficheStats extends JDialog {
         moyenne = moyenne  * 100;
 
         JLabel label5 = new JLabel("Nombre de traduction maîtrisée (langue " + paramLangues.getInstance().getLibLangue2() + ")");
-        JLabel label5Res = new JLabel(String.valueOf(resStat[4]) + " (" + df.format (moyenne) + "%)");
+        JLabel label5Res = new JLabel(String.valueOf(resStat[4]) + " (" + df.format (moyenne) + ")");
         label5Res.setFont(police1);
         panelres.add(label5);
         panelres.add(label5Res, "wrap");
@@ -130,17 +130,16 @@ public class ficheStats extends JDialog {
         panelres.add(labelSon, "wrap");
         
         JLabel label6 = new JLabel("Nombre de traduction avec fichier sonore");
-        moyenne = 0;
+
         a = resStat[5];
         b = resStat[0];
-        moyenne = (float)a / (float)b;
-        moyenne = moyenne  * 100;
         
-        df.setMaximumFractionDigits ( 2 ) ; //arrondi à 2 chiffres apres la virgules
-        df.setMinimumFractionDigits ( 2 ) ;
-        df.setDecimalSeparatorAlwaysShown ( true ) ; 
+//        JLabel label6Res = new JLabel(String.valueOf(resStat[5]) + " (" + df.format (moyenne) + "%)");
+        String t = String.format("%3.2f", ((float)a / (float)b) * 100);
+        String affi = String.format("%d (%3.2f)", resStat[5], ((float)a / (float)b) * 100);
         
-        JLabel label6Res = new JLabel(String.valueOf(resStat[5]) + " (" + df.format (moyenne) + "%)");
+//        JLabel label6Res = new JLabel(String.valueOf(resStat[5]) + " (" + t + "%)");
+        JLabel label6Res = new JLabel( affi );
         label6Res.setFont(police1);
         panelres.add(label6);
         panelres.add(label6Res, "wrap");

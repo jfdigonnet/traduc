@@ -1,6 +1,8 @@
 package sauverestau;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,17 +24,47 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingWorker;
 
 import utilitaires.ZIP;
-
+import fiches.fenetrePrincipale;
 import net.miginfocom.swing.MigLayout;
 
 public class ficheRestau extends JDialog implements ActionListener {
 
 	private JTextField editFichier;
 	private JTextArea suivi;
+	private fenetrePrincipale application;
 	
-	public ficheRestau() {
+    class threadSauvegarde extends SwingWorker<Integer, String> {
+
+		protected Integer doInBackground() throws Exception {
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
+			suivi.append("Restauration");
+			try {
+				String diskPath = System.getProperty("user.dir");
+				File ficzip = new File(editFichier.getText());
+				//ZIP zip = new ZIP(editFichier.getText(), diskPath);
+				try {
+					ZIP.uncompress(ficzip, new File(diskPath));
+				}
+				catch (Exception e) {
+					suivi.append("Erreur restauration : " + e.getLocalizedMessage());
+					JOptionPane.showMessageDialog(application, 
+							"Une erreur est intervenue lors de la restauration : \n" + e.getLocalizedMessage() + "\nArrêt de la procédure", 
+							"Restauration", 
+							JOptionPane.WARNING_MESSAGE, 
+							null); 
+				}
+			} finally {
+				suivi.append("Fin de la restauration");
+				setCursor(Cursor.getDefaultCursor());
+			}
+		return null;
+		}
+    }
+	public ficheRestau(fenetrePrincipale app) {
+		this.application = app;
     	MigLayout layoutSup = new MigLayout("", "", "[] 5 []");
     	getContentPane().setLayout(layoutSup);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -102,15 +134,7 @@ public class ficheRestau extends JDialog implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("restaurer")) {
-			try {
-				restaure();
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(this, 
-						"Importer : Une erreur est intervenue (0) " + e1.getLocalizedMessage() + "\nArrêt de la procédure", 
-						"Restauration", 
-						JOptionPane.WARNING_MESSAGE, 
-						null); 
-			}
+				new threadSauvegarde().execute();
 		}
 		if (e.getActionCommand().equals("selection")) {
             JFileChooser choixfichier = new JFileChooser();
@@ -126,22 +150,6 @@ public class ficheRestau extends JDialog implements ActionListener {
                 suivi.append("Fichier à utuliser" + editFichier.getText() + "\n");
             }
 		}		
-	}
-	private void restaure() {
-		// Répertoire courant
-		String diskPath = System.getProperty("user.dir");
-		File ficzip = new File(editFichier.getText());
-		ZIP zip = new ZIP(editFichier.getText(), diskPath);
-		try {
-			zip.uncompress(ficzip, new File(diskPath));
-		}
-		catch (Exception e) {
-			JOptionPane.showMessageDialog(this, 
-					"Une erreur est intervenue lors de la restauration : \n" + e.getLocalizedMessage() + "\nArrêt de la procédure", 
-					"Restauration", 
-					JOptionPane.WARNING_MESSAGE, 
-					null); 
-		}
 	}
 	// Permet de quitter la fiche par la touche ECHAP
 	private void onKeyEscape() {
