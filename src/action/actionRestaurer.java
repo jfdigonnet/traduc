@@ -18,7 +18,7 @@ public class actionRestaurer implements ActionListener {
 		application = app;
 	}
 	public void actionPerformed(ActionEvent e) {
-		ficheRestau fr = new ficheRestau();
+		ficheRestau fr = new ficheRestau(application);
 		fr.setModal(true);
 		// Centrer la fenêtre par rapport à la fenêtre principale 
 		fr.setLocationRelativeTo(application);
