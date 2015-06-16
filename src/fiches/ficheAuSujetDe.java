@@ -158,7 +158,7 @@ public class ficheAuSujetDe extends JDialog {
 		return panelCentre;
 	}
     public static String getJavaVendor() {
-        String vd = System.getProperty("java.vm.vendor"); 
+        String vd = System.getProperty("java.runtime.vendor"); 
         if (vd == null || vd.trim().length() == 0) {
             vd = System.getProperty("java.vendor"); 
         }
