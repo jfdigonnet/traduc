@@ -89,9 +89,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private JCheckBox editCheckGBOk;
 	private JCheckBox editCheckFOk;
 	private JButton boutonJouer;
-	private JButton boutonSuivant;
-	private JButton boutonPrecedent;
-	private JButton boutonAffiTraduc;
+	private JButton boutonSuivantBarre;
+	private JButton boutonPrecedentBarre;
+	private JButton boutonAffTraducBarre;
 	private JMenuItem menuEnreg;
 	private JButton boutonEnreg;
 	private JButton boutonSupprSon;
@@ -277,33 +277,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		panel1.add(boutonSelFichierSon);
 		panel1.add(boutonSupprSon, "wrap,left");
 
-		JPanel panelAction = new JPanel();
-    	MigLayout layoutSuivi = new MigLayout();
-    	panelAction.setLayout(layoutSuivi);
-
-		boutonPrecedent = new JButton("Précédent");
-		boutonPrecedent.setMnemonic( KeyEvent.VK_P ) ;
-		boutonPrecedent.setPreferredSize(new Dimension(150,25));
-		boutonPrecedent.addActionListener(this);
-		boutonPrecedent.setActionCommand("precedent");
-
-		boutonSuivant = new JButton("Suivant");
-		boutonSuivant.setMnemonic( KeyEvent.VK_S ) ;
-		boutonSuivant.setPreferredSize(new Dimension(150,25));
-		boutonSuivant.addActionListener(this);
-		boutonSuivant.setActionCommand("suivant");
-
-		boutonAffiTraduc = new JButton("Afficher la traduction");
-		boutonAffiTraduc.setMnemonic( KeyEvent.VK_T ) ;
-		boutonAffiTraduc.setPreferredSize(new Dimension(150,25));
-		boutonAffiTraduc.addActionListener(this);
-		boutonAffiTraduc.setActionCommand("affitraduc");
-
-		panelAction.add(boutonPrecedent);
-		panelAction.add(boutonSuivant);
-		panelAction.add(boutonAffiTraduc);
-		
-		panel1.add(panelAction, "span,center,gapbottom 5");
 		return panel1;
 	}
 	/**
@@ -516,17 +489,24 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 
         Image imageSuiv = ImageIO.read(this.getClass().getResource("ressources/suivant.png"));
         Icon IconSuiv = new ImageIcon(imageSuiv);
-		JButton boutonSuivant = new JButton(IconSuiv);
-		boutonSuivant.setToolTipText("Afficher le mot suivant");
-		boutonSuivant.setActionCommand("suivant");
-		boutonSuivant.addActionListener(this);
+        boutonSuivantBarre = new JButton(IconSuiv);
+        boutonSuivantBarre.setToolTipText("Afficher le mot suivant");
+        boutonSuivantBarre.setActionCommand("suivant");
+        boutonSuivantBarre.addActionListener(this);
+        
+        Image imageAffTraduc = ImageIO.read(this.getClass().getResource("ressources/afftraduc.png"));
+        Icon IconAffTraduc = new ImageIcon(imageAffTraduc);
+        boutonAffTraducBarre = new JButton(IconAffTraduc);
+        boutonAffTraducBarre.setToolTipText("Afficher la traduction");
+        boutonAffTraducBarre.setActionCommand("affitraduc");
+        boutonAffTraducBarre.addActionListener(this);
 
         Image imagePred = ImageIO.read(this.getClass().getResource("ressources/pred.png"));
         Icon IconPred = new ImageIcon(imagePred);
-		JButton boutonPred = new JButton(IconPred);
-		boutonPred.setToolTipText("Afficher le mot précédent");
-		boutonPred.setActionCommand("precedent");
-		boutonPred.addActionListener(this);
+        boutonPrecedentBarre = new JButton(IconPred);
+        boutonPrecedentBarre.setToolTipText("Afficher le mot précédent");
+        boutonPrecedentBarre.setActionCommand("precedent");
+        boutonPrecedentBarre.addActionListener(this);
 
         Image imageDer = ImageIO.read(this.getClass().getResource("ressources/dernier.png"));
         Icon IconDer = new ImageIcon(imageDer);
@@ -551,8 +531,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		barreOutils.add(boutonEnreg);
 		barreOutils.addSeparator();
 		barreOutils.add(boutonPrems);
-		barreOutils.add(boutonPred);
-		barreOutils.add(boutonSuivant);
+		barreOutils.add(boutonPrecedentBarre);
+		barreOutils.add(boutonAffTraducBarre);
+		barreOutils.add(boutonSuivantBarre);
 		barreOutils.add(boutonDer);
 		barreOutils.addSeparator();
 		barreOutils.add(boutonPref);
@@ -583,8 +564,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * On empeche l'enregistrement tant tout n'est pas affiché
 	 */
 	public void adapteBouton() {
-		boutonSuivant.setEnabled( seance.getNoTraducEnCours() < (seance.getListe().size() - 1));
-		boutonPrecedent.setEnabled( seance.getNoTraducEnCours() > 0);
+		boutonSuivantBarre.setEnabled( seance.getNoTraducEnCours() < (seance.getListe().size() - 1));
+		boutonPrecedentBarre.setEnabled( seance.getNoTraducEnCours() > 0);
 	    boutonJouer.setToolTipText( seance.getEtEnCours().getFichiermp3() );
 	    boutonJouer.setEnabled( seance.getEtEnCours().getFichiermp3().trim().length() > 0);
 		boutonSupprSon.setEnabled(seance.getEtEnCours().getFichiermp3().trim().length() > 0);
@@ -624,7 +605,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			affichageTraduc( seance.getEtEnCours() );
 			// Création et lancement du timer
 			if (parametres.getInstance().getSuivantAuto()) {
-				boutonAffiTraduc.setEnabled(false);
+				boutonAffTraducBarre.setEnabled(false);
 			    timer = new Timer();
 				timer.scheduleAtFixedRate(new MonAction(), parametres.getInstance().getDelaisSuivant() * 1000, 5000);
 			}
@@ -737,7 +718,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		adapteBouton();
 		menuEnreg.setEnabled(false);
 		boutonEnreg.setEnabled(false);
-		boutonAffiTraduc.setEnabled(true);
+		boutonAffTraducBarre.setEnabled(true);
 		if (parametres.getInstance().getJoueTDS()) {
 			if (seance.getEtEnCours().getFichiermp3().length() > 0) {
 				try {

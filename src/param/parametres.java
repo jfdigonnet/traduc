@@ -190,6 +190,11 @@ public class parametres {
     		PositionTraductionF = pos;
     	}
 	}
+	/*
+	 * Permet de connaitre le sens de la lecture 
+	 * Du F vers le GB 
+	 * ou l'inverse
+	 */
 	public Boolean getSens() {
 		return (sens == 0);
 	}
