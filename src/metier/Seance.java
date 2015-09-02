@@ -1,5 +1,7 @@
 package metier;
 
+import java.awt.HeadlessException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -149,16 +151,15 @@ public class Seance {
 	}
 	/**
 	 * Affichage de la traduction précédente
+	 * @throws SQLException 
 	 */
-	public void affichePrecedent() {
+	public void affichePrecedent() throws Exception {
 		// Cas du tirage au sort : on n'est donc jamais au début ou à la fin du fichier
 		if (parametres.getInstance().getTypeTri() == 3) {
 			tirageAuSort();
 		}
 		// On n'est pas en fin de fichier
 		if (noTraducEnCours > 0) {
-			// On mémorise le no en cours
-			int ancIndex = noTraducEnCours;
 			noTraducEnCours--;
 			loadTraduction();
 			// Si on est dans le cas de n'afficher que les mots non connus
@@ -169,12 +170,13 @@ public class Seance {
 						decNoTraducEnCours();
 						// On test si on n'est pas arrivé au début du fichier
 						if (noTraducEnCours == 0) {
-							// Si oui on reprend l'index du début
-							noTraducEnCours = ancIndex;
-							// On recharge
-							loadTraduction();
-							// et on sort
-							return;
+							// On est au début : on repart vers l'avant s'il reste des mots non connus
+							if (existeEncoreDesMotsNonConnus()) {
+								afficheSuivant();
+							} else {
+								JOptionPane.showMessageDialog(application,
+										"Vous avez terminé\nTous les mots sont connus", constantes.titreAppli, JOptionPane.OK_OPTION );
+							}
 						}
 						loadTraduction();
 	//						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
@@ -203,8 +205,10 @@ public class Seance {
 	 * Si on veut toutes les voire : on l'affiche
 	 * Sinon on regarde si elle est connue
 	 * Si non on recommence
+	 * @throws SQLException 
+	 * @throws HeadlessException 
 	 */
-	public void afficheSuivant() {
+	public void afficheSuivant() throws Exception {
 		// Cas du tirage au sort : on n'est donc jamais au début ou à la fin du fichier
 		if (parametres.getInstance().getTypeTri() == 3) {
 			tirageAuSort();
@@ -216,18 +220,17 @@ public class Seance {
 		if ( ! parametres.getInstance().getAfficherTousLesMots()) {
 					// Et si le mot est connu
 					if ( etEnCours.getConnu( parametres.getInstance().getSens()) ) {
-						// On mémorise le no en cours
-						int ancIndex = noTraducEnCours;
 						do {
 							noTraducEnCours++;
 							// On vérifie si on n'a pas atteint la fin de fichier
-							if (noTraducEnCours == liste.size()) {
-								// on remet l'index
-								noTraducEnCours = ancIndex; 
-								// On recharge
-								loadTraduction();
-								// Et on sort
-								return;
+							if (noTraducEnCours == liste.size() ) {
+								// On a atteint la fin : on repart en arrière
+								if (existeEncoreDesMotsNonConnus()) {
+									affichePrecedent();
+								} else {
+									JOptionPane.showMessageDialog(application,
+											"Vous avez terminé\nTous les mots sont connus", constantes.titreAppli, JOptionPane.OK_OPTION );
+								}
 							}
 							loadTraduction();
 	//							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
@@ -235,7 +238,9 @@ public class Seance {
 				}
 		}
 	}
-	
+	private boolean existeEncoreDesMotsNonConnus() throws SQLException {
+		return gestionBases.getInstance().existeEncoreDesMotsNonConnus(parametres.getInstance().getSens());
+	}
 	public elementTraduc getEtEnCours() {
 		return etEnCours;
 	}

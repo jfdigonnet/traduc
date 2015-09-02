@@ -5,12 +5,14 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.event.InputEvent;
@@ -116,7 +118,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 				 afficheSuivant();
 			 } else {
 				 JOptionPane.showMessageDialog(this,
-						 "Pas de traduction disponible ", constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+						 "Pas de traduction disponible", constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 			 }
 			 setFocusable(true);
 		 }
@@ -645,6 +647,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		try {
 			seance.affichePrecedent();
 			soumettreTraduction();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 			setCursor(Cursor.getDefaultCursor());
 		}
@@ -661,6 +666,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		try {
 			seance.afficheSuivant();
 			soumettreTraduction();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 			setCursor(Cursor.getDefaultCursor());
 		}

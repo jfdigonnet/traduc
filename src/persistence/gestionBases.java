@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import metier.elementTraduc;
 import metier.paramLangues;
-
 import utilitaires.constantes;
 
 public class gestionBases
@@ -390,7 +389,7 @@ public class gestionBases
     		query += "where francais='" + mot.replaceAll("'", "''") + "'";
     	}
 
-    	System.out.println(query);
+    	//System.out.println(query);
     	ResultSet rs = statement.executeQuery( query );
     	int i = 0;
     	while (rs.next()) {
@@ -411,4 +410,20 @@ public class gestionBases
         System.err.println(e);
       }
     }
+	public boolean existeEncoreDesMotsNonConnus(boolean sens) throws SQLException {
+		String query = "";
+		if (sens ) {
+			query = "select count(*) as total from traduction where connuGB = 0";
+		} else {
+			query = "select count(*) as total from traduction where connuF = 0";
+		}
+    	ResultSet rs = statement.executeQuery( query );
+    	int i = 0;
+    	while (rs.next()) {
+    		i = rs.getInt("total");
+    	}
+    	rs.close();
+    	statement.close();
+    	return (i != 0);
+	}
 }

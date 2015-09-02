@@ -15,6 +15,7 @@ import metier.Seance;
 import fiches.fenetrePrincipale;
 
 public class actionAjouteSon implements ActionListener {
+	
 
 	private fenetrePrincipale application;
 	private Seance seance;
