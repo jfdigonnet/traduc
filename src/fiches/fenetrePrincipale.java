@@ -115,7 +115,14 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		 //gestion = new gestionBases();
 		 if (seance.chargementListeID()) {
 			 if (seance.getListe().size() > 0) {
-				 afficheSuivant();
+				 try {
+					seance.afficheUneTraduction(0);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					 JOptionPane.showMessageDialog(this,
+							 "Erreur de construction de la lecteure de la table des traductions\n" + e.getLocalizedMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
+				}
 			 } else {
 				 JOptionPane.showMessageDialog(this,
 						 "Pas de traduction disponible", constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
@@ -335,7 +342,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 				new ActionListener() {
 					public void actionPerformed(ActionEvent ae) {
 						 seance.setNoTraducEnCours( seance.getStart() );
-						 afficheSuivant();
+						 affiche(0);
 					}
 				}
 				);
@@ -580,13 +587,13 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		 * Afficher le mot suivant
 		 ***********************************************************/
 		if (e.getActionCommand().equals("suivant")) {
-			afficheSuivant();
+			affiche(0);
 		}				
 		/***********************************************************
 		 * Afficher le mot prédédent
 		 ***********************************************************/
 		if (e.getActionCommand().equals("precedent")) {
-			affichePrecedent();
+			affiche(1);
 		}				
 		/***********************************************************
 		 * Afficher le premier mot 
@@ -617,11 +624,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * 
 	 */
 	public void affichePremier() {
-//		seance.setNoTraducEnCours( 0 );
 		try {
 			seance.affichePremier();
-			soumettreTraduction();
-//			seance.setEtEnCours( seance.loadTraduction() );
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(this,
 					"Erreur lors du chargement de la traduction no " + Integer.toString( seance.getNoTraducEnCours() ) + 
@@ -631,43 +635,21 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	public void afficheDernier() {
 		try {
 			seance.afficheDernier();
-			soumettreTraduction();
-//			seance.setEtEnCours( seance.loadTraduction() );
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(this,
 					"Erreur lors du chargement de la traduction no " + Integer.toString( seance.getNoTraducEnCours() ) + 
 							e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	/**
-	 * Affichage de la traduction précédente
-	 */
-	private void affichePrecedent() {
+	private void affiche(int sens) {
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
 		try {
-			seance.affichePrecedent();
-			soumettreTraduction();
+			seance.afficheUneTraduction( sens );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			setCursor(Cursor.getDefaultCursor());
-		}
-	}
-	/**
-	 * On incrémente le compteur de traduction
-	 * On charge une traduction à partir de la table
-	 * Si on veut toutes les voir : on l'affiche
-	 * Sinon on regarde si elle est connue
-	 * Si non on recommence
-	 */
-	private void afficheSuivant() {
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
-		try {
-			seance.afficheSuivant();
-			soumettreTraduction();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this,
+					"Erreur lors du chargement de la traduction no " + Integer.toString( seance.getNoTraducEnCours() ) + 
+							e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} finally {
 			setCursor(Cursor.getDefaultCursor());
@@ -675,7 +657,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	}
 	class MonAction extends TimerTask {
 		public void run() {
-			afficheSuivant();
+			affiche(0);
 			timer.cancel();
 		}
 	}
@@ -688,16 +670,17 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 */
 	public void keyPressed(KeyEvent event) {
 //		 System.out.println("" + event.getKeyChar());
-//		 System.out.println("" + event.getExtendedKeyCode());
+		 System.out.println("" + event.getExtendedKeyCode());
 //		 System.out.println(KeyEvent.getKeyText( event.getKeyCode() ));
 //		 System.out.println(event.getExtendedKeyCode());
 		 if (event.getExtendedKeyCode() == 525) {
-			 afficheSuivant();
+			 affiche(0);
 		 }
 		 if (event.getExtendedKeyCode() == 524) {
 			 affichageTraduc( seance.getEtEnCours() );
 		 }
 		 if (event.getExtendedKeyCode() == 9) {
+			 event.setKeyChar(KeyEvent.CHAR_UNDEFINED);
 			 if (editGB.isFocusOwner() ) 
 				 editF.requestFocus();
 			 if (editF.isFocusOwner() ) 

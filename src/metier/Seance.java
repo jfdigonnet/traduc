@@ -3,7 +3,6 @@ package metier;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -44,12 +43,6 @@ public class Seance {
 	public String duree() {
 		long endTime = System.currentTimeMillis();
 		long elapsedTime = endTime - startTime;
-		int e = Math.round(elapsedTime / 1000);
-		NumberFormat Nb;
-		Nb = NumberFormat.getPercentInstance();
-		String r = Nb.format(e);
-		System.out.println(e);
-		
 		DecimalFormat df = new DecimalFormat ( ) ;
 		df.setMaximumFractionDigits ( 0 ) ; //arrondi à 2 chiffres apres la virgules
 		df.setDecimalSeparatorAlwaysShown ( false ) ; 
@@ -126,6 +119,7 @@ public class Seance {
 				}
 				loadTraduction();
 			} while ( (etEnCours.getConnu( parametres.getInstance().getSens()) ) && (noTraducEnCours < (liste.size() - 1)));
+			application.soumettreTraduction();
 		}
 	}
 	/*
@@ -146,7 +140,26 @@ public class Seance {
 					}
 					loadTraduction();
 				} while ( (etEnCours.getConnu( parametres.getInstance().getSens()) ) && (noTraducEnCours > -1) );
+				application.soumettreTraduction();
 			}
+		}
+	}
+	public void afficheUneTraduction(int sens) throws Exception, SQLException {
+		// Cas du tirage au sort : on n'est donc jamais au début ou à la fin du fichier
+		if (parametres.getInstance().getTypeTri() == 3) {
+			tirageAuSort();
+		}
+		// il n'y a pas d'autres mots à afficher
+		if (! existeEncoreDesMotsNonConnus()) {
+			JOptionPane.showMessageDialog(application,
+					"Vous avez terminé\nTous les mots sont connus", constantes.titreAppli, JOptionPane.INFORMATION_MESSAGE );
+		} else {
+			if (sens == 0) {
+				afficheSuivant();
+			} else {
+				affichePrecedent();
+			}
+			application.soumettreTraduction();
 		}
 	}
 	/**
@@ -154,35 +167,50 @@ public class Seance {
 	 * @throws SQLException 
 	 */
 	public void affichePrecedent() throws Exception {
-		// Cas du tirage au sort : on n'est donc jamais au début ou à la fin du fichier
-		if (parametres.getInstance().getTypeTri() == 3) {
-			tirageAuSort();
+		// Cas où on affiche tous les mots : on sait qu'il existe au moins deux mots non connus
+		if ( parametres.getInstance().getAfficherTousLesMots()) {
+			reduitNoTraducEnCours();
+			loadTraduction();
+		} else {
+			// On n'affiche que les mots non connus
+			reduitNoTraducEnCours();
+			loadTraduction();
+			// On teste si le mot est connu
+			if ( etEnCours.getConnu( parametres.getInstance().getSens()) ) {
+				do {
+					reduitNoTraducEnCours();
+					loadTraduction();
+				}
+				while (etEnCours.getConnu(parametres.getInstance().getSens()) );
+			}
 		}
-		// On n'est pas en fin de fichier
+	}
+	/**
+	 * On réduit le no de la traduction en cours de 1
+	 * Si on est revenu au début du fichier, on repart à la fin
+	 * On peut donc continuer à réduire
+	 */
+	private void reduitNoTraducEnCours() {
+		// Si on n'est pas au début
 		if (noTraducEnCours > 0) {
 			noTraducEnCours--;
-			loadTraduction();
-			// Si on est dans le cas de n'afficher que les mots non connus
-			if ( ! parametres.getInstance().getAfficherTousLesMots()) {
-				// Et si le mot est connu
-				if ( etEnCours.getConnu( parametres.getInstance().getSens()) ) {
-					do {
-						decNoTraducEnCours();
-						// On test si on n'est pas arrivé au début du fichier
-						if (noTraducEnCours == 0) {
-							// On est au début : on repart vers l'avant s'il reste des mots non connus
-							if (existeEncoreDesMotsNonConnus()) {
-								afficheSuivant();
-							} else {
-								JOptionPane.showMessageDialog(application,
-										"Vous avez terminé\nTous les mots sont connus", constantes.titreAppli, JOptionPane.OK_OPTION );
-							}
-						}
-						loadTraduction();
-	//						JOptionPane.showMessageDialog(application, "Début de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE);
-					} while ((etEnCours.getConnu(parametres.getInstance().getSens()) && (noTraducEnCours >= 0) ));
-				}
-			}
+		} else {
+			// Sinon on va à la fin
+			noTraducEnCours = liste.size() - 1;
+		}
+	}
+	/**
+	 * On réduit le no de la traduction en cours de 1
+	 * Si on est revenu au début du fichier, on repart à la fin
+	 * On peut donc continuer à réduire
+	 */
+	private void augmenteNoTraducEnCours() {
+		// Si on n'est pas au début
+		if (noTraducEnCours > liste.size() - 1) {
+			noTraducEnCours++;
+		} else {
+			// Sinon on va à la fin
+			noTraducEnCours = 0;
 		}
 	}
 	public void tirageAuSort() {
@@ -209,33 +237,20 @@ public class Seance {
 	 * @throws HeadlessException 
 	 */
 	public void afficheSuivant() throws Exception {
-		// Cas du tirage au sort : on n'est donc jamais au début ou à la fin du fichier
-		if (parametres.getInstance().getTypeTri() == 3) {
-			tirageAuSort();
-		}
-		// On vérifie que l'on est pas à la fin du fichier
-		if (noTraducEnCours < liste.size() - 1) { noTraducEnCours++; }
-		loadTraduction();
-		// Si on est dans le cas de n'afficher que les mots non connus
-		if ( ! parametres.getInstance().getAfficherTousLesMots()) {
-					// Et si le mot est connu
-					if ( etEnCours.getConnu( parametres.getInstance().getSens()) ) {
-						do {
-							noTraducEnCours++;
-							// On vérifie si on n'a pas atteint la fin de fichier
-							if (noTraducEnCours == liste.size() ) {
-								// On a atteint la fin : on repart en arrière
-								if (existeEncoreDesMotsNonConnus()) {
-									affichePrecedent();
-								} else {
-									JOptionPane.showMessageDialog(application,
-											"Vous avez terminé\nTous les mots sont connus", constantes.titreAppli, JOptionPane.OK_OPTION );
-								}
-							}
-							loadTraduction();
-	//							JOptionPane.showMessageDialog(application, "Fin de fichier atteint", constantes.titreAppli, JOptionPane.WARNING_MESSAGE );
-						} while ((etEnCours.getConnu(parametres.getInstance().getSens())) && (noTraducEnCours < (liste.size() - 1)));
+		if ( parametres.getInstance().getAfficherTousLesMots()) {
+			augmenteNoTraducEnCours();
+			loadTraduction();
+		} else {
+			augmenteNoTraducEnCours();
+			loadTraduction();
+			// On teste si le mot est connu
+			if ( etEnCours.getConnu( parametres.getInstance().getSens()) ) {
+				do {
+					augmenteNoTraducEnCours();
+					loadTraduction();
 				}
+				while (etEnCours.getConnu(parametres.getInstance().getSens()) );
+			}
 		}
 	}
 	private boolean existeEncoreDesMotsNonConnus() throws SQLException {

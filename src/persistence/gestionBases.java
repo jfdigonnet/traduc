@@ -424,6 +424,6 @@ public class gestionBases
     	}
     	rs.close();
     	statement.close();
-    	return (i != 0);
+    	return (i > 1);
 	}
 }
