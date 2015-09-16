@@ -206,7 +206,7 @@ public class Seance {
 	 */
 	private void augmenteNoTraducEnCours() {
 		// Si on n'est pas au début
-		if (noTraducEnCours > liste.size() - 1) {
+		if (noTraducEnCours < liste.size() - 1) {
 			noTraducEnCours++;
 		} else {
 			// Sinon on va à la fin

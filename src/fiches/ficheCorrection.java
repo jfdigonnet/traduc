@@ -69,7 +69,7 @@ public class ficheCorrection extends JDialog implements ActionListener {
 		    	if (seance.getListe().size() > 0) {
 		    		for (int i=0; i<(seance.getListe().size()); i++) {
 		        			progressBar.setValue(i+1);
-		        			System.out.println(i);
+		        			//System.out.println(i);
 		        			try {
 		        				etEnCours = gestionBases.getInstance().chargeUneTraduc( seance.getListe().get(seance.getListe().get(i)) );
 		        			} catch (Exception e1) {

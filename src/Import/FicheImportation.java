@@ -35,8 +35,8 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 
+import fiches.fenetrePrincipale;
 import persistence.gestionBases;
-
 import utilitaires.constantes;
 import metier.elementTraduc;
 import net.miginfocom.swing.MigLayout;
@@ -133,12 +133,11 @@ public class FicheImportation extends JDialog implements ActionListener, Propert
 		}
     }
 
-    public FicheImportation(JFrame parent, String title, boolean modal) {
-        super(parent, modal);
+    public FicheImportation(fenetrePrincipale app) {
         repDB = constantes.getRepDonnees();
         // On ajouter un slach en tant que dernier caractères si ce n'est pas le cas
         if ( repDB.substring(0, repDB.length()-1) != "/") repDB += "/"; 
-        this.setTitle(title);
+        this.setTitle("Importation");
         this.setSize(550, 270);
         this.setLocationRelativeTo(null);
         this.setResizable(false);

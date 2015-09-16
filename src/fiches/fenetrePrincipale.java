@@ -5,14 +5,12 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.event.InputEvent;
@@ -57,6 +55,7 @@ import action.actionCocheMotAnglais;
 import action.actionCocheMotFrancais;
 import action.actionCorrection;
 import action.actionEnregistrerTraduction;
+import action.actionExporter;
 import action.actionImporter;
 import action.actionInterrogation;
 import action.actionJouer;
@@ -388,6 +387,12 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		importer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
 				KeyEvent.CTRL_DOWN_MASK));
 
+		JMenuItem exporter = new JMenuItem("Exporter des données");
+		exporter.addActionListener(new actionExporter(this, seance));
+		exporter.setMnemonic('X');
+		exporter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
+				KeyEvent.CTRL_DOWN_MASK));
+
 		JMenuItem sauvegarde = new JMenuItem("Réaliser une sauvegarde");
 		sauvegarde.addActionListener(new actionSauvegarde(this));
 		sauvegarde.setMnemonic('S');
@@ -427,6 +432,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		menuAide.add(ausujetde);
 		
 		menuOutils.add(importer);
+		menuOutils.add(exporter);
 		menuOutils.addSeparator();
 		menuOutils.add(sauvegarde);
 		menuOutils.add(restauration);
