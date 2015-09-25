@@ -46,7 +46,7 @@ public class gestionBases
     	}
     	catch(Exception e)
     	{
-    		System.err.println(e.getMessage());
+    		//System.err.println(e.getMessage());
     		return e.getMessage();
     	}
     }
@@ -55,7 +55,7 @@ public class gestionBases
      **********************************************************************/
     public void truncateBD() throws Exception {
             String query = "delete from traduction";
-            System.out.println(query);
+            //System.out.println(query);
             statement.executeUpdate(query);
         	statement.close();
     }
@@ -87,13 +87,13 @@ public class gestionBases
     	int id = -1;
     	String query = "";
     	query = "select max(id) as maxi from traduction";
-    	System.out.println(query);
+    	//System.out.println(query);
     	ResultSet rs = statement.executeQuery( query );
     	while (rs.next()) {
     		id = rs.getInt("maxi");
     	}
-    	System.out.println("Ancien id " + id);
-    	System.out.println("Nou id " + (id + 1));
+    	//System.out.println("Ancien id " + id);
+    	//System.out.println("Nou id " + (id + 1));
     	rs.close();
     	statement.close();
     	return id + 1;
@@ -116,7 +116,7 @@ public class gestionBases
     public void litLibelleLangues() throws Exception {
     	String query = "";
     	query = "select * from param where id_param = '01' or id_param = '02' order by id_param";
-    	System.out.println(query);
+    	//System.out.println(query);
     	ResultSet rs = statement.executeQuery( query );
     	while (rs.next()) {
     		if (rs.getInt("id_param") == 1) {
@@ -149,7 +149,7 @@ public class gestionBases
     	query += et.getConnuGBSQLite() + ",";
     	query += et.getConnuFSQLite() + ", Date('now')";
     	query += ");";
-    	System.out.println(query);
+    	//System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
     }
@@ -158,7 +158,7 @@ public class gestionBases
     	query += "set connuGB = '0'";
     	query += " WHERE ID ='" + id  + "'";
 
-    	System.out.println(query);
+    	//System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
     }
@@ -172,7 +172,7 @@ public class gestionBases
     	query += "set connuGB = '" + et.getConnuGBSQLite() + "'";
     	query += " WHERE ID ='" + et.getId()  + "'";
 
-    	System.out.println(query);
+    	//System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
     }
@@ -186,7 +186,7 @@ public class gestionBases
     	query += "set connuF = '" + et.getConnuFSQLite() + "'";
     	query += " WHERE ID ='" + et.getId()  + "'";
 
-    	System.out.println(query);
+    	//System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
     }
@@ -204,7 +204,7 @@ public class gestionBases
     	query += " connuF = '" + et.getConnuFSQLite() + "'";
     	query += " WHERE ID ='" + et.getId()  + "'";
 
-    	System.out.println(query);
+    	//System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
     }
@@ -214,7 +214,7 @@ public class gestionBases
     public elementTraduc chargeUneTraduc(int id) throws Exception {
     	elementTraduc et = new elementTraduc();
     	String query = "select * from traduction where id = " + Integer.toString(id);
-    	System.out.println(query);
+    	//System.out.println(query);
     	ResultSet rs = statement.executeQuery( query );
     	while (rs.next()) {
     		et.setId(rs.getInt("id"));
@@ -254,10 +254,12 @@ public class gestionBases
     		query += "";
     		break;
     	}
+    	System.out.println(query);
     	ResultSet rs = statement.executeQuery( query );
     	while (rs.next()) {
     		liste.add(rs.getInt("id"));
     	}
+    	//System.out.println("Nombre d'articles : " + liste.size());
     	rs.close();
     	statement.close();    	
     	return liste;
@@ -272,8 +274,7 @@ public class gestionBases
     	query += "UPDATE traduction ";
     	query += "set fichiermp3 = '" +  et.getFichiermp3() + "' ";
     	query += "WHERE ID ='" + et.getId()  + "'";
-
-    	System.out.println(query);
+    	//System.out.println(query);
     	statement.executeUpdate(query);
     }
     /*
@@ -283,7 +284,7 @@ public class gestionBases
     	String query = "";
     	query += "UPDATE traduction ";
     	query += "set connuF = 0, connuGB = 0";
-    	System.out.println(query);
+    	//System.out.println(query);
     	statement.executeUpdate(query);
     }
     /**********************************************************************
@@ -297,7 +298,7 @@ public class gestionBases
     	query += "set fichiermp3 = ''";
     	query += " WHERE ID ='" + et.getId()  + "'";
 
-    	System.out.println(query);
+    	//System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
     }
@@ -351,7 +352,7 @@ public class gestionBases
 		query += "delete from traduction ";
 		query += "WHERE ID = '" + ancIndex  + "'";
 
-		System.out.println(query);
+		//System.out.println(query);
 		statement.executeUpdate(query);
     	statement.close();
 	}

@@ -48,7 +48,7 @@ public class Seance {
 		df.setDecimalSeparatorAlwaysShown ( false ) ; 
 		return df.format( elapsedTime / 1000 );
 	}
-	/**
+	/*
 	 * On charge la liste de clé primaires des traductions dans une liste d'entier
 	 * On charge le type de tri pour présenter les données
 	 * Les types de tri sont listés dans le tableau tyepTri 
@@ -62,6 +62,7 @@ public class Seance {
 	public Boolean chargementListeID() {
 		try {
 			liste = gestionBases.getInstance().listeMots(parametres.getInstance().getTypeTri());
+			//System.out.println("Nombre d'articles : " + liste.size());
 			return true;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(application,

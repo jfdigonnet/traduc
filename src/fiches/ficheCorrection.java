@@ -39,13 +39,13 @@ public class ficheCorrection extends JDialog implements ActionListener {
 
 	// Fiche principale
 	private Component application;
-	private Seance seance;
+	private Seance    seance;
 	//Classe contenant une traduction
-	private elementTraduc etEnCours;
-    private 	JButton 	okBouton;
+	private elementTraduc    etEnCours;
+    private 	JButton      okBouton;
     private 	JProgressBar progressBar;
-    private     JTextArea suivi ;
-    private     Boolean   simulation = true;
+    private     JTextArea    suivi ;
+    private     Boolean      simulation = true;
 
     class threadCorrection extends SwingWorker<Integer, String> {
 

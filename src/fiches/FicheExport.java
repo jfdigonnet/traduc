@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -26,7 +28,9 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 
+import persistence.gestionBases;
 import metier.Seance;
+import metier.elementTraduc;
 import net.miginfocom.swing.MigLayout;
 import utilitaires.constantes;
 
@@ -54,31 +58,57 @@ public class FicheExport extends JDialog implements ActionListener, PropertyChan
             });
         }
 		protected Integer doInBackground() throws Exception {
-	    	Integer nbInteg = 0;
-	    	progressBar.setMaximum(liste.size());
-	    	//System.out.println(liste.size());
+	    	Integer nbEcr = 0;
+	    	progressBar.setMaximum(liste.size() - 1);
+	    	progressBar.setValue(0);
+	    	System.out.println(liste.size());
 	    	setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
+	    	// On crée le fichier
+	    	String nomFichier = fichierExport.getText();
+	    	if (!nomFichier.contains(".")) {
+	    		nomFichier += ".csv";
+	    	}
+	    	FileWriter fw = new FileWriter(nomFichier, true);
+	    	BufferedWriter output = new BufferedWriter(fw);
 	    	try {
-		    	for(int i = 0 ; i <liste.size(); i++){
-		    		progressBar.setValue(i+1);
-	    		 }
-  			}
-			catch (Exception e) {
-							setCursor(Cursor.getDefaultCursor());
-							JOptionPane.showMessageDialog(null, "Une erreur est intervenue lors de l'enregistrement des données : " + e.getMessage() + "\n" +  
-									                            "\nArrêt du traitement d'intégration", "Erreur", JOptionPane.ERROR_MESSAGE);
-							return nbInteg;
-			}
-    		// On met à jour le nombre de BD de la collection
-    		setCursor(Cursor.getDefaultCursor());
-   			JOptionPane.showMessageDialog(null, "Traitement exportation terminé avec succès\n" + 
-   					                            "\nNombre de mots exportés : " + nbInteg.toString(), 
-   					                            "Exportation", JOptionPane.OK_OPTION);	 
-	    	return nbInteg;
+	    		System.out.println(liste.size());
+		    	if (liste.size() > 0) {
+		    		for (int i=0; i<(liste.size()); i++) {
+		        			progressBar.setValue(i+1);
+		        			//System.out.println(progressBar.getValue());
+		        			//System.out.println(i);
+		        			elementTraduc etEnCours = null;
+		        			try {
+		        				etEnCours = gestionBases.getInstance().chargeUneTraduc( liste.get(liste.get(i)) );
+		        			} catch (Exception e1) {
+		        				JOptionPane.showMessageDialog(null, 
+		        						"Exporter : Une erreur est intervenue lors de la lecture de la table : " + e1.getLocalizedMessage() + "\n" +  
+		        						"Indice de lecture : " + liste.get(liste.get(i)) + "\n" + 
+		        						"Arrêt de la procédure", 
+		        						"Exportation", 
+		        						JOptionPane.WARNING_MESSAGE, 
+		        						null);
+		        				return 0;
+		        			}
+		        			output.write(etEnCours.getAnglais() + ";" + etEnCours.getFrancais() + ";" + etEnCours.getFichiermp3() + "\n");
+		    		}
+		    		output.flush();
+		    		output.close();
+		    		setCursor(Cursor.getDefaultCursor());
+	    			JOptionPane.showMessageDialog(null, "Traitement d'exportation terminé avec succès\nNombre de traduction lues " + liste.size() + 
+	    					                            "Nombre de traductions écrites : " + nbEcr.toString(),
+	    					                            "Exportation", JOptionPane.OK_OPTION);
+		    	}
+	    	}
+	    	finally {
+	    		setCursor(Cursor.getDefaultCursor());
+	    	}
+	    	return liste.size();
 		}
     }
     public FicheExport( fenetrePrincipale app, Seance seance ) {
     	liste = seance.getListe();
+    	//System.out.println("Nombre d'articles : " + liste.size());
         repDB = constantes.getRepDonnees();
         // On ajouter un slach en tant que dernier caractères si ce n'est pas le cas
         if ( repDB.substring(0, repDB.length()-1) != "/") repDB += "/"; 
