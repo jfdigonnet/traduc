@@ -27,8 +27,8 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 
+import persistence.gestionBases;
 import utilitaires.constantes;
-
 import net.miginfocom.swing.MigLayout;
 
 public class ficheParam extends JDialog implements ActionListener {
@@ -40,6 +40,7 @@ public class ficheParam extends JDialog implements ActionListener {
 	private     JCheckBox   cb_afficherTousLesMots;
 	private     JCheckBox   cb_enresPosLecture;
 	private     JCheckBox   cb_joueTDS;
+	private     JCheckBox   cb_memo_interro;
 	private     JComboBox<String>	comboSens;
 	private     JComboBox<String>	comboTri;
 	private     JTextField 			editProxy;
@@ -80,6 +81,9 @@ public class ficheParam extends JDialog implements ActionListener {
 		setSize(800,430);
 	    setLocationRelativeTo(null);
 	}
+    /*
+     * 
+     */
 	private JPanel panelInterrogation() {
 		JPanel panelSup = new JPanel();
     	MigLayout layoutSup = new MigLayout("", "[] 10 [] 10 []", "[] 10 [] 10 []");
@@ -89,6 +93,7 @@ public class ficheParam extends JDialog implements ActionListener {
 
 		JLabel texteD = new JLabel("Délai avant la lecture du mot suivant : ");
 		panelSup.add(texteD, "align label");
+		cb_memo_interro = new JCheckBox("Se souvenir des mots");
 		
 		Integer value1 = new Integer(1);
 		Integer min1 = new Integer(0);
@@ -98,10 +103,20 @@ public class ficheParam extends JDialog implements ActionListener {
 		editTempsAvantInterrogationSuivant = new JSpinner(model1);
 		editTempsAvantInterrogationSuivant.setEditor(new JSpinner.NumberEditor(editTempsAvantInterrogationSuivant, "#"));
 		editTempsAvantInterrogationSuivant.setPreferredSize(new Dimension(30, 25));
-		panelSup.add(editTempsAvantInterrogationSuivant);
+		panelSup.add(editTempsAvantInterrogationSuivant, "wrap");
+		panelSup.add(cb_memo_interro, "wrap");
 
+        JButton boutonOubli = new JButton("Oublier les mots interrogés");
+        boutonOubli.setActionCommand("oubli");
+        boutonOubli.addActionListener(this);
+        boutonOubli.setPreferredSize(new Dimension(180, 25));
+        panelSup.add(boutonOubli, "center");
+		
 		return panelSup;
 	}
+	/*
+	 * 
+	 */
 	private JPanel panneauInternet() {
 		JPanel panelSup = new JPanel();
     	MigLayout layoutSup = new MigLayout("", "[] 10 [] 10 []", "[] 10 [] 10 []");
@@ -209,6 +224,9 @@ public class ficheParam extends JDialog implements ActionListener {
 		
 		return panelSup;
 	}
+	/*
+	 * 
+	 */
 	private JPanel ajouteBoutons() {
 		JPanel panel = new JPanel();
 		
@@ -239,14 +257,14 @@ public class ficheParam extends JDialog implements ActionListener {
 	private Boolean controle() {
 		if (cb_traducSuivanteAuto.isSelected() && ((Integer)editDelaisSuivant.getValue() == 0)) {
 			JOptionPane.showMessageDialog(this, "Le délai d'attente n'a pas été indiqué" , 
-					"Enregistrement", 
+					"Paramètres", 
 					JOptionPane.ERROR_MESSAGE);	
 			editDelaisSuivant.requestFocus();
 			return false;
 		}
 		if ((Integer)editTempsAvantInterrogationSuivant.getValue() == 0) {
 			JOptionPane.showMessageDialog(this, "Le temps avant interrogation suivante ne peut être nul" , 
-					"Enregistrement", 
+					"Paramètres", 
 					JOptionPane.ERROR_MESSAGE);	
 			editTempsAvantInterrogationSuivant.requestFocus();
 			return false;
@@ -284,6 +302,8 @@ public class ficheParam extends JDialog implements ActionListener {
 		cb_joueTDS.setSelected( parametres.getInstance().getJoueTDS() );
 		// Temps avant interrogation suivante
 		editTempsAvantInterrogationSuivant.setValue(parametres.getInstance().getTempsAvantInterrogationSuivante());
+		// Mémorisé ou non les mots déja interrogés
+		cb_memo_interro.setSelected( parametres.getInstance().getMemoInterro() );
 	}
 	/**
 	 * Enregistrement des paramètres
@@ -309,6 +329,8 @@ public class ficheParam extends JDialog implements ActionListener {
 		parametres.getInstance().setJoueTDS(cb_joueTDS.isSelected());
 		//
 		parametres.getInstance().setTempsAvantInterrogationSuivante((Integer)editTempsAvantInterrogationSuivant.getValue());
+		// Mémo interro
+		parametres.getInstance().setMemoInterro(cb_memo_interro.isSelected()); 
 		// Enregistrement
 		parametres.getInstance().saveParam();
 	}
@@ -334,6 +356,19 @@ public class ficheParam extends JDialog implements ActionListener {
 			if (source.getActionCommand().equals("traducsuibanteauto")) {
 			}
 		}
+        if (e.getActionCommand().equals("oubli") ) {
+        	try {
+				gestionBases.getInstance().oubliIterrogation();
+				JOptionPane.showMessageDialog(this, "Traitement terminé",
+						"Paramètres", 
+						JOptionPane.INFORMATION_MESSAGE );	
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, "Une erreur est intervenue lors de la ré initialisation de cet élément\n" +
+						e1.getLocalizedMessage() , 
+						"Paramètres", 
+						JOptionPane.ERROR_MESSAGE);	
+			}
+        }
         if (e.getActionCommand().equals("selfic") ) {
             JFileChooser editChoixRepertoire = new JFileChooser();
             editChoixRepertoire.setDialogTitle("Choix du fichier à intégrer");

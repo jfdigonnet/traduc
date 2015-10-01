@@ -34,7 +34,7 @@ public class FicheInterro extends JDialog {
 		
     	panelSup.setLayout(layout);
     	
-	    setTitle("Résultat de la recherche");
+	    setTitle("Interrogation");
 
 		JPanel panelS = new JPanel();
 		MigLayout layouS = new MigLayout("", "[]", "[] 30 [] 30 []"); // Colonne / Ligne

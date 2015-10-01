@@ -29,10 +29,27 @@ public class Interrogation {
 	private int noTraducEnCours;
 	private int nbMots = 0;
 
+	/*
+	 * 
+	 */
 	class MotNonConnu extends Thread {
 		public void run() {
 			try {
 				gestionBases.getInstance().setMotAnglaisInconnu(etEnCours.getId());
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(application, "Erreur lors de l'enregistrement des données (" + paramLangues.getInstance().getLibLangue1() + ") : " + e1.getLocalizedMessage(), 
+						"Enregistrement", 
+						JOptionPane.ERROR_MESSAGE);			
+			}
+		}
+	}
+	/*
+	 * 
+	 */
+	class MotInterroge extends Thread {
+		public void run() {
+			try {
+				gestionBases.getInstance().setMotAnglaisInterroge(etEnCours.getId());
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(application, "Erreur lors de l'enregistrement des données (" + paramLangues.getInstance().getLibLangue1() + ") : " + e1.getLocalizedMessage(), 
 						"Enregistrement", 
@@ -86,6 +103,9 @@ public class Interrogation {
           });
 		ficheinterro.setVisible(true);
 	}
+	/*
+	 * 
+	 */
 	public void lanceInterrogation() {
 		etEnCours = choisitTraduction();
 		if ( etEnCours != null ) {
@@ -101,6 +121,11 @@ public class Interrogation {
 			}
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new MonAction(), parametres.getInstance().getTempsAvantInterrogationSuivante() * 1000, 5000);
+			// On mémorise le mot comme étant interrogé si l'option est cochée
+			if (parametres.getInstance().getMemoInterro()) {
+	        	MotInterroge t = new MotInterroge() ;
+	        	t.start();
+			}
 		}
 	}
 	/*

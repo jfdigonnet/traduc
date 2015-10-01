@@ -14,7 +14,7 @@ public class parametres {
 	// Style choisi
 	private String style;
 	// Tri des mots présentés : Date, par mot étranger ou mot français, etc...
-	// Pas de tri par défaut
+	// Pas de tri par défaut 
 	private int typeTri = 0;
 	// Passage à la traduction suivante automatique
 	private Boolean suivantAuto = false;
@@ -32,8 +32,11 @@ public class parametres {
 	private String proxy = "";
 	// Jouer le mot en langue 1 lors de l'affichage
 	private Boolean joueTDS = false;
-	// Temps avant interro suivante 
+	// Temps avant interro suivante 	
 	private int TempsAvantInterrogationSuivante = 4;
+	// Mémorisé les mots déja interrogés
+	private Boolean MemoInterro = false;
+	// Temps avant interro suivante 
 	
 	private static parametres instance = new parametres();
 	
@@ -98,6 +101,7 @@ public class parametres {
     	joueTDS = myPrefs.getBoolean("joueTDS", false);
     	
     	TempsAvantInterrogationSuivante = myPrefs.getInt("TempsAvantInterrogationSuivante", 4);
+    	MemoInterro = myPrefs.getBoolean("MemoInterro", false);
 	}
 	public void sauvePosLecture( int pos) {
 		if ( getEnresPosLecteur() ) {
@@ -136,6 +140,7 @@ public class parametres {
     	myPrefs.putBoolean("joueTDS", joueTDS);
     	
     	myPrefs.putInt("TempsAvantInterrogationSuivante", TempsAvantInterrogationSuivante);
+    	myPrefs.putBoolean("MemoInterro", MemoInterro);
 	}
 	/*
 	 * Retourne le type de tri :
@@ -260,6 +265,20 @@ public class parametres {
     	Preferences prefsRoot = Preferences.userRoot();
     	Preferences myPrefs = prefsRoot.node("traduc.preference");
     	myPrefs.put("derrepsauve", repert);
+	}
+
+	/**
+	 * @return the memoInterro
+	 */
+	public Boolean getMemoInterro() {
+		return MemoInterro;
+	}
+
+	/**
+	 * @param memoInterro the memoInterro to set
+	 */
+	public void setMemoInterro(boolean memoInterro) {
+		MemoInterro = memoInterro;
 	}
 }
 

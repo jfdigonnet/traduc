@@ -153,11 +153,49 @@ public class gestionBases
     	statement.executeUpdate(query);
     	statement.close();
     }
+    /*
+     * 
+     */
     public void setMotAnglaisInconnu(int id) throws Exception  {
     	String query = "UPDATE traduction ";
     	query += "set connuGB = '0'";
     	query += " WHERE ID ='" + id  + "'";
 
+    	//System.out.println(query);
+    	statement.executeUpdate(query);
+    	statement.close();
+    }
+    /*
+     * 
+     */
+    public void setMotAnglaisInterroge(int id) throws Exception  {
+    	String query = "UPDATE traduction ";
+    	query += "set interroge = '1'";
+    	query += " WHERE ID ='" + id  + "'";
+    	System.out.println(query);
+    	statement.executeUpdate(query);
+    	statement.close();
+    }
+    /*
+     * 
+     */
+    public void setMotFrancaisInterroge(int id) throws Exception  {
+    	String query = "UPDATE traduction ";
+    	query += "set interroge = '1'";
+    	query += " WHERE ID ='" + id  + "'";
+
+    	//System.out.println(query);
+    	statement.executeUpdate(query);
+    	statement.close();
+    }
+    /**********************************************************************
+     * 
+     * @param et
+     * @throws Exception
+     **********************************************************************/
+    public void oubliIterrogation() throws Exception  {
+    	String query = "UPDATE traduction ";
+    	query += "set interroge = 0";
     	//System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
