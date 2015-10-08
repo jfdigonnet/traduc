@@ -8,6 +8,7 @@ public class elementTraduc {
 	private String fichiermp3;
 	private Boolean GBOk;
 	private Boolean FOk;
+	private Boolean interroge;
 	
 	public String getAnglais() {
 		return anglais;
@@ -94,7 +95,6 @@ public class elementTraduc {
 			this.setFOk(false);
 		else
 			this.setFOk(true);
-		
 	}
 	/*
 	 * Permet de savoir si le mot est acquis ou non
@@ -118,5 +118,17 @@ public class elementTraduc {
 	 */
 	public String getAnglaisSQL() {
 		return anglais.replaceAll("'", "''");
+	}
+	/**
+	 * @return the interroge
+	 */
+	public Boolean getInterroge() {
+		return interroge;
+	}
+	/**
+	 * @param interroge the interroge to set
+	 */
+	public void setInterroge(Boolean interroge) {
+		this.interroge = interroge;
 	}
 }

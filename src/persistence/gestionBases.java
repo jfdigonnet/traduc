@@ -172,7 +172,7 @@ public class gestionBases
     	String query = "UPDATE traduction ";
     	query += "set interroge = '1'";
     	query += " WHERE ID ='" + id  + "'";
-    	System.out.println(query);
+    	//System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
     }
@@ -264,6 +264,7 @@ public class gestionBases
     			et.setFichiermp3(rs.getString("fichiermp3"));
     		else
     			et.setFichiermp3("");
+    		et.setInterroge(rs.getInt("interroge") == 1);
     	}
     	rs.close();
     	statement.close();
@@ -449,6 +450,10 @@ public class gestionBases
         System.err.println(e);
       }
     }
+    /*
+     * On cherche à savoir si on a interrogé tous les mots ou non
+     * On pourrait retourner aussi le nombre de mots non encore connu
+     */
 	public boolean existeEncoreDesMotsNonConnus(boolean sens) throws SQLException {
 		String query = "";
 		if (sens ) {
@@ -464,5 +469,25 @@ public class gestionBases
     	rs.close();
     	statement.close();
     	return (i > 1);
+	}
+    /*
+     * On cherche à savoir si on a interrogé tous les mots ou non
+     * On retourne le nombre de mots non encore connu
+     */
+	public int combienDeMotsNonInterroge(boolean sens) throws SQLException {
+		String query = "";
+		if (sens ) {
+			query = "select count(*) as total from traduction where connuGB = 0";
+		} else {
+			query = "select count(*) as total from traduction where connuF = 0";
+		}
+    	ResultSet rs = statement.executeQuery( query );
+    	int i = 0;
+    	while (rs.next()) {
+    		i = rs.getInt("total");
+    	}
+    	rs.close();
+    	statement.close();
+    	return i;
 	}
 }
