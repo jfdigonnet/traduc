@@ -30,8 +30,8 @@ public class actionEnregistrerTraduction implements ActionListener {
 		elementTraduc et = null;
 		et = seance.getEtEnCours();
 		if (application instanceof fenetrePrincipale) {
-			et.setAnglaisSQL(((fenetrePrincipale)application).getEditGB());
-			et.setFrancaisSQL(((fenetrePrincipale)application).getEditF());
+			et.setAnglaisSQL(((fenetrePrincipale)application).getEditGB().getText() );
+			et.setFrancaisSQL(((fenetrePrincipale)application).getEditF().getText());
 			et.setGBOk(((fenetrePrincipale)application).getEditCheckGBOk());
 			et.setFOk(((fenetrePrincipale)application).getEditCheckFOk());
 		}

@@ -71,6 +71,26 @@ public class Seance {
 			return false;
 		}
 	}
+	/**
+	 * @param et
+	 * On affiche la traduction du mot en cours
+	 * On a affiché un mot en GB ou en F et on affiche sa traduction dans l'autre langue
+	 * Du français si on est dans le sens GB -> F
+	 * et inversement
+	 */
+	public void affichageTraduc() {
+		if (parametres.getInstance().getSens()) {
+			application.getEditF().setText(etEnCours.getFrancais());
+			application.getEditF().requestFocus();
+			application.getEditF().setCaretPosition(0);
+		} else {
+			application.getEditGB().setText(etEnCours.getAnglais());
+			application.getEditGB().requestFocus();
+			application.getEditGB().setCaretPosition(0);
+		}
+		application.getMenuEnreg().setEnabled(true);
+		application.getBoutonEnreg().setEnabled(true);
+	}
 	/*
 	 * On charge dans la table des paramètres les libellés des langues 1 et 2
 	 * Ces libellés sont toujours là car ils sont obligatoires dans le module

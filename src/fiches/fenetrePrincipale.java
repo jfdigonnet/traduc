@@ -73,7 +73,6 @@ import param.parametres;
 import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
 import metier.Seance;
-import metier.elementTraduc;
 import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;
 /*
@@ -617,14 +616,20 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		 * Afficher la traduction du mot
 		 ***********************************************************/
 		if (e.getActionCommand().equals("affitraduc")) {
-			affichageTraduc( seance.getEtEnCours() );
-			// Création et lancement du timer
-			if (parametres.getInstance().getSuivantAuto()) {
-				boutonAffTraducBarre.setEnabled(false);
-			    timer = new Timer();
-				timer.scheduleAtFixedRate(new MonAction(), parametres.getInstance().getDelaisSuivant() * 1000, 5000);
-			}
+			afficherLaTraduction();
 		}				
+	}
+	/**
+	 * 
+	 */
+	private void afficherLaTraduction() {
+		seance.affichageTraduc();
+		// Création et lancement du timer
+		if (parametres.getInstance().getSuivantAuto()) {
+			boutonAffTraducBarre.setEnabled(false);
+		    timer = new Timer();
+			timer.scheduleAtFixedRate(new MonAction(), parametres.getInstance().getDelaisSuivant() * 1000, 5000);
+		}
 	}
 	/**
 	 * 
@@ -682,9 +687,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		 if (event.getExtendedKeyCode() == 525) {
 			 affiche(0);
 		 }
-		 if (event.getExtendedKeyCode() == 524) {
-			 affichageTraduc( seance.getEtEnCours() );
-		 }
+//		 if (event.getExtendedKeyCode() == 524) {
+//			 seance.affichageTraduc();
+//		 }
 		 if (event.getExtendedKeyCode() == 9) {
 			 event.setKeyChar(KeyEvent.CHAR_UNDEFINED);
 			 if (editGB.isFocusOwner() ) 
@@ -735,32 +740,12 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	public void affiLigneStatus() {
 		labelBas.setText( seance.getLigneStatus() );
 	}
-	/**
-	 * @param et
-	 * On affiche la traduction du mot en cours
-	 * On a affiché un mot en GB ou en F et on affiche sa traduction dans l'autre langue
-	 * Du français si on est dans le sens GB -> F
-	 * et inversement
-	 */
-	private void affichageTraduc(elementTraduc et) {
-		if (parametres.getInstance().getSens()) {
-			editF.setText(et.getFrancais());
-			editF.requestFocus();
-			editF.setCaretPosition(0);
-		} else {
-			editGB.setText(et.getAnglais());
-			editGB.requestFocus();
-			editGB.setCaretPosition(0);
-		}
-		menuEnreg.setEnabled(true);
-		boutonEnreg.setEnabled(true);
-	}
 	public void keyReleased(KeyEvent e) {	}
-	public String getEditF() {
-		return editF.getText() ;
+	public JTextArea getEditF() {
+		return editF ;
 	}
-	public String getEditGB() {
-		return editGB.getText() ;
+	public JTextArea getEditGB() {
+		return editGB ;
 	}
 	/*
 	 * Perme de savoir si la case connu est cochée ou non
@@ -777,5 +762,17 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	public JButton getBoutonJouer() {
 		// TODO Auto-generated method stub
 		return boutonJouer;
+	}
+	/**
+	 * @return the menuEnreg
+	 */
+	public JMenuItem getMenuEnreg() {
+		return menuEnreg;
+	}
+	/**
+	 * @return the boutonEnreg
+	 */
+	public JButton getBoutonEnreg() {
+		return boutonEnreg;
 	}
 }
