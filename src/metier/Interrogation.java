@@ -108,6 +108,7 @@ public class Interrogation {
 					"Erreur lors de la recherche du nombre de mot non connu\n" +  
 							e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 		}
+		System.out.println("Nombre de mots à interroger : " + nbMotRestantaInterroger);
 		this.application = app;
 		this.liste = ls;
 		ficheinterro = new FicheInterro(application);

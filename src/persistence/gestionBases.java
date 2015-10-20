@@ -158,7 +158,7 @@ public class gestionBases
      */
     public void setMotAnglaisInconnu(int id) throws Exception  {
     	String query = "UPDATE traduction ";
-    	query += "set connuGB = '0'";
+    	query += "set connuGB = '1'";
     	query += " WHERE ID ='" + id  + "'";
 
     	//System.out.println(query);
@@ -477,9 +477,9 @@ public class gestionBases
 	public int combienDeMotsNonInterroge(boolean sens) throws SQLException {
 		String query = "";
 		if (sens ) {
-			query = "select count(*) as total from traduction where connuGB = 0";
+			query = "select count(*) as total from traduction where interroge = 0";
 		} else {
-			query = "select count(*) as total from traduction where connuF = 0";
+			query = "select count(*) as total from traduction where interroge = 0";
 		}
     	ResultSet rs = statement.executeQuery( query );
     	int i = 0;
