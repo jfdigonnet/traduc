@@ -158,7 +158,7 @@ public class gestionBases
      */
     public void setMotAnglaisInconnu(int id) throws Exception  {
     	String query = "UPDATE traduction ";
-    	query += "set connuGB = '1'";
+    	query += "set connuGB = '0'";
     	query += " WHERE ID ='" + id  + "'";
 
     	//System.out.println(query);

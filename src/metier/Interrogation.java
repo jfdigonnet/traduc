@@ -1,36 +1,14 @@
 package metier;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.InputMap;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JRootPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
-import javax.swing.SwingWorker;
 
 import param.parametres;
 import persistence.gestionBases;
@@ -178,7 +156,7 @@ public class Interrogation {
 		application.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
     	try {
 			do {
-				noTraducEnCours = (int)Math.random() * liste.size();
+				//noTraducEnCours = (int)Math.random() * liste.size();
 				Random rand = new Random();
 				int nombreAleatoire = rand.nextInt(liste.size()) + 1;
 				//System.out.println(nombreAleatoire);
@@ -191,7 +169,7 @@ public class Interrogation {
 							"Erreur lors du chargement de la traduction no " + Integer.toString( noTraducEnCours ) + 
 							e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 				}
-			} while ((etEnCours.getFichiermp3().trim().length() == 0) && etEnCours.getInterroge());
+			} while ((etEnCours.getFichiermp3().trim().length() != 0) && etEnCours.getInterroge());
 			return etEnCours;
     	} finally {
     		application.setCursor(Cursor.getDefaultCursor());
