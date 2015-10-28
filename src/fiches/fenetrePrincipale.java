@@ -578,8 +578,8 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	 * On empeche l'enregistrement tant tout n'est pas affiché
 	 */
 	public void adapteBouton() {
-		boutonSuivantBarre.setEnabled( seance.getNoTraducEnCours() < (seance.getListe().size() - 1));
-		boutonPrecedentBarre.setEnabled( seance.getNoTraducEnCours() > 0);
+//		boutonSuivantBarre.setEnabled( seance.getNoTraducEnCours() < (seance.getListe().size() - 1));
+//		boutonPrecedentBarre.setEnabled( seance.getNoTraducEnCours() > 0);
 	    boutonJouer.setToolTipText( seance.getEtEnCours().getFichiermp3() );
 	    boutonJouer.setEnabled( seance.getEtEnCours().getFichiermp3().trim().length() > 0);
 		boutonSupprSon.setEnabled(seance.getEtEnCours().getFichiermp3().trim().length() > 0);

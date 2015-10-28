@@ -31,7 +31,7 @@ public class actionJouer implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
        	fichier = constantes.getRepMP3() + seance.getEtEnCours().getFichiermp3();
-    	System.out.println("On joue : " + fichier);
+    	//System.out.println("On joue : " + fichier);
     	new MonSwingWorker().execute();
 	}
 }
