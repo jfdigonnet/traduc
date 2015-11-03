@@ -172,7 +172,7 @@ public class gestionBases
     	String query = "UPDATE traduction ";
     	query += "set interroge = '1'";
     	query += " WHERE ID ='" + id  + "'";
-    	//System.out.println(query);
+    	System.out.println(query);
     	statement.executeUpdate(query);
     	statement.close();
     }
@@ -382,6 +382,12 @@ public class gestionBases
     	rs = statement.executeQuery( query );
     	while (rs.next()) {
     		res1[5] = rs.getInt("res");
+    	}
+    	query = "select count(*) as total from traduction where interroge = 0";;
+    	//System.out.println(query);
+    	rs = statement.executeQuery( query );
+    	while (rs.next()) {
+    		res1[6] = rs.getInt("total");
     	}
     	rs.close();
     	statement.close();

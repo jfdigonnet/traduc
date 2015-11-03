@@ -23,7 +23,7 @@ public class actionStat implements ActionListener {
 		application = app;
 	}
 	public void actionPerformed(ActionEvent e) {
-		int[] res1 = {0,0,0,0,0,0};
+		int[] res1 = {0,0,0,0,0,0,0};
 		try {
 			gestionBases.getInstance().stats(res1);
 		} catch (Exception ex) {

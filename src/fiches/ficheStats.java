@@ -158,6 +158,13 @@ public class ficheStats extends JDialog {
         //paneltot.add(content, "wrap");
         //paneltot.add(panelProgression, "grow, wrap");
         
+        JLabel label8 = new JLabel("Nombre de traduction restant à interroger");
+
+        JLabel label8Res = new JLabel(String.valueOf(resStat[6]));
+        label7Res.setFont(police1);
+        panelres.add(label8);
+        panelres.add(label8Res, "wrap");
+
         JPanel control = new JPanel();
 
         okBouton = new JButton("Fermer");

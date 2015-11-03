@@ -138,7 +138,7 @@ public class Interrogation {
 		}
 		} else {
 			JOptionPane.showMessageDialog(application,
-					"Vous avez interrogez tous les mots\nPour recommencer vous devez les ré initialiser dans le menu des paramètres", constantes.titreAppli, JOptionPane.INFORMATION_MESSAGE );
+					"Vous avez interrogé tous les mots\nPour recommencer vous devez les ré initialiser dans le menu des paramètres", constantes.titreAppli, JOptionPane.INFORMATION_MESSAGE );
 		}
 	}
 	/*
