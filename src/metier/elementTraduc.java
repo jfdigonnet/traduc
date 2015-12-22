@@ -44,7 +44,7 @@ public class elementTraduc {
 	}
 	public void setFichiermp3(String fichiermp3) {
 		//System.out.println(fichiermp3);
-		if (( fichiermp3.trim() != "null") && ( fichiermp3 != null)  && ( fichiermp3.trim().length() > 0) ) {  // AND
+		if (( fichiermp3 != null)  && ( fichiermp3.trim().length() > 0) ) {  // AND
 				this.fichiermp3 = fichiermp3;
 		} else {
 			this.fichiermp3 = "";

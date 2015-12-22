@@ -169,7 +169,7 @@ public class Interrogation {
 							"Erreur lors du chargement de la traduction no " + Integer.toString( noTraducEnCours ) + 
 							e1.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 				}
-			} while ((etEnCours.getFichiermp3().trim().length() != 0) && etEnCours.getInterroge());
+			} while ((etEnCours.getFichiermp3().trim().length() > 0) && etEnCours.getInterroge());
 			return etEnCours;
     	} finally {
     		application.setCursor(Cursor.getDefaultCursor());

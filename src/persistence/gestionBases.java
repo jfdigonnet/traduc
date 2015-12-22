@@ -260,7 +260,7 @@ public class gestionBases
     		et.setFrancais(rs.getString("francais") );
     		et.setGBOkSQLite(rs.getInt("connuGB"));
     		et.setFOkSQLite(rs.getInt("connuF"));
-    		if ( (rs.getString("fichiermp3").trim().length() > 0) && (rs.getString("fichiermp3") != null))
+    		if ( (rs.getString("fichiermp3") != null) && (rs.getString("fichiermp3").trim().length() > 0))
     			et.setFichiermp3(rs.getString("fichiermp3"));
     		else
     			et.setFichiermp3("");
