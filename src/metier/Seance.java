@@ -161,9 +161,9 @@ public class Seance {
 					}
 					loadTraduction();
 				} while ( (etEnCours.getConnu( parametres.getInstance().getSens()) ) && (noTraducEnCours > -1) );
-				application.soumettreTraduction();
 			}
 		}
+		application.soumettreTraduction();
 	}
 	public void afficheUneTraduction(int sens) throws Exception, SQLException {
 		// Cas du tirage au sort : on n'est donc jamais au début ou à la fin du fichier
