@@ -180,8 +180,8 @@ public class Seance {
 			} else {
 				affichePrecedent();
 			}
-			application.soumettreTraduction();
 		}
+		application.soumettreTraduction();
 	}
 	/**
 	 * Affichage de la traduction précédente

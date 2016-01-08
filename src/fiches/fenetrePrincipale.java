@@ -657,7 +657,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		try {
 			seance.afficheUneTraduction( sens );
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,
 					"Erreur lors du chargement de la traduction no " + Integer.toString( seance.getNoTraducEnCours() ) + 
 							e.getMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
