@@ -51,6 +51,7 @@ import action.actionAjouteSon;
 import action.actionAtteindre;
 import action.actionAuSujetDe;
 import action.actionChercherUnMot;
+import action.actionCocheExpression;
 import action.actionCocheMotAnglais;
 import action.actionCocheMotFrancais;
 import action.actionCorrection;
@@ -88,6 +89,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	private JTextArea editGB;
 	private JCheckBox editCheckGBOk;
 	private JCheckBox editCheckFOk;
+	private JCheckBox editCheckExpression;
 	private JButton boutonJouer;
 	private JButton boutonSuivantBarre;
 	private JButton boutonPrecedentBarre;
@@ -260,6 +262,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		editCheckFOk.addActionListener(new actionCocheMotFrancais(this, seance));
 		panelT.add(editCheckFOk, "wrap");
 
+		editCheckExpression = new JCheckBox("Expression");
+		editCheckExpression.addActionListener(new actionCocheExpression(this, seance));
+		panelT.add(editCheckExpression, "wrap");
+		
 		majCheckBox();
 		
 		boutonJouer = new JButton("Jouer");
@@ -716,6 +722,7 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		}
 		editCheckGBOk.setSelected(seance.getEtEnCours().getGBOk());
 		editCheckFOk.setSelected(seance.getEtEnCours().getFOk());
+		editCheckExpression.setSelected(seance.getEtEnCours().getExpression());
 		adapteBouton();
 		menuEnreg.setEnabled(false);
 		boutonEnreg.setEnabled(false);

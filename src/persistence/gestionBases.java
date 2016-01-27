@@ -265,6 +265,7 @@ public class gestionBases
     		else
     			et.setFichiermp3("");
     		et.setInterroge(rs.getInt("interroge") == 1);
+    		et.setExpressionSQLite(rs.getInt("expression"));
     	}
     	rs.close();
     	statement.close();
@@ -495,5 +496,14 @@ public class gestionBases
     	rs.close();
     	statement.close();
     	return i;
+	}
+	public void modCocheExpression(elementTraduc etEnCours) throws SQLException {
+    	String query = "UPDATE traduction ";
+    	query += "set expression = 1";
+    	query += " WHERE ID ='" + etEnCours.getId()  + "'";
+
+    	//System.out.println(query);
+    	statement.executeUpdate(query);
+    	statement.close();
 	}
 }

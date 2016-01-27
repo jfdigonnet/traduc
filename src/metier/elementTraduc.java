@@ -9,6 +9,7 @@ public class elementTraduc {
 	private Boolean GBOk;
 	private Boolean FOk;
 	private Boolean interroge;
+	private Boolean expression;
 	
 	public String getAnglais() {
 		return anglais;
@@ -88,7 +89,6 @@ public class elementTraduc {
 			this.setGBOk(false);
 		else
 			this.setGBOk(true);
-		
 	}
 	public void setFOkSQLite(int parseInt) {
 		if (parseInt == 0) 
@@ -130,5 +130,35 @@ public class elementTraduc {
 	 */
 	public void setInterroge(Boolean interroge) {
 		this.interroge = interroge;
+	}
+	/**
+	 * @return the expression
+	 */
+	public String getExpressionSQLite() {
+		if (this.expression)
+			return "1";
+		else
+			return "0";
+	}
+	/**
+	 * @param expression the expression to set
+	 */
+	public void setExpressionSQLite(int expression) {
+		if (expression == 0) 
+			this.setExpression(false);
+		else
+			this.setExpression(true);
+	}
+	/**
+	 * @return the expression
+	 */
+	public Boolean getExpression() {
+		return expression;
+	}
+	/**
+	 * @param expression the expression to set
+	 */
+	public void setExpression(Boolean expression) {
+		this.expression = expression;
 	}
 }
