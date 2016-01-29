@@ -497,9 +497,16 @@ public class gestionBases
     	statement.close();
     	return i;
 	}
+	/*
+	 * Indique si l'élément est une expression ou non
+	 */
 	public void modCocheExpression(elementTraduc etEnCours) throws SQLException {
     	String query = "UPDATE traduction ";
-    	query += "set expression = 1";
+		if (etEnCours.getExpression()) {
+			query += "set expression = 1";
+		} else {
+			query += "set expression = 0";
+		}
     	query += " WHERE ID ='" + etEnCours.getId()  + "'";
 
     	//System.out.println(query);

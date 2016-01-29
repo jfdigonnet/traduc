@@ -781,4 +781,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	public JButton getBoutonEnreg() {
 		return boutonEnreg;
 	}
+	/**
+	 * @return the editCheckExpression
+	 */
+	public Boolean getEditCheckExpression() {
+		return editCheckExpression.isSelected();
+	}
 }

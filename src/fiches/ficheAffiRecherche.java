@@ -28,13 +28,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import filtres.filtreFichierSon;
-
 import param.parametres;
 import persistence.gestionBases;
-
 import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
-
 import metier.elementTraduc;
 import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;
@@ -51,6 +48,7 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 	private JCheckBox editCheckGBOk;
 	private JCheckBox editCheckFOk;
 	private ArrayList<Integer> listeCh;
+	private JCheckBox editCheckExpression;
 	// No de la traduction en cours pour les deux sens 
 	private int traducEnCours = -1;
 	private elementTraduc etEnCours;
@@ -109,6 +107,12 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		editCheckFOk.addActionListener(this);
 		editCheckFOk.setActionCommand("langue2");
 		panelT.add(editCheckFOk, "wrap");
+
+		editCheckExpression = new JCheckBox("Expression");
+		editCheckExpression.addActionListener(this);
+		editCheckExpression.setActionCommand("expression");
+//		editCheckExpression.addActionListener(new actionCocheExpression(this, seance));
+		panelT.add(editCheckExpression, "wrap");
 
 		panelSup.add(panelT, "wrap");
 
@@ -208,10 +212,21 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 			editCheckFOk.setVisible(true);
 		}
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent e) {
-		/*
-		 * A tester
-		 */
+		if (e.getActionCommand().equals("expression")) {
+			etEnCours.setExpression(editCheckExpression.isSelected());
+			try {
+				gestionBases.getInstance().modCocheExpression(etEnCours);
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement des données (F) : " + e1.getLocalizedMessage(), 
+						"Enregistrement", 
+						JOptionPane.ERROR_MESSAGE);			
+			}
+		}
 		if (e.getActionCommand().equals("supprimer")) {
 			// On mémorise l'id supprimé pour le supprimer 
 			int ancIndex = listeCh.get(traducEnCours);
@@ -314,6 +329,7 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		editF.setText(et.getFrancais());
 		editCheckGBOk.setSelected(et.getGBOk());
 		editCheckFOk.setSelected(et.getFOk());
+		editCheckExpression.setSelected(et.getExpression());
 		boutonJouer.setToolTipText(etEnCours.getFichiermp3().trim());
 		editGB.requestFocus();
 		editGB.setCaretPosition(0);

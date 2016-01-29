@@ -22,7 +22,7 @@ public class actionCocheExpression implements ActionListener {
 		seance = sc;
 	}
 	public void actionPerformed(ActionEvent e) {
-		seance.getEtEnCours().setFOk(application.getEditCheckFOk());
+		seance.getEtEnCours().setExpression(application.getEditCheckExpression());
 		try {
 			gestionBases.getInstance().modCocheExpression(seance.getEtEnCours());
 		} catch (Exception e1) {
