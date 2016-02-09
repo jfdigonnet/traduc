@@ -79,7 +79,7 @@ public class elementTraduc {
 	 * Permet de marquer le mot comme étant connu (1) ou non (0)
 	 */
 	public String getConnuFSQLite() {
-		if (this.GBOk)
+		if (this.FOk)
 			return "1";
 		else
 			return "0";
