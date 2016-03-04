@@ -11,6 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -27,13 +28,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import filtres.filtreFichierSon;
-
 import param.parametres;
 import persistence.gestionBases;
-
 import utilitaires.MonSwingWorker;
 import utilitaires.constantes;
-
 import metier.elementTraduc;
 import metier.paramLangues;
 import net.miginfocom.swing.MigLayout;
@@ -45,6 +43,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 	private JTextArea editGB;
 	private JTextField fichierJField;
 	private JButton boutonJouer;
+	private JCheckBox editCheckExpression;
 
 	public ficheNouvelleTraduc() {
 		setTitle("Nouvelle traduction");
@@ -81,8 +80,11 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 		editFScrollComm.setPreferredSize(new Dimension(400, 300));
 
 		panelT.add(editGBScrollComm);
-		panelT.add(editFScrollComm);
+		panelT.add(editFScrollComm, "wrap");
 
+		editCheckExpression = new JCheckBox("C'est une expression");
+		panelT.add(editCheckExpression, "wrap");
+		
 		panelSup.add(panelT, "wrap");
 		
 		fichierJField = new JTextField();
@@ -259,6 +261,7 @@ public class ficheNouvelleTraduc extends JDialog implements ActionListener {
 			et.setFrancaisSQL(editF.getText());
 			et.setFOk(false);
 			et.setGBOk(false);
+			et.setExpression(editCheckExpression.isSelected());
 			if (fichierJField.getText().trim().length() > 0) {
 				et.setFichiermp3( new File(fichierJField.getText().trim()).getName() );
 				boutonJouer.setEnabled(false);

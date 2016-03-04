@@ -140,14 +140,15 @@ public class gestionBases
     public void enreg(elementTraduc et) throws Exception  {
     	String query = "";
     	query += "INSERT INTO traduction ";
-    	query += " ('id', 'anglais', 'francais','fichiermp3', 'connuGB', 'connuF', 'dateAjout') ";
+    	query += " ('id', 'anglais', 'francais','fichiermp3', 'connuGB', 'connuF', 'dateAjout', 'expression') ";
     	query +=	"VALUES (";
     	query += NouId() + ", ";
     	query += "'" + et.getAnglaisSQL() + "', ";
     	query += "'" + et.getFrancaisSQL() + "', ";
     	query += "'" + et.getFichiermp3() + "',";
     	query += et.getConnuGBSQLite() + ",";
-    	query += et.getConnuFSQLite() + ", Date('now')";
+    	query += et.getConnuFSQLite() + ", Date('now'),";
+    	query += et.getExpressionSQLite();
     	query += ");";
     	//System.out.println(query);
     	statement.executeUpdate(query);
