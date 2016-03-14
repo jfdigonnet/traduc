@@ -334,6 +334,16 @@ public class ficheAffiRecherche extends JDialog implements ActionListener {
 		editGB.requestFocus();
 		editGB.setCaretPosition(0);
 		adapteBouton();
+		if (parametres.getInstance().getJoueTDS()) {
+			if (et.getFichiermp3().length() > 0) {
+				try {
+					new MonSwingWorker(constantes.getRepMP3() + et.getFichiermp3()).execute();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	private void affichePrecedent() {
 		if (traducEnCours > 0) {
