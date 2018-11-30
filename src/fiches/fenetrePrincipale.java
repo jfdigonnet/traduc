@@ -83,6 +83,10 @@ import net.miginfocom.swing.MigLayout;
 
 public class fenetrePrincipale extends JFrame implements ActionListener, KeyListener  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Eléments d'interface
 	private JLabel labelBas;
 	private JTextArea editF;
@@ -101,7 +105,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 	Timer timer;          // Timer affichant le mot suivant
 	// les variable de la séance de formation qui s'ouvre
 	private Seance seance;
-	   
+	
+	/**
+	 * 
+	 */
 	public fenetrePrincipale() {
 		 seance = new Seance(this);
 		 try {
@@ -112,13 +119,12 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 					 "Erreur de construction de l'interface\n" + e.getLocalizedMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
 		 }
 		 ajouteIcone();
-		 //gestion = new gestionBases();
+
 		 if (seance.chargementListeID()) {
 			 if (seance.getListe().size() > 0) {
 				 try {
 					seance.afficheUneTraduction(0);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					 JOptionPane.showMessageDialog(this,
 							 "Erreur de construction de la lecteure de la table des traductions\n" + e.getLocalizedMessage(), constantes.titreAppli, JOptionPane.ERROR_MESSAGE);
@@ -130,6 +136,9 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 			 setFocusable(true);
 		 }
 	}
+	/**
+	 * 
+	 */
 	private void ajouteIcone() {
         Image imageApp = null;
 		try {
@@ -184,23 +193,18 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 
 		labelBas = new JLabel();
 		labelBas.setText(constantes.titreAppli);
-//		labelBas.setBackground( new Color( 133, 156, 221 ) );
 		Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.LOWERED , new Color( 133, 156, 221 ),
 				new Color( 133, 156, 221 ));
-		//Border border = BorderFactory.createRaisedBevelBorder();
 		labelBas.setBorder(myRaisedBorder);
 		
 		topPanel.add(panelPrinc);
 		topPanel.add(labelBas, BorderLayout.SOUTH);
 
-		// setContentPane( lePanneau );
 		setSize(600,500);
 		setLocationRelativeTo(null);
 		pack();
-		// setUndecorated(true);
 		// getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
 		setLocationRelativeTo(null);
-		//setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		setVisible(true);
 	}
 	public JPanel createPage1() {
@@ -211,7 +215,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		JPanel panelT = new JPanel();
 		MigLayout layouT = new MigLayout("", "[] 5 []", "[] 5 []");
 		panelT.setLayout(layouT);
-		//Border myRaisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, new Color( 133, 156, 221 ),new Color( 133, 156, 221 ));
 		//panelT.setBorder(myRaisedBorder);
 		
 		JLabel label5 = new JLabel(paramLangues.getInstance().getLibLangue1());
@@ -223,25 +226,20 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		panelT.add(label6, "wrap");
 
 		editGB = new JTextArea();
-		//editGB.setBounds(10, 80, 150, 20);
 		editGB.addKeyListener(this);
 		JScrollPane editGBScrollComm = new JScrollPane(editGB);
 		editGBScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		editGBScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		editGBScrollComm.setPreferredSize(new Dimension(400, 300));
-//		editId.setFont(police);
-		//editGB.setPreferredSize(new Dimension(60, 25));
 		//editGB.setEnabled(false);
 		panelT.add(editGBScrollComm);
 
 		editF = new JTextArea();
-		//editF.setBounds(10, 80, 150, 20);
 		editF.addKeyListener(this);
 		JScrollPane editFScrollComm = new JScrollPane(editF);
 		editFScrollComm.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		editFScrollComm.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		editFScrollComm.setPreferredSize(new Dimension(400, 300));
-//		editSerie.setFont(police);
 		//editF.setPreferredSize(new Dimension(300, 25));
 		panelT.add(editFScrollComm, "wrap");
 
@@ -251,13 +249,10 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		editCheckGBOk.setMnemonic( 'c' ) ;
 		// Permet que le C avec underscore soit le second et pas la première occurrence
 		editCheckGBOk.setDisplayedMnemonicIndex(29);
-		//editCheckGBOk.setBounds(10, 80, 250, 20);
-		//editCheckGBOk.setPreferredSize(new Dimension(500, 25));
 		editCheckGBOk.addActionListener(new actionCocheMotAnglais(this, seance));
 		panelT.add(editCheckGBOk);
 
 		editCheckFOk = new JCheckBox("Ce mot " + paramLangues.getInstance().getLibLangue2().toLowerCase()  + " est désormais connu");
-		//editCheckFOk.setBounds(10, 80, 250, 20);
 		//editCheckFOk.setPreferredSize(new Dimension(500, 25));
 		editCheckFOk.addActionListener(new actionCocheMotFrancais(this, seance));
 		panelT.add(editCheckFOk, "wrap");
@@ -270,7 +265,6 @@ public class fenetrePrincipale extends JFrame implements ActionListener, KeyList
 		
 		boutonJouer = new JButton("Jouer");
 
-		//boutonJouer.setBorder(nul);
 		boutonJouer.addActionListener(new actionJouer(seance));
 		boutonJouer.setMnemonic( KeyEvent.VK_J ) ;
 		boutonJouer.setPreferredSize(new Dimension(150,25));

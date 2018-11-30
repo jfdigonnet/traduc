@@ -50,7 +50,6 @@ public class actionAjouteSon implements ActionListener {
 		    if ( ! replu.equals( constantes.getRepMP3()) ) { 
 			    // Copie du fichier dans le dossier des sons
 				File ficIn = new File( choixfichier.getSelectedFile().getAbsolutePath()  );
-				//System.out.println(constantes.getRepMP3() + choixfichier.getSelectedFile().getName());
 				File ficOut = new File(constantes.getRepMP3() + choixfichier.getSelectedFile().getName());
 				if (! ficIn.renameTo(ficOut)) {
 					JOptionPane.showMessageDialog(application, "Erreur lors du déplacement du fichier\n" + ficIn.toString() + 

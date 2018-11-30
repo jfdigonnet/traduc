@@ -1,8 +1,19 @@
 [Desktop Entry]
-Type=Application
-Name=Traduc
+Comment[fr_FR]=
+Comment=
 Exec=/home/jfdigonnet/workspacediv/Traduction/traduc.sh
-StartupNotify=true
-Icon=/home/jfd/workspace/traduc/images/text-speak.png
-Name[fr_FR]=Exercices de vocabulaire
 GenericName[fr_FR]=Exercices de vocabulaire
+GenericName=Exercices de vocabulaire
+Icon=/home/jfd/workspace/traduc/images/text-speak.png
+MimeType=
+Name[fr_FR]=Exercices de vocabulaire
+Name=Exercices de vocabulaire
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
